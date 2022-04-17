@@ -63,15 +63,8 @@ public class SqlDetallePagos {
             pst.setInt(4,fkIdEstadoPago);
             pst.setString(5, idRegistro);
             pst.executeUpdate();
-            cn.commit();
+            
         } catch (SQLException e) {
-            try {
-                // TODO Auto-generated catch block
-                cn.rollback();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(null,e.getMessage(),"error en rollback (cobrar importe)", JOptionPane.ERROR_MESSAGE);
-            }
             e.printStackTrace();
             JOptionPane.showMessageDialog(null,e.getMessage(),"error al cobrar importe", JOptionPane.ERROR_MESSAGE);
         }finally{

@@ -75,7 +75,7 @@ public class VentanaPagos extends javax.swing.JDialog {
                 datos[10]=rs.getInt(11);
                 modelo.addRow(datos);
             }
-            cn.commit();
+            
         } catch (SQLException ex) {
             ex.printStackTrace();
             System.out.println(ex.getMessage());
@@ -114,7 +114,7 @@ public class VentanaPagos extends javax.swing.JDialog {
                     datos[4]=rs.getString(5);
                     modelo.addRow(datos);
                 }
-                cn.commit();
+                
             } catch (SQLException ex) {
                 ex.printStackTrace();
                 System.out.println(ex.getMessage());

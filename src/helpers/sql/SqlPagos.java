@@ -62,15 +62,8 @@ public class SqlPagos {
             pst.setString(3,idPago);
   
             pst.executeUpdate();
-            cn.commit();
+            
         } catch (SQLException e) {
-            try {
-                 // TODO Auto-generated catch block
-                 cn.rollback();
-            } catch (SQLException ex) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null,e.getMessage(),"error en rollback (actualizar deuda de pago)", JOptionPane.ERROR_MESSAGE);
-            }
             e.printStackTrace();
             JOptionPane.showMessageDialog(null,e.getMessage(),"error al actualizar la deuda del pago", JOptionPane.ERROR_MESSAGE);
         }finally{
@@ -96,15 +89,7 @@ public class SqlPagos {
             
   
             pst.executeUpdate();
-            cn.commit();
         } catch (SQLException e) {
-            try {
-                 cn.rollback();
-             }catch (SQLException ex) {
-                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(null,ex.getMessage(),"error en rollback (actualizar estado del pago)", JOptionPane.ERROR_MESSAGE);
-
-            }
             e.printStackTrace();
             JOptionPane.showMessageDialog(null,e.getMessage(),"error al actualizar estado del pago", JOptionPane.ERROR_MESSAGE);
         }finally{

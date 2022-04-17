@@ -25,7 +25,16 @@ public class SqlPagosYdetallePagos {
    
     public void registrarPagoYdetalleTipoAnual(String fkIdCliente,String tipoTarifa,String precioTarifa,
         String tipoDescuento,String descuentoAplicado,String tipoPago,float descuentoAnual,float total,String periodo){
-       
+        
+        try {
+            /*desactivamos el autocommit para ejecutar las instrucciones de pago y detalle en un solo bloque
+            por ACID en base de datos
+            */
+            cn.setAutoCommit(false);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null,e.getMessage(),"Error al desactivar auto-commit en registrar pago y detalle tipo Anual",JOptionPane.ERROR_MESSAGE);
+        }
         int idPago=0;
         String queryTablaPagos="INSERT INTO pagos"
                     + "(fk_id_cliente,tipo_tarifa,precio_tarifa,tipo_descuento,descuento,tipo_pago,"
@@ -77,6 +86,7 @@ public class SqlPagosYdetallePagos {
 
         }finally{
             try {
+                cn.setAutoCommit(true);
                 if(psPagos!=null)psPagos.close();
                 if(psDetallePagos!=null)psDetallePagos.close();
                 if(resultado!=null)resultado.close();
@@ -88,7 +98,19 @@ public class SqlPagosYdetallePagos {
    
    public void registrarPagoYdetalleTipoMensual(String fkIdCliente,String tipoTarifa,String precioTarifa,
         String tipoDescuento,String descuentoAplicado,String tipoPago,float descuentoAnual,float total,String periodo,float importeMes){
-        
+       
+        try {
+            /*desactivamos el autocommit para ejecutar las instrucciones de pago y detalle en un solo bloque
+            por cuestiones ACID en base de datos
+            */
+            cn.setAutoCommit(false);
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null,e.getMessage(),"Error al desactivar auto-commit en registrar pago y detalle tipo Mensual",JOptionPane.ERROR_MESSAGE);
+        }
+       
+       
         String [] meses = {"enero", "febrero", "marzo", "abril", "mayo", "junio", "julio","agosto",
         "septiempre","octubre","noviembre","diciembre"};
         
@@ -145,6 +167,7 @@ public class SqlPagosYdetallePagos {
             JOptionPane.showMessageDialog(null,e.getMessage(),"Error al registrar pago",JOptionPane.ERROR_MESSAGE);
         }finally{
             try {
+                cn.setAutoCommit(true);
                 if(psPagos!=null)psPagos.close();
                 if(psDetallePagos!=null)psDetallePagos.close();
                 if(resultado!=null)resultado.close();
