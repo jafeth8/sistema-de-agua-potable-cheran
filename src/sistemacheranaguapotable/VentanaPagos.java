@@ -54,32 +54,33 @@ public class VentanaPagos extends javax.swing.JDialog {
   
         //SELECT id_pago,tipo_tarifa,precio_tarifa,tipo_descuento,descuento,tipo_pago,descuento_anual,total,total_pagado,deuda,periodo FROM `pagos` WHERE fk_id_cliente = 1 AND estado='en deuda'
         sql="SELECT id_pago,tipo_tarifa,precio_tarifa,tipo_descuento,descuento,tipo_pago,descuento_anual,"
-                + "total,total_pagado,deuda,periodo FROM `pagos` WHERE fk_id_cliente ='"+idCliente+"' AND estado='en deuda'";
+                + "total,total_pagado,deuda,periodo FROM `pagos` WHERE fk_id_cliente ='"+idCliente+"' AND fk_id_estado_pago='2'";
         
 
         Object []datos = new Object [11];
-            try {
-                Statement st = cn.createStatement();
-                ResultSet rs = st.executeQuery(sql);
-                while(rs.next()){
-                    datos[0]=rs.getString(1);
-                    datos[1]=rs.getString(2);
-                    datos[2]=rs.getString(3);
-                    datos[3]=rs.getString(4);
-                    datos[4]=rs.getString(5);
-                    datos[5]=rs.getString(6);
-                    datos[6]=rs.getString(7);
-                    datos[7]=rs.getString(8);
-                    datos[8]=rs.getString(9);
-                    datos[9]=rs.getString(10);
-                    datos[10]=rs.getInt(11);
-                    modelo.addRow(datos);
-                }
-
-            } catch (SQLException ex) {
-                    ex.printStackTrace();
-                System.out.println(ex.getMessage());
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                datos[0]=rs.getString(1);
+                datos[1]=rs.getString(2);
+                datos[2]=rs.getString(3);
+                datos[3]=rs.getString(4);
+                datos[4]=rs.getString(5);
+                datos[5]=rs.getString(6);
+                datos[6]=rs.getString(7);
+                datos[7]=rs.getString(8);
+                datos[8]=rs.getString(9);
+                datos[9]=rs.getString(10);
+                datos[10]=rs.getInt(11);
+                modelo.addRow(datos);
             }
+            cn.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            System.out.println(ex.getMessage());
+        }
+        System.out.println("*/**/**/entro a la consulta pagos cliente");
     }
     
     public void mostrarDetallePagos(String idPago){
@@ -98,7 +99,7 @@ public class VentanaPagos extends javax.swing.JDialog {
         //SELECT id_pago,tipo_tarifa,precio_tarifa,tipo_descuento,descuento,tipo_pago,descuento_anual,total,total_pagado,deuda,periodo FROM `pagos` WHERE fk_id_cliente = 1 AND estado='en deuda'
         sql="SELECT id_registro,fk_id_pago,periodo,mes,importe"
                 + " FROM detalle_pagos join pagos on pagos.id_pago=detalle_pagos.fk_id_pago "
-                + " WHERE fk_id_pago ='"+idPago+"' AND pagado='no'";
+                + " WHERE fk_id_pago ='"+idPago+"' AND detalle_pagos.fk_id_estado_pago='2'";
         
 
         Object []datos = new Object [5];
@@ -113,11 +114,12 @@ public class VentanaPagos extends javax.swing.JDialog {
                     datos[4]=rs.getString(5);
                     modelo.addRow(datos);
                 }
-
+                cn.commit();
             } catch (SQLException ex) {
-                    ex.printStackTrace();
+                ex.printStackTrace();
                 System.out.println(ex.getMessage());
             }
+        System.out.println("/*/*/*/*/*/*entro a la consulta detalle pagos");
     }
 
     /**
@@ -326,7 +328,7 @@ public class VentanaPagos extends javax.swing.JDialog {
            
            cambio=pagoRecibido-importe;
            detallePago.cobrarImporteDetallePagos(idRegistro, cadenaPagoRecibido,String.valueOf(cambio), 
-                   fechaPago,"si");
+                   fechaPago,1);
            
            float totalTablaPagos;//esta variable representa el total a pagar de una factura, aplicado los descuentos
            float sumatoriaImportesPagadosTablaDetallePagos;
@@ -338,7 +340,7 @@ public class VentanaPagos extends javax.swing.JDialog {
            pago.actualizarDeudaRegistroPago(idPago,sumatoriaImportesPagadosTablaDetallePagos, deuda);
            
            if(deuda==0){
-             pago.actualizarEstadoRegistroPago(idPago,"pagado");
+             pago.actualizarEstadoRegistroPago(idPago,1);
            }
            
            mostrarPagosCliente(idCliente);

@@ -21,41 +21,14 @@ public class SqlDetallePagos {
     ConexionBd cc= ConexionBd.obtenerInstancia();
     Connection cn= cc.conexion();
     
-    /**
-    *@param fk_idPago para relacionar el registro detalle con el pago
-    *@param mes mes que se esta pagando si el tipoPago establecido en el metodo 'registrarPago' es de tipo anual se establece enero-diciembre
-    *@param pagoCorrespondiente pago que le corresponde pagar por cada mes
-    *@param pagado valores: 'si' o 'no'
-    **/
-    public void registrarDetallePago(String fk_idPago,String mes,String pagoCorrespondiente,
-       String pagado){
-       try {	
-            PreparedStatement pst = cn.prepareStatement("INSERT INTO detalle_pagos"
-                    + "(fk_id_pago,mes,importe,pagado) VALUES (?,?,?,?)");
-            pst.setString(1, fk_idPago);
-            pst.setString(2, mes);
-            pst.setString(3, pagoCorrespondiente);
-            pst.setString(4, pagado);
-            
-            pst.executeUpdate();
-            
-        } catch (Exception e) {
-            // TODO: handle exception
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Verifique que los campos introducidos sean validos","Error!!",JOptionPane.ERROR_MESSAGE);
-            JOptionPane.showMessageDialog(null,e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-
-        }
-   }
-    
     public float obtenerSumatoriaImportesPagadosTablaDetallePagos(String idPago){
-        //SELECT SUM(pago_realizado) FROM `detalle_pagos` WHERE fk_id_pago='11'
-        String sql="SELECT SUM(importe) FROM `detalle_pagos` WHERE fk_id_pago='"+idPago+"' AND pagado='si'";
+        String sql="SELECT SUM(importe) FROM `detalle_pagos` WHERE fk_id_pago='"+idPago+"' AND fk_id_estado_pago='1'";
         float total=0;    	 
-		    
+	Statement st = null;
+        ResultSet rs = null;	    
         try {
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
+            st = cn.createStatement();
+            rs = st.executeQuery(sql);
             while(rs.next()){
             	
                 total=rs.getFloat(1);
@@ -64,29 +37,49 @@ public class SqlDetallePagos {
            
         } catch (SQLException ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null,ex.getMessage(),"error sql", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,ex.getMessage(),"error en consultar sumatoriaImportes pagados detalle pagos", JOptionPane.ERROR_MESSAGE);
         }finally {
-        	//Aqui no se cierra la conexion para permitir mas operaciones
+            try {
+                if(st!=null)st.close();
+                if(rs!=null)rs.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
 	}
         
         return total;
     }
-    
-    public void cobrarImporteDetallePagos(String idRegistro,String pagoRealizado,String cambioEntregado,String fechaPago,String pagado){
-        PreparedStatement pst;
+    /**
+     *@param fkIdEstadoPago valores: 1 es 'pagado' 2 es 'en deuda'
+     **/
+    public void cobrarImporteDetallePagos(String idRegistro,String pagoRealizado,String cambioEntregado,String fechaPago,int fkIdEstadoPago){
+        PreparedStatement pst=null;
         try {
             pst = cn.prepareStatement("UPDATE detalle_pagos SET pago_realizado=?,"
-                    + "cambio_entregado=?,fecha_pago=?, pagado=? WHERE id_registro=?");
+                    + "cambio_entregado=?,fecha_pago=?, fk_id_estado_pago=? WHERE id_registro=?");
             pst.setString(1, pagoRealizado);
             pst.setString(2, cambioEntregado);
             pst.setString(3, fechaPago);
-            pst.setString(4, pagado);
+            pst.setInt(4,fkIdEstadoPago);
             pst.setString(5, idRegistro);
             pst.executeUpdate();
+            cn.commit();
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
+            try {
+                // TODO Auto-generated catch block
+                cn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null,e.getMessage(),"error en rollback (cobrar importe)", JOptionPane.ERROR_MESSAGE);
+            }
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null,e.getMessage(),"error sql", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,e.getMessage(),"error al cobrar importe", JOptionPane.ERROR_MESSAGE);
+        }finally{
+            try {
+                if(pst!=null) pst.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
     

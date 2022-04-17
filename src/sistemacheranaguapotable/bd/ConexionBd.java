@@ -35,7 +35,7 @@ public class ConexionBd {
             conectar=DriverManager.getConnection("jdbc:mysql://localhost/agua_potable_temp","root","");
             
             System.out.println("sistemacheranaguapotable.bd.ConexionBd.conexion()");
-            //conectar.setAutoCommit(false);
+            conectar.setAutoCommit(false);
         } catch (Exception e) {
             System.err.print(e.getMessage());
             JOptionPane.showMessageDialog(null, e.getMessage(),"error", JOptionPane.ERROR_MESSAGE);

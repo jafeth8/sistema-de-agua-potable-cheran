@@ -18,101 +18,42 @@ import sistemacheranaguapotable.bd.ConexionBd;
  * @author jafeth888
  */
 public class SqlPagos {
-   ConexionBd cc= ConexionBd.obtenerInstancia();
-   Connection cn= cc.conexion();
-   
-   /**
-    *@param fk_idCliente para relacionar el pago con el cliente
-    *@param tipoTarifa tipo de tarifa que sera aplicado
-    *@param precioTarifa precio de la tarifa que sera aplicada
-    *@param tipoDescuento tipo de descuento que sera aplicado
-    *@param descuento precio de descuento que sera aplicado
-    *@param tipoPago tipo de pago: si el usuario estaria pagando mensual o anual
-    *@param descuentoAnual aplica descuento si el tipoPago es anual, si es mensual el descuento es de 0
-    *@param total total a pagar aplicando descuentos
-    *@param perido año de factura 
-    *@param estado valores: 'en deuda' o 'pagado'
-    * 
-   **/
-   public void registrarPago(String fk_idCliente,String tipoTarifa,String precioTarifa,String tipoDescuento,String descuento,
-           String tipoPago,String descuentoAnual,String total,String periodo,String estado){
-       try {	
-            PreparedStatement pst = cn.prepareStatement("INSERT INTO pagos"
-                    + "(fk_id_cliente,tipo_tarifa,precio_tarifa,tipo_descuento,descuento,tipo_pago,"
-                    + "descuento_anual,total,periodo,estado) VALUES (?,?,?,?,?,?,?,?,?,?)");
-            pst.setString(1, fk_idCliente);
-            pst.setString(2, tipoTarifa);
-            pst.setString(3, precioTarifa);
-            pst.setString(4, tipoDescuento);
-            pst.setString(5, descuento);
-            pst.setString(6, tipoPago);
-            pst.setString(7, descuentoAnual);
-            pst.setString(8, total);
-            pst.setString(9, periodo);
-            pst.setString(10, estado);
-            
-            pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "FACTURA GENERADA CON EXITO");
-            
-        } catch (Exception e) {
-                // TODO: handle exception
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Verifique que los campos introducidos sean validos","Error!!",JOptionPane.ERROR_MESSAGE);
-                JOptionPane.showMessageDialog(null,e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-                
-        }
-   }
-
-   
-    public int obtenerUltimoRegistroPago(){
-       String sql="SELECT MAX(id_pago) FROM pagos";
-       int id=0;    	 
-		    
-        try {
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            while(rs.next()){
-            	
-                id=rs.getInt(1);
-              
-            }
-           
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null,ex.getMessage(),"error sql", JOptionPane.ERROR_MESSAGE);
-        }finally {
-        	//Aqui no se cierra la conexion para permitir mas operaciones
-	}
-        
-        return id;
-    }
     
+    ConexionBd cc= ConexionBd.obtenerInstancia();
+    Connection cn= cc.conexion();
+       
     public float obtenerTotalPago(String idPago){
         
         String sql="SELECT total FROM pagos where id_pago='"+idPago+"'";
         float total=0;    	 
-		    
+	Statement st = null;
+        ResultSet rs = null;	    
         try {
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
+            st = cn.createStatement();
+            rs = st.executeQuery(sql);
             while(rs.next()){
             	
                 total=rs.getFloat(1);
               
             }
-           
+            
         } catch (SQLException ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null,ex.getMessage(),"error sql", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,ex.getMessage(),"error en consulta (obtner total pago)", JOptionPane.ERROR_MESSAGE);
         }finally {
-        	//Aqui no se cierra la conexion para permitir mas operaciones
+            try {
+                if(st!=null)st.close();
+                if(rs!=null)rs.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
 	}
         
         return total;
     }
     
     public void actualizarDeudaRegistroPago(String idPago,float totalPagado, float deuda){
-         PreparedStatement pst;
+         PreparedStatement pst=null;
         try {
             pst = cn.prepareStatement("UPDATE pagos SET total_pagado=?, "
                     + "deuda=? WHERE id_pago=?");
@@ -121,38 +62,69 @@ public class SqlPagos {
             pst.setString(3,idPago);
   
             pst.executeUpdate();
+            cn.commit();
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
+            try {
+                 // TODO Auto-generated catch block
+                 cn.rollback();
+            } catch (SQLException ex) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null,e.getMessage(),"error en rollback (actualizar deuda de pago)", JOptionPane.ERROR_MESSAGE);
+            }
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null,e.getMessage(),"error sql", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,e.getMessage(),"error al actualizar la deuda del pago", JOptionPane.ERROR_MESSAGE);
+        }finally{
+             try {
+                if(pst!=null) pst.close();
+             } catch (SQLException ex) {
+                ex.printStackTrace();
+             }
         }
     }
     
-     public void actualizarEstadoRegistroPago(String idPago,String estado){
-         PreparedStatement pst;
+    /**
+     *@param idPago :idpago
+     *@param fkIdEstadoPago valores: 1 es 'pagado' 2 es 'en deuda'
+     **/
+    public void actualizarEstadoRegistroPago(String idPago,int fkIdEstadoPago){
+         PreparedStatement pst=null;
         try {
-            pst = cn.prepareStatement("UPDATE pagos SET estado=? "
+            pst = cn.prepareStatement("UPDATE pagos SET fk_id_estado_pago=? "
                     + " WHERE id_pago=?");
-            pst.setString(1,estado);
+            pst.setInt(1,fkIdEstadoPago);
             pst.setString(2,idPago);
             
   
             pst.executeUpdate();
+            cn.commit();
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
+            try {
+                 cn.rollback();
+             }catch (SQLException ex) {
+                 ex.printStackTrace();
+                JOptionPane.showMessageDialog(null,ex.getMessage(),"error en rollback (actualizar estado del pago)", JOptionPane.ERROR_MESSAGE);
+
+            }
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null,e.getMessage(),"error sql", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,e.getMessage(),"error al actualizar estado del pago", JOptionPane.ERROR_MESSAGE);
+        }finally{
+             try {
+                if(pst!=null)pst.close();
+             } catch (SQLException ex) {
+                ex.printStackTrace();
+             }
         }
     }
     
     public boolean yaExistePagoConUsuarioPeriodo(String idCliente, String periodo) {
 	String sql = "SELECT * FROM pagos WHERE fk_id_cliente='"+idCliente+"' AND periodo ='"+periodo+"'";
 
-        String categoria ="";
-
+        
+        Statement st =null;
+        ResultSet rs =null;
         try {
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
+            st = cn.createStatement();
+            rs = st.executeQuery(sql);
             if( rs.first() )        
                 return true;        
             else
@@ -162,7 +134,12 @@ public class SqlPagos {
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(null,ex.getMessage(),"error sql", JOptionPane.ERROR_MESSAGE);
         } finally {
-            
+            try {
+                if(st!=null)st.close();
+                if(rs!=null)st.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
         return true;
     }

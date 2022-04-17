@@ -7,8 +7,9 @@ package sistemacheranaguapotable;
 
 import helpers.sql.SqlDetallePagos;
 import helpers.sql.SqlPagos;
-import java.time.LocalDate;
+import helpers.sql.SqlPagosYdetallePagos;
 import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -174,23 +175,23 @@ public class FacturaNueva extends javax.swing.JDialog {
 
     private void buttonGenerarFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonGenerarFacturaActionPerformed
         // TODO add your handling code here:
-        String [] meses = {"enero", "febrero", "marzo", "abril", "mayo", "junio", "julio","agosto",
-        "septiempre","octubre","noviembre","diciembre"
-        };
+
         SqlPagos pago= new SqlPagos();
-        SqlDetallePagos detallePago=new SqlDetallePagos();
+        SqlPagosYdetallePagos pagoYdetalle =new SqlPagosYdetallePagos();
+        
         String item=jComboBoxTipoPago.getSelectedItem().toString();
         float tarifa=Float.parseFloat(campoPrecioTarifa.getText());
         float descuento=Float.parseFloat(campoDescuento.getText());
 
-            
-        
-        
         if(item.equals("Anual")){
             if(pago.yaExistePagoConUsuarioPeriodo(campoIdCliente.getText(),String.valueOf(jYearChooser1.getYear()))){
                 JOptionPane.showMessageDialog(rootPane,"el cliente:" +campoNombreCliente.getText()+" ya tiene una factura con el periodo: "+jYearChooser1.getYear());
                 return;
             }
+            String fkIdCliente=campoIdCliente.getText(),tipoTarifa=campoTipoTarifa.getText();
+            String precioTarifa=campoPrecioTarifa.getText(),tipoDescuento=campoTipoDescuento.getText();
+            String descuentoAplicado=campoDescuento.getText(),tipoPago=jComboBoxTipoPago.getSelectedItem().toString();
+            String periodo=String.valueOf(jYearChooser1.getYear());
             
             float descuentoAnual=(tarifa/12)*2;
             float descuentoFinal=descuento*10;//se descuentan a los demas meses ya que el pago sera anual enero-diciembre
@@ -200,15 +201,11 @@ public class FacturaNueva extends javax.swing.JDialog {
                 System.err.println("total-- "+total);
                 total=35*10;
             }
-            //String.valueOf(jYearChooser1.getYear())
-            pago.registrarPago(campoIdCliente.getText(), campoTipoTarifa.getText(),campoPrecioTarifa.getText(),
-                campoTipoDescuento.getText(), campoDescuento.getText(),jComboBoxTipoPago.getSelectedItem().toString()+": aplica descuento anual", 
-                String.valueOf(descuentoAnual),String.valueOf(total),String.valueOf(jYearChooser1.getYear()),"en deuda");
-            
-            int idPago=pago.obtenerUltimoRegistroPago();
-            
-            detallePago.registrarDetallePago(String.valueOf(idPago),"enero-diciembre",
-                    String.valueOf(total),"no");
+
+            /*----------------------------------------REGISTRAR PAGO Y DETALLE PAGO: TIPO DE PAGO ANUAL-------------------------------------------------*/
+            pagoYdetalle.registrarPagoYdetalleTipoAnual(fkIdCliente, tipoTarifa, precioTarifa, 
+                tipoDescuento, descuentoAplicado, tipoPago+": aplica descuento anual", descuentoAnual, total, periodo);
+            /*----------------------------------------FIN DE REGISTRAR PAGO Y DETALLE PAGO: TIPO DE PAGO ANUAL-------------------------------------------------*/
         }else if(item.equals("Mensual")){
             
             if(pago.yaExistePagoConUsuarioPeriodo(campoIdCliente.getText(),String.valueOf(jYearChooser1.getYear()))){
@@ -227,20 +224,14 @@ public class FacturaNueva extends javax.swing.JDialog {
             if(total<=0){
                 total=35*12;
             }
-            pago.registrarPago(idCliente, tipoTarifa, precioTarifa, tipoDescuento, descuentoAplicado, 
-                tipoPago+": no aplica descuento anual",String.valueOf(descuentoAnual),String.valueOf(total),periodo,"en deuda");
             
-            int idPago=pago.obtenerUltimoRegistroPago();
-            
-            float mesPagoCorrespondiente=(tarifa/12)-descuento;
-                if(mesPagoCorrespondiente<=0){
-                    mesPagoCorrespondiente=35;
-                }
-            for (int i = 0; i <meses.length; i++) {
-                
-                detallePago.registrarDetallePago(String.valueOf(idPago),meses[i],String.valueOf(mesPagoCorrespondiente), 
-                    "no");
+            float importeMes=(tarifa/12)-descuento;
+            if(importeMes<=0){
+                importeMes=35;
             }
+                
+            pagoYdetalle.registrarPagoYdetalleTipoMensual(idCliente, tipoTarifa, precioTarifa, 
+                tipoDescuento, descuentoAplicado, tipoPago+": no aplica descuento anual", descuentoAnual, total, periodo, importeMes);
             
         }
         dispose();
