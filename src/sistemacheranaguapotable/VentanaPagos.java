@@ -80,7 +80,7 @@ public class VentanaPagos extends javax.swing.JDialog {
             ex.printStackTrace();
             System.out.println(ex.getMessage());
         }
-        System.out.println("*/**/**/entro a la consulta pagos cliente");
+       
     }
     
     public void mostrarDetallePagos(String idPago){
@@ -119,7 +119,7 @@ public class VentanaPagos extends javax.swing.JDialog {
                 ex.printStackTrace();
                 System.out.println(ex.getMessage());
             }
-        System.out.println("/*/*/*/*/*/*entro a la consulta detalle pagos");
+        
     }
 
     /**
@@ -316,17 +316,34 @@ public class VentanaPagos extends javax.swing.JDialog {
            String idRegistro=jtableDetallePagos.getValueAt(0,0).toString();
            String idPago=jtableDetallePagos.getValueAt(0,1).toString();
            String cadenaImporte=jtableDetallePagos.getValueAt(0,4).toString();
-           String cadenaPagoRecibido=JOptionPane.showInputDialog("pago recibido");
+           String cadenaPagoRecibido;
            String fechaPago=LocalDate.now().toString();
            
            float cambio;
            float pagoRecibido;
            float importe;
            
-           pagoRecibido=Float.parseFloat(cadenaPagoRecibido);
+           try{
+                cadenaPagoRecibido=JOptionPane.showInputDialog("pago recibido");
+                pagoRecibido=Float.parseFloat(cadenaPagoRecibido);
+           }catch(Exception e){
+               
+               //System.out.print(e.getMessage());
+               System.err.println("Ventana cerrada!!");
+               return;
+           }
+           
            importe=Float.parseFloat(cadenaImporte);
            
            cambio=pagoRecibido-importe;
+           
+           /*validacion que el pago se mayor al importe*/
+           if(pagoRecibido<importe){
+               JOptionPane.showMessageDialog(rootPane,"el pago recibido es menor que el importe",
+                    "advertencia",JOptionPane.WARNING_MESSAGE);
+               return ;
+           }
+           
            detallePago.cobrarImporteDetallePagos(idRegistro, cadenaPagoRecibido,String.valueOf(cambio), 
                    fechaPago,1);
            
