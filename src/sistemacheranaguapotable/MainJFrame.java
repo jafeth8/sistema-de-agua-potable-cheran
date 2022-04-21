@@ -29,7 +29,8 @@ public class MainJFrame extends javax.swing.JFrame {
         initComponents();
     }
     
-    public void mostrarClientes(String valor){
+    public void mostrarClientes(String nombre, String apellidoPaterno,String apellidoMaterno,
+        String domicilio,String barrio){
         DefaultTableModel modelo= new DefaultTableModel();
  
         modelo.addColumn("Id");
@@ -46,13 +47,15 @@ public class MainJFrame extends javax.swing.JFrame {
         String sql="";
         //table.setModel(modelo);
         tablaUsuarios.setModel(modelo);
-        if(valor.equals(""))
+        if(nombre.equals("") && apellidoPaterno.equals("") && apellidoMaterno.equals("") && domicilio.equals("") && barrio.equals(""))
         {
-            sql="SELECT * FROM clientes";
+            sql="SELECT * FROM clientes WHERE fk_id_estado_cliente=1";
         }
         else{
             //SELECT * FROM clientes WHERE nombre LIKE '%R%'
-            sql="SELECT * FROM clientes WHERE nombre LIKE '%"+valor+"%'";
+            sql="SELECT * FROM clientes WHERE nombre LIKE '%"+nombre+"%' "
+                + "AND apellido_paterno LIKE '%"+apellidoPaterno+"%' AND apellido_materno LIKE '%"+apellidoMaterno+"%' "
+                + "AND domicilio LIKE '%"+domicilio+"%' AND barrio like '%"+barrio+"%' AND fk_id_estado_cliente=1";
         }
 
         String []datos = new String [11];
@@ -130,13 +133,23 @@ public class MainJFrame extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jyearPeriodo2 = new com.toedter.calendar.JYearChooser();
         jPanelCobros = new javax.swing.JPanel();
-        buscadorNombre = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        botonBuscar = new javax.swing.JButton();
         jScrollPaneUsuarios = new javax.swing.JScrollPane();
         tablaUsuarios = new javax.swing.JTable();
         botonFactura = new javax.swing.JButton();
         botonCobrar = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        buscadorNombre = new javax.swing.JTextField();
+        buscadorApaterno = new javax.swing.JTextField();
+        buscadorAmaterno = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        buscadorDomicilio = new javax.swing.JTextField();
+        buscadorBarrio = new javax.swing.JTextField();
+        botonBuscar = new javax.swing.JButton();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -222,12 +235,12 @@ public class MainJFrame extends javax.swing.JFrame {
                             .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(13, 13, 13)
-                                .addComponent(jComboBox1, 0, 169, Short.MAX_VALUE)))))
+                                .addComponent(jComboBox1, 0, 176, Short.MAX_VALUE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTextField2)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
                     .addComponent(jTextField6)
                     .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -303,7 +316,7 @@ public class MainJFrame extends javax.swing.JFrame {
             jPanelUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelUsuariosLayout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
                 .addGroup(jPanelUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -390,7 +403,7 @@ public class MainJFrame extends javax.swing.JFrame {
         jPanelPagosLayout.setHorizontalGroup(
             jPanelPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPanePagos, javax.swing.GroupLayout.DEFAULT_SIZE, 904, Short.MAX_VALUE)
+            .addComponent(jScrollPanePagos, javax.swing.GroupLayout.DEFAULT_SIZE, 926, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPagosLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel4)
@@ -423,19 +436,10 @@ public class MainJFrame extends javax.swing.JFrame {
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPaneDetallePagos, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(395, Short.MAX_VALUE))
+                .addContainerGap(418, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Historial pagos", jPanelPagos);
-
-        jLabel9.setText("Buscar usuario por nombre");
-
-        botonBuscar.setText("Buscar");
-        botonBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonBuscarActionPerformed(evt);
-            }
-        });
 
         jScrollPaneUsuarios.setAutoscrolls(true);
         jScrollPaneUsuarios.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -474,43 +478,107 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel9.setText("jLabel9");
+
+        jLabel16.setText("jLabel16");
+
+        jLabel17.setText("jLabel17");
+
+        jLabel18.setText("jLabel18");
+
+        buscadorDomicilio.setText("domicilio");
+
+        botonBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/lupa.png"))); // NOI18N
+        botonBuscar.setText("Buscar");
+        botonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonBuscarActionPerformed(evt);
+            }
+        });
+
+        jLabel19.setText("jLabel19");
+
+        jLabel20.setText("jLabel20");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(buscadorDomicilio)
+                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(buscadorNombre, javax.swing.GroupLayout.Alignment.LEADING))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(buscadorApaterno)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buscadorBarrio)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(buscadorAmaterno)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(botonBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(38, 38, 38))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabel16)
+                    .addComponent(jLabel17))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buscadorNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buscadorApaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buscadorAmaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(jLabel19)
+                    .addComponent(jLabel20))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buscadorDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buscadorBarrio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonBuscar))
+                .addContainerGap(47, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanelCobrosLayout = new javax.swing.GroupLayout(jPanelCobros);
         jPanelCobros.setLayout(jPanelCobrosLayout);
         jPanelCobrosLayout.setHorizontalGroup(
             jPanelCobrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelCobrosLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanelCobrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPaneUsuarios, javax.swing.GroupLayout.DEFAULT_SIZE, 892, Short.MAX_VALUE)
-                    .addGroup(jPanelCobrosLayout.createSequentialGroup()
-                        .addGroup(jPanelCobrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(buscadorNombre)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addComponent(botonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanelCobrosLayout.createSequentialGroup()
                         .addComponent(botonFactura)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(botonCobrar, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(botonCobrar, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPaneUsuarios, javax.swing.GroupLayout.DEFAULT_SIZE, 920, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelCobrosLayout.setVerticalGroup(
             jPanelCobrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelCobrosLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelCobrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buscadorNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonBuscar))
-                .addGap(18, 18, 18)
+                .addGap(37, 37, 37)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPaneUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addGroup(jPanelCobrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanelCobrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(botonFactura)
                     .addComponent(botonCobrar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(477, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("cobros", jPanelCobros);
@@ -535,63 +603,6 @@ public class MainJFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void botonFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonFacturaActionPerformed
-        // TODO add your handling code here:
-        int fila = tablaUsuarios.getSelectedRow();
-        
-        if(fila>=0){
-            SqlUsuarios usuario = new SqlUsuarios();
-            
-            FacturaNueva instancia = new FacturaNueva(this, rootPaneCheckingEnabled);
-            String idCliente=tablaUsuarios.getValueAt(fila,0).toString();
-            String nombre=tablaUsuarios.getValueAt(fila,3).toString();
-            String tipoDescuento=tablaUsuarios.getValueAt(fila,9).toString();
-            String tipoTarifa=tablaUsuarios.getValueAt(fila,10).toString();
-            
-            float precioTarifa=usuario.obtenerPrecioTarifaDeUsuario(idCliente);
-            float cantidadDescuento=usuario.obtenerDescuentoDeUsuario(idCliente);
-            FacturaNueva.campoIdCliente.setText(idCliente);
-            FacturaNueva.campoNombreCliente.setText(nombre);
-            FacturaNueva.campoTipoDescuento.setText(tipoDescuento);
-            FacturaNueva.campoTipoTarifa.setText(tipoTarifa);
-            FacturaNueva.campoPrecioTarifa.setText(String.valueOf(precioTarifa));
-            FacturaNueva.campoDescuento.setText(String.valueOf(cantidadDescuento));
-            instancia.setVisible(true);
-        }else{
-            JOptionPane.showMessageDialog(null,"no selecciono un registro","Atencion",JOptionPane.WARNING_MESSAGE);
-        }
-        
-    }//GEN-LAST:event_botonFacturaActionPerformed
-
-    private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
-        // TODO add your handling code here:
-        mostrarClientes(buscadorNombre.getText());
-    }//GEN-LAST:event_botonBuscarActionPerformed
-
-    private void botonCobrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCobrarActionPerformed
-        // TODO add your handling code here:
-        
-
-        int fila = tablaUsuarios.getSelectedRow();
-        
-        if(fila>=0){
-            
-            VentanaPagos.idCliente=tablaUsuarios.getValueAt(fila,0).toString();
-            VentanaPagos instanciaPagos = new VentanaPagos(this, rootPaneCheckingEnabled);
-            instanciaPagos.jlabelValueIdCliente.setText(tablaUsuarios.getValueAt(fila,0).toString());
-            instanciaPagos.jlabelValueNombre.setText(tablaUsuarios.getValueAt(fila,3).toString());
-            instanciaPagos.jlabelValueApellidoPaterno.setText(tablaUsuarios.getValueAt(fila,4).toString());
-            instanciaPagos.jlabelValueApellidoMaterno.setText(tablaUsuarios.getValueAt(fila,5).toString());
-            instanciaPagos.jlabelValueDomicilio.setText(tablaUsuarios.getValueAt(fila,6).toString());
-            instanciaPagos.jlabelValueBarrio.setText(tablaUsuarios.getValueAt(fila,8).toString());
-            
-            instanciaPagos.setVisible(true);
-        }else{
-            JOptionPane.showMessageDialog(null,"no selecciono un registro","Atencion",JOptionPane.WARNING_MESSAGE);
-        }
-
-    }//GEN-LAST:event_botonCobrarActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         MostrarPagos instancia=new MostrarPagos();
@@ -615,6 +626,61 @@ public class MainJFrame extends javax.swing.JFrame {
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void botonCobrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCobrarActionPerformed
+        // TODO add your handling code here:
+
+        int fila = tablaUsuarios.getSelectedRow();
+
+        if(fila>=0){
+
+            VentanaPagos.idCliente=tablaUsuarios.getValueAt(fila,0).toString();
+            VentanaPagos instanciaPagos = new VentanaPagos(this, rootPaneCheckingEnabled);
+            instanciaPagos.jlabelValueIdCliente.setText(tablaUsuarios.getValueAt(fila,0).toString());
+            instanciaPagos.jlabelValueNombre.setText(tablaUsuarios.getValueAt(fila,3).toString());
+            instanciaPagos.jlabelValueApellidoPaterno.setText(tablaUsuarios.getValueAt(fila,4).toString());
+            instanciaPagos.jlabelValueApellidoMaterno.setText(tablaUsuarios.getValueAt(fila,5).toString());
+            instanciaPagos.jlabelValueDomicilio.setText(tablaUsuarios.getValueAt(fila,6).toString());
+            instanciaPagos.jlabelValueBarrio.setText(tablaUsuarios.getValueAt(fila,8).toString());
+
+            instanciaPagos.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null,"no selecciono un registro","Atencion",JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_botonCobrarActionPerformed
+
+    private void botonFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonFacturaActionPerformed
+        // TODO add your handling code here:
+        int fila = tablaUsuarios.getSelectedRow();
+
+        if(fila>=0){
+            SqlUsuarios usuario = new SqlUsuarios();
+
+            FacturaNueva instancia = new FacturaNueva(this, rootPaneCheckingEnabled);
+            String idCliente=tablaUsuarios.getValueAt(fila,0).toString();
+            String nombre=tablaUsuarios.getValueAt(fila,3).toString();
+            String tipoDescuento=tablaUsuarios.getValueAt(fila,9).toString();
+            String tipoTarifa=tablaUsuarios.getValueAt(fila,10).toString();
+
+            float precioTarifa=usuario.obtenerPrecioTarifaDeUsuario(idCliente);
+            float cantidadDescuento=usuario.obtenerDescuentoDeUsuario(idCliente);
+            FacturaNueva.campoIdCliente.setText(idCliente);
+            FacturaNueva.campoNombreCliente.setText(nombre);
+            FacturaNueva.campoTipoDescuento.setText(tipoDescuento);
+            FacturaNueva.campoTipoTarifa.setText(tipoTarifa);
+            FacturaNueva.campoPrecioTarifa.setText(String.valueOf(precioTarifa));
+            FacturaNueva.campoDescuento.setText(String.valueOf(cantidadDescuento));
+            instancia.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null,"no selecciono un registro","Atencion",JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_botonFacturaActionPerformed
+
+    private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
+        // TODO add your handling code here:
+        mostrarClientes(buscadorNombre.getText(),buscadorApaterno.getText(),
+            buscadorAmaterno.getText(),buscadorDomicilio.getText(),buscadorBarrio.getText());
+    }//GEN-LAST:event_botonBuscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -655,6 +721,10 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JButton botonBuscar;
     private javax.swing.JButton botonCobrar;
     private javax.swing.JButton botonFactura;
+    private javax.swing.JTextField buscadorAmaterno;
+    private javax.swing.JTextField buscadorApaterno;
+    private javax.swing.JTextField buscadorBarrio;
+    private javax.swing.JTextField buscadorDomicilio;
     private javax.swing.JTextField buscadorNombre;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -667,7 +737,12 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -678,6 +753,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanelCobros;
     private javax.swing.JPanel jPanelPagos;
     private javax.swing.JPanel jPanelUsuarios;

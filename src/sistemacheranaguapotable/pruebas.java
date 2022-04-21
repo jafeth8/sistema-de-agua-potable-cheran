@@ -141,8 +141,7 @@ public class pruebas extends javax.swing.JDialog {
         int mes= jMonth.getMonth()+1;
         System.out.println("mes-- " + mes);
         System.out.println("anio--" + jYear.getYear());
-      
-        
+
         SqlPagos pago=new SqlPagos();
         boolean existeRegistro=pago.yaExistePagoConUsuarioPeriodo(String.valueOf(mes),String.valueOf(jYear.getYear()));
         System.out.print("/*/*/*---- "+existeRegistro);
