@@ -22,7 +22,7 @@ public class MostrarPagos {
     Connection cn= cc.conexion();
     public void MostrarUsuariosPagos(String nombre,JTable tablaPagos){
         DefaultTableModel modelo= new DefaultTableModel();
-
+        
         modelo.addColumn("No. cliente");
         modelo.addColumn("No. Contrato");
         modelo.addColumn("Nombre");

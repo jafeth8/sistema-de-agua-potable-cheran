@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import sistemacheranaguapotable.bd.ConexionBd;
 
 /**
@@ -39,14 +40,24 @@ public class MainJFrame extends javax.swing.JFrame {
         modelo.addColumn("Nombre");
         modelo.addColumn("Apellido paterno");
         modelo.addColumn("Apellido materno");
-        modelo.addColumn("Domicilio       ");
+        modelo.addColumn("Domicilio");
         modelo.addColumn("Telefono");
         modelo.addColumn("Barrio");
         modelo.addColumn("descuento");
         modelo.addColumn("tarifa");
-        String sql="";
-        //table.setModel(modelo);
+        
         tablaUsuarios.setModel(modelo);
+        /*---------ESTABLECIMIENTO DE TAMAÑO DE COLUMNAS-------------*/
+        TableColumn columnaId=tablaUsuarios.getColumn("Id");
+        columnaId.setMinWidth(0);
+        columnaId.setPreferredWidth(0);
+        columnaId.setMaxWidth(0);
+        TableColumn columnaDomicilio=tablaUsuarios.getColumn("Domicilio");
+        columnaDomicilio.setMinWidth(300);
+        columnaDomicilio.setPreferredWidth(400);
+        columnaDomicilio.setMaxWidth(300);
+        /*--------FIN DE ESTABLECIMIENTO DE TAMAÑO DE COLUMNAS---------*/
+        String sql="";
         if(nombre.equals("") && apellidoPaterno.equals("") && apellidoMaterno.equals("") && domicilio.equals("") && barrio.equals(""))
         {
             sql="SELECT * FROM clientes WHERE fk_id_estado_cliente=1";
@@ -93,6 +104,8 @@ public class MainJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenuUsuarios = new javax.swing.JPopupMenu();
+        jMenuItemCobrar = new javax.swing.JMenuItem();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanelUsuarios = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -125,18 +138,12 @@ public class MainJFrame extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jScrollPanePagos = new javax.swing.JScrollPane();
         tablaPagos = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
-        jScrollPaneDetallePagos = new javax.swing.JScrollPane();
-        tablaDetallePagos = new javax.swing.JTable();
-        jLabel4 = new javax.swing.JLabel();
-        jyearPeriodo1 = new com.toedter.calendar.JYearChooser();
-        jLabel5 = new javax.swing.JLabel();
-        jyearPeriodo2 = new com.toedter.calendar.JYearChooser();
+        botonMostrar = new javax.swing.JButton();
         jPanelCobros = new javax.swing.JPanel();
         jScrollPaneUsuarios = new javax.swing.JScrollPane();
         tablaUsuarios = new javax.swing.JTable();
         botonFactura = new javax.swing.JButton();
-        botonCobrar = new javax.swing.JButton();
+        botonM = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         buscadorNombre = new javax.swing.JTextField();
@@ -149,7 +156,20 @@ public class MainJFrame extends javax.swing.JFrame {
         buscadorBarrio = new javax.swing.JTextField();
         botonBuscar = new javax.swing.JButton();
         jLabel19 = new javax.swing.JLabel();
+        jyearPeriodo2 = new com.toedter.calendar.JYearChooser();
         jLabel20 = new javax.swing.JLabel();
+        jyearPeriodo1 = new com.toedter.calendar.JYearChooser();
+        jLabel21 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaDetallePagos = new javax.swing.JTable();
+
+        jMenuItemCobrar.setText("Cobrar");
+        jMenuItemCobrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCobrarActionPerformed(evt);
+            }
+        });
+        jPopupMenuUsuarios.add(jMenuItemCobrar);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -316,7 +336,7 @@ public class MainJFrame extends javax.swing.JFrame {
             jPanelUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelUsuariosLayout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelUsuariosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -374,29 +394,12 @@ public class MainJFrame extends javax.swing.JFrame {
         ));
         jScrollPanePagos.setViewportView(tablaPagos);
 
-        jButton2.setText("Mostrar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        botonMostrar.setText("Mostrar");
+        botonMostrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                botonMostrarActionPerformed(evt);
             }
         });
-
-        tablaDetallePagos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPaneDetallePagos.setViewportView(tablaDetallePagos);
-
-        jLabel4.setText("Ver pagos de: ");
-
-        jLabel5.setText("al");
 
         javax.swing.GroupLayout jPanelPagosLayout = new javax.swing.GroupLayout(jPanelPagos);
         jPanelPagos.setLayout(jPanelPagosLayout);
@@ -406,19 +409,7 @@ public class MainJFrame extends javax.swing.JFrame {
             .addComponent(jScrollPanePagos, javax.swing.GroupLayout.DEFAULT_SIZE, 926, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPagosLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addGap(18, 18, 18)
-                .addComponent(jyearPeriodo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel5)
-                .addGap(18, 18, 18)
-                .addComponent(jyearPeriodo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2))
-            .addGroup(jPanelPagosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPaneDetallePagos)
-                .addContainerGap())
+                .addComponent(botonMostrar))
         );
         jPanelPagosLayout.setVerticalGroup(
             jPanelPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -428,15 +419,8 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addComponent(jScrollPanePagos, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jyearPeriodo1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jyearPeriodo2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPaneDetallePagos, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(418, Short.MAX_VALUE))
+                .addComponent(botonMostrar)
+                .addContainerGap(485, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Historial pagos", jPanelPagos);
@@ -462,6 +446,7 @@ public class MainJFrame extends javax.swing.JFrame {
         });
         tablaUsuarios.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         tablaUsuarios.setAutoscrolls(false);
+        tablaUsuarios.setComponentPopupMenu(jPopupMenuUsuarios);
         jScrollPaneUsuarios.setViewportView(tablaUsuarios);
 
         botonFactura.setText("Generar nueva factura");
@@ -471,22 +456,21 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
 
-        botonCobrar.setText("Seleccionar");
-        botonCobrar.addActionListener(new java.awt.event.ActionListener() {
+        botonM.setText("Mostrar");
+        botonM.setToolTipText("");
+        botonM.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonCobrarActionPerformed(evt);
+                botonMActionPerformed(evt);
             }
         });
 
-        jLabel9.setText("jLabel9");
+        jLabel9.setText("Nombre");
 
-        jLabel16.setText("jLabel16");
+        jLabel16.setText("Apellido paterno");
 
-        jLabel17.setText("jLabel17");
+        jLabel17.setText("Apellido Materno");
 
-        jLabel18.setText("jLabel18");
-
-        buscadorDomicilio.setText("domicilio");
+        jLabel18.setText("Domicilio");
 
         botonBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/lupa.png"))); // NOI18N
         botonBuscar.setText("Buscar");
@@ -496,9 +480,7 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel19.setText("jLabel19");
-
-        jLabel20.setText("jLabel20");
+        jLabel19.setText("Barrio");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -523,8 +505,7 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(buscadorAmaterno)
                     .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(botonBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(botonBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(38, 38, 38))
         );
         jPanel5Layout.setVerticalGroup(
@@ -543,15 +524,28 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel18)
-                    .addComponent(jLabel19)
-                    .addComponent(jLabel20))
+                    .addComponent(jLabel19))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buscadorDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buscadorBarrio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonBuscar))
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
+
+        jLabel20.setText("al");
+
+        jLabel21.setText("Ver pagos del:");
+
+        tablaDetallePagos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Id", "Nombre", "Forma de pago", "Perido", "estado"
+            }
+        ));
+        jScrollPane1.setViewportView(tablaDetallePagos);
 
         javax.swing.GroupLayout jPanelCobrosLayout = new javax.swing.GroupLayout(jPanelCobros);
         jPanelCobros.setLayout(jPanelCobrosLayout);
@@ -560,11 +554,22 @@ public class MainJFrame extends javax.swing.JFrame {
             .addGroup(jPanelCobrosLayout.createSequentialGroup()
                 .addGroup(jPanelCobrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelCobrosLayout.createSequentialGroup()
-                        .addComponent(botonFactura)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(botonCobrar, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jyearPeriodo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel20)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jyearPeriodo2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(botonM, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPaneUsuarios, javax.swing.GroupLayout.DEFAULT_SIZE, 920, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanelCobrosLayout.createSequentialGroup()
+                        .addComponent(botonFactura)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
         );
         jPanelCobrosLayout.setVerticalGroup(
@@ -575,10 +580,17 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPaneUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanelCobrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(botonFactura)
-                    .addComponent(botonCobrar))
-                .addContainerGap(477, Short.MAX_VALUE))
+                .addGroup(jPanelCobrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(botonM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jyearPeriodo2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jyearPeriodo1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(14, 14, 14)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(botonFactura)
+                .addContainerGap(236, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("cobros", jPanelCobros);
@@ -610,44 +622,27 @@ public class MainJFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void botonMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMostrarActionPerformed
         // TODO add your handling code here:
-        MostrarPagos instancia=new MostrarPagos();
-        int fila=tablaPagos.getSelectedRow();
-        if(fila>=0){
-            String idCliente=tablaPagos.getValueAt(fila,0).toString();
-            instancia.mostrarDetallePagos(idCliente,jyearPeriodo1.getYear(),jyearPeriodo2.getYear(), 
-                tablaDetallePagos);
-        }else{
-            JOptionPane.showMessageDialog(null,"selecciona un cliente","!",JOptionPane.WARNING_MESSAGE);
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
+       
+    }//GEN-LAST:event_botonMostrarActionPerformed
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
 
-    private void botonCobrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCobrarActionPerformed
+    private void botonMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMActionPerformed
         // TODO add your handling code here:
-
-        int fila = tablaUsuarios.getSelectedRow();
-
+        MostrarPagos instancia=new MostrarPagos();
+        int fila=tablaUsuarios.getSelectedRow();
         if(fila>=0){
-
-            VentanaPagos.idCliente=tablaUsuarios.getValueAt(fila,0).toString();
-            VentanaPagos instanciaPagos = new VentanaPagos(this, rootPaneCheckingEnabled);
-            instanciaPagos.jlabelValueIdCliente.setText(tablaUsuarios.getValueAt(fila,0).toString());
-            instanciaPagos.jlabelValueNombre.setText(tablaUsuarios.getValueAt(fila,3).toString());
-            instanciaPagos.jlabelValueApellidoPaterno.setText(tablaUsuarios.getValueAt(fila,4).toString());
-            instanciaPagos.jlabelValueApellidoMaterno.setText(tablaUsuarios.getValueAt(fila,5).toString());
-            instanciaPagos.jlabelValueDomicilio.setText(tablaUsuarios.getValueAt(fila,6).toString());
-            instanciaPagos.jlabelValueBarrio.setText(tablaUsuarios.getValueAt(fila,8).toString());
-
-            instanciaPagos.setVisible(true);
+            String idCliente=tablaUsuarios.getValueAt(fila,0).toString();
+            instancia.mostrarDetallePagos(idCliente,jyearPeriodo1.getYear(),jyearPeriodo2.getYear(), 
+                tablaDetallePagos);
         }else{
-            JOptionPane.showMessageDialog(null,"no selecciono un registro","Atencion",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null,"selecciona un cliente","!",JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_botonCobrarActionPerformed
+    }//GEN-LAST:event_botonMActionPerformed
 
     private void botonFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonFacturaActionPerformed
         // TODO add your handling code here:
@@ -681,6 +676,27 @@ public class MainJFrame extends javax.swing.JFrame {
         mostrarClientes(buscadorNombre.getText(),buscadorApaterno.getText(),
             buscadorAmaterno.getText(),buscadorDomicilio.getText(),buscadorBarrio.getText());
     }//GEN-LAST:event_botonBuscarActionPerformed
+
+    private void jMenuItemCobrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCobrarActionPerformed
+        // TODO add your handling code here:
+        int fila = tablaUsuarios.getSelectedRow();
+
+        if(fila>=0){
+
+            VentanaPagos.idCliente=tablaUsuarios.getValueAt(fila,0).toString();
+            VentanaPagos instanciaPagos = new VentanaPagos(this, rootPaneCheckingEnabled);
+            instanciaPagos.jlabelValueIdCliente.setText(tablaUsuarios.getValueAt(fila,0).toString());
+            instanciaPagos.jlabelValueNombre.setText(tablaUsuarios.getValueAt(fila,3).toString());
+            instanciaPagos.jlabelValueApellidoPaterno.setText(tablaUsuarios.getValueAt(fila,4).toString());
+            instanciaPagos.jlabelValueApellidoMaterno.setText(tablaUsuarios.getValueAt(fila,5).toString());
+            instanciaPagos.jlabelValueDomicilio.setText(tablaUsuarios.getValueAt(fila,6).toString());
+            instanciaPagos.jlabelValueBarrio.setText(tablaUsuarios.getValueAt(fila,8).toString());
+
+            instanciaPagos.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null,"no selecciono un registro","Atencion",JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_jMenuItemCobrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -719,15 +735,15 @@ public class MainJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonBuscar;
-    private javax.swing.JButton botonCobrar;
     private javax.swing.JButton botonFactura;
+    private javax.swing.JButton botonM;
+    private javax.swing.JButton botonMostrar;
     private javax.swing.JTextField buscadorAmaterno;
     private javax.swing.JTextField buscadorApaterno;
     private javax.swing.JTextField buscadorBarrio;
     private javax.swing.JTextField buscadorDomicilio;
     private javax.swing.JTextField buscadorNombre;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
@@ -743,13 +759,13 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenuItem jMenuItemCobrar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -757,7 +773,8 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelCobros;
     private javax.swing.JPanel jPanelPagos;
     private javax.swing.JPanel jPanelUsuarios;
-    private javax.swing.JScrollPane jScrollPaneDetallePagos;
+    private javax.swing.JPopupMenu jPopupMenuUsuarios;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPanePagos;
     private javax.swing.JScrollPane jScrollPaneUsuarios;
     private javax.swing.JTabbedPane jTabbedPane1;
