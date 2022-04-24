@@ -96,7 +96,7 @@ public class MostrarPagos {
 
      
         
-        String []datos = new String [5];
+        Object []datos = new Object [5];
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -105,7 +105,7 @@ public class MostrarPagos {
                 datos[0]=rs.getString(1);
                 datos[1]=rs.getString(2);
                 datos[2]=rs.getString(3);
-                datos[3]=rs.getString(4);
+                datos[3]=rs.getInt(4);
                 datos[4]=rs.getString(5);
                 modelo.addRow(datos);
             }

@@ -162,6 +162,9 @@ public class MainJFrame extends javax.swing.JFrame {
         jLabel21 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaDetallePagos = new javax.swing.JTable();
+        botonGestionDescuentos = new javax.swing.JButton();
+        botonGestionTarifas = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         jMenuItemCobrar.setText("Cobrar");
         jMenuItemCobrar.addActionListener(new java.awt.event.ActionListener() {
@@ -420,7 +423,7 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addComponent(jScrollPanePagos, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(botonMostrar)
-                .addContainerGap(485, Short.MAX_VALUE))
+                .addContainerGap(488, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Historial pagos", jPanelPagos);
@@ -463,6 +466,9 @@ public class MainJFrame extends javax.swing.JFrame {
                 botonMActionPerformed(evt);
             }
         });
+
+        jPanel5.setBackground(new java.awt.Color(204, 204, 255));
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(102, 102, 255), new java.awt.Color(102, 102, 255), new java.awt.Color(102, 102, 255), new java.awt.Color(102, 102, 255)), "Campos para busqueda", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP));
 
         jLabel9.setText("Nombre");
 
@@ -530,7 +536,7 @@ public class MainJFrame extends javax.swing.JFrame {
                     .addComponent(buscadorDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buscadorBarrio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonBuscar))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         jLabel20.setText("al");
@@ -546,6 +552,30 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         ));
         jScrollPane1.setViewportView(tablaDetallePagos);
+
+        botonGestionDescuentos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cupon.png"))); // NOI18N
+        botonGestionDescuentos.setText("Gestionar descuentos");
+        botonGestionDescuentos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonGestionDescuentosActionPerformed(evt);
+            }
+        });
+
+        botonGestionTarifas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/tarifas-v.png"))); // NOI18N
+        botonGestionTarifas.setText("Gestionar tarifas");
+        botonGestionTarifas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonGestionTarifasActionPerformed(evt);
+            }
+        });
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pago-minimo.png"))); // NOI18N
+        jButton2.setText("Pago Minimo");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelCobrosLayout = new javax.swing.GroupLayout(jPanelCobros);
         jPanelCobros.setLayout(jPanelCobrosLayout);
@@ -571,26 +601,38 @@ public class MainJFrame extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
+            .addGroup(jPanelCobrosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(botonGestionDescuentos, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(botonGestionTarifas, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelCobrosLayout.setVerticalGroup(
             jPanelCobrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelCobrosLayout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPaneUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelCobrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(botonGestionDescuentos, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+                    .addComponent(botonGestionTarifas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPaneUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelCobrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(botonM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jyearPeriodo2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jyearPeriodo1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(14, 14, 14)
+                    .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(botonFactura)
-                .addContainerGap(236, Short.MAX_VALUE))
+                .addContainerGap(215, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("cobros", jPanelCobros);
@@ -698,6 +740,24 @@ public class MainJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItemCobrarActionPerformed
 
+    private void botonGestionDescuentosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGestionDescuentosActionPerformed
+        // TODO add your handling code here:
+        VentanaDescuentos instanciaDescuentos=new VentanaDescuentos();
+        instanciaDescuentos.setVisible(true);
+    }//GEN-LAST:event_botonGestionDescuentosActionPerformed
+
+    private void botonGestionTarifasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGestionTarifasActionPerformed
+        // TODO add your handling code here:
+        VentanaTarifas instanciaTarifas = new VentanaTarifas();
+        instanciaTarifas.setVisible(true);
+    }//GEN-LAST:event_botonGestionTarifasActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        VentanaDePagoMinimo instancia=new VentanaDePagoMinimo();
+        instancia.setVisible(rootPaneCheckingEnabled);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -736,6 +796,8 @@ public class MainJFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonBuscar;
     private javax.swing.JButton botonFactura;
+    private javax.swing.JButton botonGestionDescuentos;
+    private javax.swing.JButton botonGestionTarifas;
     private javax.swing.JButton botonM;
     private javax.swing.JButton botonMostrar;
     private javax.swing.JTextField buscadorAmaterno;
@@ -744,6 +806,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField buscadorDomicilio;
     private javax.swing.JTextField buscadorNombre;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
