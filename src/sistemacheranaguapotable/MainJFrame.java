@@ -8,11 +8,13 @@ package sistemacheranaguapotable;
 import helpers.sql.SqlUsuarios;
 import helpers.sql.clases.ComboBoxUsuarios;
 import helpers.sql.clases.FiltradoUsuarios;
+import helpers.sql.clases.HistorialPagos;
 import helpers.sql.clases.MostrarPagos;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -172,12 +174,10 @@ public class MainJFrame extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jPanelPagos = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        nombreTextFieldPagos = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        botonFiltrarPagos = new javax.swing.JButton();
         jScrollPanePagos = new javax.swing.JScrollPane();
-        tablaPagos = new javax.swing.JTable();
-        botonMostrar = new javax.swing.JButton();
+        tablaHistorialRecibos = new javax.swing.JTable();
 
         jMenuItemCobrar.setText("Cobrar");
         jMenuItemCobrar.addActionListener(new java.awt.event.ActionListener() {
@@ -616,14 +616,12 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("cobros", jPanelCobros);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(0, 153, 153), new java.awt.Color(0, 153, 153), null, new java.awt.Color(0, 102, 102)));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(102, 204, 255), new java.awt.Color(51, 204, 255), new java.awt.Color(102, 204, 255), new java.awt.Color(51, 204, 255)), "Campos para filtrado de historial de pagos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP));
 
-        jLabel2.setText("Nombre");
-
-        jButton1.setText("jButton");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        botonFiltrarPagos.setText("Filtrar pagos por fecha");
+        botonFiltrarPagos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                botonFiltrarPagosActionPerformed(evt);
             }
         });
 
@@ -633,68 +631,52 @@ public class MainJFrame extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(nombreTextFieldPagos, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(botonFiltrarPagos, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nombreTextFieldPagos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(botonFiltrarPagos)
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
-        tablaPagos.setModel(new javax.swing.table.DefaultTableModel(
+        tablaHistorialRecibos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
-        jScrollPanePagos.setViewportView(tablaPagos);
-
-        botonMostrar.setText("Mostrar");
-        botonMostrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonMostrarActionPerformed(evt);
-            }
-        });
+        jScrollPanePagos.setViewportView(tablaHistorialRecibos);
 
         javax.swing.GroupLayout jPanelPagosLayout = new javax.swing.GroupLayout(jPanelPagos);
         jPanelPagos.setLayout(jPanelPagosLayout);
         jPanelPagosLayout.setHorizontalGroup(
             jPanelPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPanePagos, javax.swing.GroupLayout.DEFAULT_SIZE, 926, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPagosLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(botonMostrar))
+            .addGroup(jPanelPagosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPanePagos, javax.swing.GroupLayout.DEFAULT_SIZE, 914, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanelPagosLayout.setVerticalGroup(
             jPanelPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelPagosLayout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addComponent(jScrollPanePagos, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(botonMostrar)
-                .addContainerGap(347, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPanePagos, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(315, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Historial pagos", jPanelPagos);
+        jTabbedPane1.addTab("Recibos de pago", jPanelPagos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -715,18 +697,6 @@ public class MainJFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        MostrarPagos instancia=new MostrarPagos();
-        instancia.MostrarUsuariosPagos("", tablaPagos);
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void botonMostrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMostrarActionPerformed
-        // TODO add your handling code here:
-       
-    }//GEN-LAST:event_botonMostrarActionPerformed
 
     private void botonMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonMActionPerformed
         // TODO add your handling code here:
@@ -945,6 +915,21 @@ public class MainJFrame extends javax.swing.JFrame {
         instancia.setVisible(true);
     }//GEN-LAST:event_jButtonUsuariosEliminadosActionPerformed
 
+    private void botonFiltrarPagosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonFiltrarPagosActionPerformed
+        // TODO add your handling code here:
+        String fecha;
+        HistorialPagos historialPago = new HistorialPagos();
+        try {
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+            fecha = formatoFecha.format(jDateChooser1.getDate());
+            historialPago.mostrarHistorialPagos(fecha, tablaHistorialRecibos);
+        } catch (NullPointerException vacio) {
+            JOptionPane.showMessageDialog(rootPane,"La fecha es invalida o el campo esta vacio","Fecha ivalida",JOptionPane.ERROR_MESSAGE);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_botonFiltrarPagosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -983,23 +968,23 @@ public class MainJFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonBuscar;
     private javax.swing.JButton botonFactura;
+    private javax.swing.JButton botonFiltrarPagos;
     private javax.swing.JButton botonFiltrarUsuarios;
     private javax.swing.JButton botonGestionDescuentos;
     private javax.swing.JButton botonGestionTarifas;
     private javax.swing.JButton botonM;
     private javax.swing.JButton botonModificarUsuario;
-    private javax.swing.JButton botonMostrar;
     private javax.swing.JButton botonRegistrarUsuario;
     private javax.swing.JTextField buscadorAmaterno;
     private javax.swing.JTextField buscadorApaterno;
     private javax.swing.JTextField buscadorBarrio;
     private javax.swing.JTextField buscadorDomicilio;
     private javax.swing.JTextField buscadorNombre;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonUsuariosEliminados;
     private javax.swing.JComboBox<String> jComboBoxDescuentos;
     private javax.swing.JComboBox<String> jComboBoxTarifas;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1009,7 +994,6 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
@@ -1045,9 +1029,8 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jtextFieldUserTelefono;
     private com.toedter.calendar.JYearChooser jyearPeriodo1;
     private com.toedter.calendar.JYearChooser jyearPeriodo2;
-    private javax.swing.JTextField nombreTextFieldPagos;
     private javax.swing.JTable tablaDetallePagos;
-    private javax.swing.JTable tablaPagos;
+    private javax.swing.JTable tablaHistorialRecibos;
     private javax.swing.JTable tablaRegistroUsuarios;
     private javax.swing.JTable tablaUsuarios;
     // End of variables declaration//GEN-END:variables
