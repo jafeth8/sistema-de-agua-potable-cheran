@@ -7,6 +7,7 @@ package sistemacheranaguapotable;
 
 import helpers.sql.SqlDetallePagos;
 import helpers.sql.SqlPagos;
+import impresiones.Imprimir;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -201,7 +202,7 @@ public class VentanaPagos extends javax.swing.JDialog {
         ));
         jScrollPane2.setViewportView(jtableDetallePagos);
 
-        botonDetalles.setText("Ver detalles");
+        botonDetalles.setText("Seleccionar");
         botonDetalles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonDetallesActionPerformed(evt);
@@ -322,7 +323,19 @@ public class VentanaPagos extends javax.swing.JDialog {
            float cambio;
            float pagoRecibido;
            float importe;
+           /*VARIABLES FALTANTES PARA GENERAR EL RECIBO */
+           String nombreCompleto=jlabelValueNombre.getText()+" "+jlabelValueApellidoPaterno.getText()+" "+jlabelValueApellidoMaterno.getText();
+           String domicilio=jlabelValueDomicilio.getText();
+           String barrio=jlabelValueBarrio.getText();
+           String tipoPago=jtablePagos.getValueAt(0,5).toString();
+           String periodo=jtablePagos.getValueAt(0,10).toString();
+           String tipoTarifa=jtablePagos.getValueAt(0,1).toString();
+           float precioTarifaAnual=Float.parseFloat(jtablePagos.getValueAt(0, 2).toString());
+           String tipoDescuento=jtablePagos.getValueAt(0,3).toString();
+           float precioDescuentoMensual=Float.parseFloat(jtablePagos.getValueAt(0,4).toString());
+           String descuentoAnual=jtablePagos.getValueAt(0,6).toString();
            
+           String mesDepago=jtableDetallePagos.getValueAt(0,3).toString();
            try{
                 cadenaPagoRecibido=JOptionPane.showInputDialog("pago recibido");
                 pagoRecibido=Float.parseFloat(cadenaPagoRecibido);
@@ -345,7 +358,7 @@ public class VentanaPagos extends javax.swing.JDialog {
            }
            
            detallePago.cobrarImporteDetallePagos(idRegistro, cadenaPagoRecibido,String.valueOf(cambio), 
-                   fechaPago,1);
+                fechaPago,1);
            
            float totalTablaPagos;//esta variable representa el total a pagar de una factura, aplicado los descuentos
            float sumatoriaImportesPagadosTablaDetallePagos;
@@ -359,6 +372,10 @@ public class VentanaPagos extends javax.swing.JDialog {
            if(deuda==0){
              pago.actualizarEstadoRegistroPago(idPago,1);
            }
+           
+           Imprimir imprimir=new Imprimir();
+           imprimir.imprimirComprobante(idPago, idRegistro,nombreCompleto,domicilio,barrio,tipoPago,periodo,tipoTarifa,precioTarifaAnual, 
+               tipoDescuento,precioDescuentoMensual, descuentoAnual,mesDepago, fechaPago, cadenaImporte);
            
            mostrarPagosCliente(idCliente);
            mostrarDetallePagos(idPago);

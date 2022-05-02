@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import sistemacheranaguapotable.bd.ConexionBd;
 
 /**
@@ -22,7 +23,7 @@ public class HistorialPagos {
     
     public void mostrarHistorialPagos(String fecha, JTable tablaHistorialRecibos ){
         DefaultTableModel modelo= new DefaultTableModel();
-        modelo.addColumn("Id pago");
+        modelo.addColumn("Id detalle pago");
         modelo.addColumn("Nombre");
         modelo.addColumn("Apellido paterno");
         modelo.addColumn("Apellido materno");
@@ -31,7 +32,14 @@ public class HistorialPagos {
         modelo.addColumn("fecha de pago");
         tablaHistorialRecibos.setModel(modelo);
         
-        String sql="SELECT detalle_pagos.fk_id_pago, clientes.nombre, clientes.apellido_paterno, clientes.apellido_materno, "
+        /*---------ESTABLECIMIENTO DE TAMAÑO DE COLUMNAS-------------*/
+        TableColumn columnaId=tablaHistorialRecibos.getColumn("Id detalle pago");
+        columnaId.setMinWidth(0);
+        columnaId.setPreferredWidth(0);
+        columnaId.setMaxWidth(0);
+        /*--------FIN DE ESTABLECIMIENTO DE TAMAÑO DE COLUMNAS---------*/
+        
+        String sql="SELECT detalle_pagos.id_registro, clientes.nombre, clientes.apellido_paterno, clientes.apellido_materno, "
             + "detalle_pagos.mes,detalle_pagos.importe,detalle_pagos.fecha_pago FROM detalle_pagos JOIN pagos "
             + "ON fk_id_pago=id_pago JOIN clientes ON pagos.fk_id_cliente=clientes.id_cliente "
             + "WHERE detalle_pagos.fecha_pago='"+fecha+"' AND detalle_pagos.fk_id_estado_pago=1";

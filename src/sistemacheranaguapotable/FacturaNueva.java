@@ -6,6 +6,7 @@
 package sistemacheranaguapotable;
 
 import helpers.sql.SqlDetallePagos;
+import helpers.sql.SqlPagoMinimo;
 import helpers.sql.SqlPagos;
 import helpers.sql.SqlPagosYdetallePagos;
 import javax.swing.JOptionPane;
@@ -178,7 +179,7 @@ public class FacturaNueva extends javax.swing.JDialog {
 
         SqlPagos pago= new SqlPagos();
         SqlPagosYdetallePagos pagoYdetalle =new SqlPagosYdetallePagos();
-        
+        SqlPagoMinimo instanciaPagoMinimo=new SqlPagoMinimo();
         String item=jComboBoxTipoPago.getSelectedItem().toString();
         float tarifa=Float.parseFloat(campoPrecioTarifa.getText());
         float descuento=Float.parseFloat(campoDescuento.getText());
@@ -196,15 +197,15 @@ public class FacturaNueva extends javax.swing.JDialog {
             float descuentoAnual=(tarifa/12)*2;
             float descuentoFinal=descuento*10;//se descuentan a los demas meses ya que el pago sera anual enero-diciembre
             float total=tarifa-descuentoFinal-descuentoAnual;
-            
+            float pagoMinimo=instanciaPagoMinimo.obtenerPagoMinimo();
             if(total<=0){
                 System.err.println("total-- "+total);
-                total=35*10;
+                total=pagoMinimo*10;
             }
 
             /*----------------------------------------REGISTRAR PAGO Y DETALLE PAGO: TIPO DE PAGO ANUAL-------------------------------------------------*/
             pagoYdetalle.registrarPagoYdetalleTipoAnual(fkIdCliente, tipoTarifa, precioTarifa, 
-                tipoDescuento, descuentoAplicado, tipoPago+": aplica descuento anual", descuentoAnual, total, periodo);
+                tipoDescuento, descuentoAplicado, tipoPago, descuentoAnual, total, periodo);
             /*----------------------------------------FIN DE REGISTRAR PAGO Y DETALLE PAGO: TIPO DE PAGO ANUAL-------------------------------------------------*/
         }else if(item.equals("Mensual")){
             
@@ -221,17 +222,18 @@ public class FacturaNueva extends javax.swing.JDialog {
             float descuentoAnual=0;//ya que estara pagarando por mes por lo tanto no aplica descuento anual
             float descuentoFinal=descuento*12;//se hace descuento a los 12 meses ya que no hay un descuentoAnual(bimestral)
             float total=tarifa-descuentoFinal-descuentoAnual;
+            float pagoMinimo=instanciaPagoMinimo.obtenerPagoMinimo();
             if(total<=0){
-                total=35*12;
+                total=pagoMinimo*12;
             }
             
             float importeMes=(tarifa/12)-descuento;
             if(importeMes<=0){
-                importeMes=35;
+                importeMes=pagoMinimo;
             }
                 
             pagoYdetalle.registrarPagoYdetalleTipoMensual(idCliente, tipoTarifa, precioTarifa, 
-                tipoDescuento, descuentoAplicado, tipoPago+": no aplica descuento anual", descuentoAnual, total, periodo, importeMes);
+                tipoDescuento, descuentoAplicado, tipoPago, descuentoAnual, total, periodo, importeMes);
             
         }
         dispose();

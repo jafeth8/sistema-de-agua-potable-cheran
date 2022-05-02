@@ -6,6 +6,9 @@
 package sistemacheranaguapotable;
 
 import helpers.sql.SqlPagos;
+import helpers.sql.clases.InfoRecibo;
+import impresiones.Imprimir;
+import java.util.HashMap;
 
 /**
  *
@@ -38,6 +41,7 @@ public class pruebas extends javax.swing.JDialog {
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
+        botonPdf = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -72,6 +76,13 @@ public class pruebas extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(jList1);
 
+        botonPdf.setText("pff");
+        botonPdf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonPdfActionPerformed(evt);
+            }
+        });
+
         jMenuBar1.setMargin(new java.awt.Insets(10, 10, 10, 10));
 
         jMenu1.setText("File");
@@ -103,18 +114,22 @@ public class pruebas extends javax.swing.JDialog {
                 .addComponent(jMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(jYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 249, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 252, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jScrollPane1)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(112, 112, 112))
+                .addGap(18, 18, 18)
+                .addComponent(botonPdf)
+                .addGap(19, 19, 19))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1)
+                        .addComponent(botonPdf))
                     .addComponent(jYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -146,6 +161,19 @@ public class pruebas extends javax.swing.JDialog {
         boolean existeRegistro=pago.yaExistePagoConUsuarioPeriodo(String.valueOf(mes),String.valueOf(jYear.getYear()));
         System.out.print("/*/*/*---- "+existeRegistro);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void botonPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonPdfActionPerformed
+        // TODO add your handling code here:
+        Imprimir instancia= new Imprimir ();
+        //instancia.ImprimirComprobante("anual");
+        
+        HashMap<String,String> recibo;
+        InfoRecibo instanciaRecibo=new InfoRecibo();
+        recibo=instanciaRecibo.datosRecibo("1");
+        System.err.println(recibo.get("noEcis"));
+        
+        dispose();
+    }//GEN-LAST:event_botonPdfActionPerformed
 
     /**
      * @param args the command line arguments
@@ -190,6 +218,7 @@ public class pruebas extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botonPdf;
     private javax.swing.JButton jButton1;
     private javax.swing.JList<String> jList1;
     private javax.swing.JMenu jMenu1;

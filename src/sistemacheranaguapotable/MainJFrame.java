@@ -9,12 +9,16 @@ import helpers.sql.SqlUsuarios;
 import helpers.sql.clases.ComboBoxUsuarios;
 import helpers.sql.clases.FiltradoUsuarios;
 import helpers.sql.clases.HistorialPagos;
+import helpers.sql.clases.InfoRecibo;
 import helpers.sql.clases.MostrarPagos;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -116,6 +120,8 @@ public class MainJFrame extends javax.swing.JFrame {
         jPopupMenuRegistroUsuarios = new javax.swing.JPopupMenu();
         jMenuItemModificarRegistroUsuarios = new javax.swing.JMenuItem();
         jMenuItemEliminarRegistroUsuarios = new javax.swing.JMenuItem();
+        jPopupMenuHistorialRecibos = new javax.swing.JPopupMenu();
+        jMenuItemVerRecibo = new javax.swing.JMenuItem();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanelUsuarios = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -202,6 +208,14 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
         jPopupMenuRegistroUsuarios.add(jMenuItemEliminarRegistroUsuarios);
+
+        jMenuItemVerRecibo.setText("Ver recibo");
+        jMenuItemVerRecibo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemVerReciboActionPerformed(evt);
+            }
+        });
+        jPopupMenuHistorialRecibos.add(jMenuItemVerRecibo);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(".");
@@ -654,6 +668,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
             }
         ));
+        tablaHistorialRecibos.setComponentPopupMenu(jPopupMenuHistorialRecibos);
         jScrollPanePagos.setViewportView(tablaHistorialRecibos);
 
         javax.swing.GroupLayout jPanelPagosLayout = new javax.swing.GroupLayout(jPanelPagos);
@@ -930,6 +945,43 @@ public class MainJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_botonFiltrarPagosActionPerformed
 
+    private void jMenuItemVerReciboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVerReciboActionPerformed
+        // TODO add your handling code here:
+        HashMap<String,String> recibo;
+        InfoRecibo instanciaInfoRecibo=new InfoRecibo();      
+        int fila=tablaHistorialRecibos.getSelectedRow();
+  
+        if(fila>=0){
+            
+            String idRegistroPago=tablaHistorialRecibos.getValueAt(fila,0).toString();
+            
+            recibo=instanciaInfoRecibo.datosRecibo(idRegistroPago);
+            VentanaRecibo.idPago=recibo.get("idPago");
+            VentanaRecibo.idDetallePago=recibo.get("idDetallePago");
+            VentanaRecibo.nombreCompleto=recibo.get("nombreCompleto");
+            VentanaRecibo.domicilio=recibo.get("domicilio");
+            VentanaRecibo.barrio=recibo.get("barrio");
+            VentanaRecibo.tipoPago=recibo.get("tipoPago");
+            VentanaRecibo.periodo=recibo.get("periodo");
+            VentanaRecibo.tipoTarifa=recibo.get("tipoTarifa");
+            VentanaRecibo.precioTarifaAnual=Float.parseFloat(recibo.get("precioTarifa"));
+            VentanaRecibo.tipoDescuento=recibo.get("tipoDescuento");
+            VentanaRecibo.precioTipoDescuentoMensual=Float.parseFloat(recibo.get("precioDescuento"));
+            VentanaRecibo.descuentoAnual=recibo.get("descuentoAnual");
+            VentanaRecibo.mesDePago= recibo.get("mesDePago");
+            VentanaRecibo.fechaPago= recibo.get("fechaPago");
+            VentanaRecibo.importe=recibo.get("importe");
+            
+            VentanaRecibo ventanaRecibo=new VentanaRecibo();
+            ventanaRecibo.setVisible(true);
+            //if(recibo.get("error").equals("si")) ventanaRecibo.dispose();
+             
+        }else{
+            JOptionPane.showMessageDialog(null,"selecciona un registro","!!",JOptionPane.WARNING_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_jMenuItemVerReciboActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1006,12 +1058,14 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemCobrar;
     private javax.swing.JMenuItem jMenuItemEliminarRegistroUsuarios;
     private javax.swing.JMenuItem jMenuItemModificarRegistroUsuarios;
+    private javax.swing.JMenuItem jMenuItemVerRecibo;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanelCobros;
     private javax.swing.JPanel jPanelPagos;
     private javax.swing.JPanel jPanelUsuarios;
+    private javax.swing.JPopupMenu jPopupMenuHistorialRecibos;
     private javax.swing.JPopupMenu jPopupMenuRegistroUsuarios;
     private javax.swing.JPopupMenu jPopupMenuUsuarios;
     private javax.swing.JScrollPane jScrollPane1;
