@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -22,6 +23,47 @@ import sistemacheranaguapotable.bd.ConexionBd;
 public class SqlUsuarios {
    ConexionBd cc= ConexionBd.obtenerInstancia();
    Connection cn= cc.conexion();
+   
+       public HashMap<String,String> obtenerDatosClientes(String idCliente){
+        HashMap<String, String> datosCliente = new HashMap<String, String>();
+        String sql="SELECT nombre,apellido_paterno,apellido_materno,domicilio,barrio FROM clientes where id_cliente='"+idCliente+"'";
+        float total=0;    	 
+	Statement st = null;
+        ResultSet rs = null;	    
+        try {
+            st = cn.createStatement();
+            rs = st.executeQuery(sql);
+            while(rs.next()){
+            	
+                datosCliente.put("nombre",rs.getString(1));
+            	
+                datosCliente.put("apellido_paterno",rs.getString(2));
+            	
+                datosCliente.put("apellido_materno",rs.getString(3));
+            	
+                datosCliente.put("domicilio",rs.getString(4));
+            	
+                datosCliente.put("barrio",rs.getString(5));
+            	
+                
+              
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null,ex.getMessage(),"error en obtner datos usuarios", JOptionPane.ERROR_MESSAGE);
+        }finally {
+            try {
+                if(st!=null)st.close();
+                if(rs!=null)rs.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+	}
+        
+        return datosCliente;
+    }
+
    
    public float obtenerPrecioTarifaDeUsuario(String idCliente){
        //SELECT tarifas.tarifa_anual FROM clientes JOIN tarifas ON clientes.fk_tipo_tarifa = tarifas.tipo_tarifa WHERE clientes.id_cliente=1

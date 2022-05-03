@@ -767,19 +767,26 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void jMenuItemCobrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCobrarActionPerformed
         // TODO add your handling code here:
-        int filaTablaUsuarios = tablaUsuarios.getSelectedRow();
+        
         int filaTablaDetallePagos=tablaDetallePagos.getSelectedRow();
-        if(filaTablaUsuarios>=0 && filaTablaDetallePagos>=0){
+        if(filaTablaDetallePagos>=0){
+            SqlUsuarios instanciaUsuarios=new SqlUsuarios();
+            HashMap<String, String> datosUsuario;
             String periodo=tablaDetallePagos.getValueAt(filaTablaDetallePagos,3).toString();
+            String idCliente=tablaDetallePagos.getValueAt(filaTablaDetallePagos,0).toString();
             VentanaPagos.periodo=periodo;
-            VentanaPagos.idCliente=tablaUsuarios.getValueAt(filaTablaUsuarios,0).toString();
+            VentanaPagos.idCliente=idCliente;
+            System.out.println("id cliente-----"+idCliente);
             VentanaPagos instanciaPagos = new VentanaPagos(this, rootPaneCheckingEnabled);
-            instanciaPagos.jlabelValueIdCliente.setText(tablaUsuarios.getValueAt(filaTablaUsuarios,0).toString());
-            instanciaPagos.jlabelValueNombre.setText(tablaUsuarios.getValueAt(filaTablaUsuarios,3).toString());
-            instanciaPagos.jlabelValueApellidoPaterno.setText(tablaUsuarios.getValueAt(filaTablaUsuarios,4).toString());
-            instanciaPagos.jlabelValueApellidoMaterno.setText(tablaUsuarios.getValueAt(filaTablaUsuarios,5).toString());
-            instanciaPagos.jlabelValueDomicilio.setText(tablaUsuarios.getValueAt(filaTablaUsuarios,6).toString());
-            instanciaPagos.jlabelValueBarrio.setText(tablaUsuarios.getValueAt(filaTablaUsuarios,8).toString());
+            
+            datosUsuario=instanciaUsuarios.obtenerDatosClientes(idCliente);
+            
+            instanciaPagos.jlabelValueIdCliente.setText(idCliente);
+            instanciaPagos.jlabelValueNombre.setText(datosUsuario.get("nombre"));
+            instanciaPagos.jlabelValueApellidoPaterno.setText(datosUsuario.get("apellido_paterno"));
+            instanciaPagos.jlabelValueApellidoMaterno.setText(datosUsuario.get("apellido_materno"));
+            instanciaPagos.jlabelValueDomicilio.setText(datosUsuario.get("domicilio"));
+            instanciaPagos.jlabelValueBarrio.setText(datosUsuario.get("barrio"));
             
             instanciaPagos.setVisible(true);
         }else{
