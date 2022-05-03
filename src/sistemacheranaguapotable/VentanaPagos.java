@@ -25,17 +25,19 @@ public class VentanaPagos extends javax.swing.JDialog {
     ConexionBd cc= ConexionBd.obtenerInstancia();
     Connection cn= cc.conexion();
     public static String idCliente;// variable estatica para mostrar los pagos en relacion al id 
+    public static String periodo;  //variable estatica para mostrar exclusivamente los pagos de un año determinado
     /**
      * Creates new form VentanaPagos
      */
     public VentanaPagos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        mostrarPagosCliente(idCliente);
+        mostrarPagosCliente(idCliente,periodo);
         //System.out.print(idCliente);
     }
     
-    public void mostrarPagosCliente(String idCliente){
+    public void mostrarPagosCliente(String idCliente,String periodo){
+        System.out.println("periodo-----"+periodo);
         DefaultTableModel modelo= new DefaultTableModel();
  
         modelo.addColumn("Idpago");
@@ -55,7 +57,7 @@ public class VentanaPagos extends javax.swing.JDialog {
   
         //SELECT id_pago,tipo_tarifa,precio_tarifa,tipo_descuento,descuento,tipo_pago,descuento_anual,total,total_pagado,deuda,periodo FROM `pagos` WHERE fk_id_cliente = 1 AND estado='en deuda'
         sql="SELECT id_pago,tipo_tarifa,precio_tarifa,tipo_descuento,descuento,tipo_pago,descuento_anual,"
-                + "total,total_pagado,deuda,periodo FROM `pagos` WHERE fk_id_cliente ='"+idCliente+"' AND fk_id_estado_pago='2'";
+                + "total,total_pagado,deuda,periodo FROM `pagos` WHERE fk_id_cliente ='"+idCliente+"' AND pagos.periodo='"+periodo+"' AND fk_id_estado_pago='2'";
         
 
         Object []datos = new Object [11];
@@ -81,7 +83,8 @@ public class VentanaPagos extends javax.swing.JDialog {
             ex.printStackTrace();
             System.out.println(ex.getMessage());
         }
-       
+        String idPago=jtablePagos.getValueAt(0,0).toString();
+        mostrarDetallePagos(idPago);
     }
     
     public void mostrarDetallePagos(String idPago){
@@ -148,7 +151,6 @@ public class VentanaPagos extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtableDetallePagos = new javax.swing.JTable();
-        botonDetalles = new javax.swing.JButton();
         botonCobrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -202,13 +204,6 @@ public class VentanaPagos extends javax.swing.JDialog {
         ));
         jScrollPane2.setViewportView(jtableDetallePagos);
 
-        botonDetalles.setText("Seleccionar");
-        botonDetalles.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonDetallesActionPerformed(evt);
-            }
-        });
-
         botonCobrar.setText("Cobrar");
         botonCobrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -252,9 +247,7 @@ public class VentanaPagos extends javax.swing.JDialog {
                     .addComponent(jScrollPane1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(botonDetalles, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(botonCobrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(botonCobrar, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -278,9 +271,7 @@ public class VentanaPagos extends javax.swing.JDialog {
                 .addComponent(jlabelPagos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(botonDetalles)
-                .addGap(11, 11, 11)
+                .addGap(45, 45, 45)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -294,18 +285,6 @@ public class VentanaPagos extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void botonDetallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDetallesActionPerformed
-        // TODO add your handling code here:
-        int fila = jtablePagos.getSelectedRow();
-        if(fila>=0){
-            String idPago=jtablePagos.getValueAt(fila,0).toString();
-            //System.out.print(idPago);
-            mostrarDetallePagos(idPago);
-        }else{
-            JOptionPane.showMessageDialog(null,"no selecciono un registro","Atencion",JOptionPane.WARNING_MESSAGE);
-        }
-    }//GEN-LAST:event_botonDetallesActionPerformed
 
     private void botonCobrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCobrarActionPerformed
         // TODO add your handling code here:
@@ -336,6 +315,8 @@ public class VentanaPagos extends javax.swing.JDialog {
            String descuentoAnual=jtablePagos.getValueAt(0,6).toString();
            
            String mesDepago=jtableDetallePagos.getValueAt(0,3).toString();
+           /*
+           //codigo para mostrar el cambio del pago
            try{
                 cadenaPagoRecibido=JOptionPane.showInputDialog("pago recibido");
                 pagoRecibido=Float.parseFloat(cadenaPagoRecibido);
@@ -345,18 +326,24 @@ public class VentanaPagos extends javax.swing.JDialog {
                System.err.println("Ventana cerrada!!");
                return;
            }
-           
+           */
            importe=Float.parseFloat(cadenaImporte);
            
+           /*
+           //codigo para mostrar el cambio del pago
            cambio=pagoRecibido-importe;
-           
+           */
            /*validacion que el pago se mayor al importe*/
+           /*
+           //codigo para mostrar el cambio del pago
            if(pagoRecibido<importe){
                JOptionPane.showMessageDialog(rootPane,"el pago recibido es menor que el importe",
                     "advertencia",JOptionPane.WARNING_MESSAGE);
                return ;
            }
-           
+           */
+           cadenaPagoRecibido="0";
+           cambio=0;
            detallePago.cobrarImporteDetallePagos(idRegistro, cadenaPagoRecibido,String.valueOf(cambio), 
                 fechaPago,1);
            
@@ -371,19 +358,25 @@ public class VentanaPagos extends javax.swing.JDialog {
            
            if(deuda==0){
              pago.actualizarEstadoRegistroPago(idPago,1);
+             JOptionPane.showConfirmDialog(null,"El cliente ha completado todos los pagos");
            }
            
+           /*
+           int opcion=JOptionPane.showConfirmDialog(rootPane,"pago registrado correctamente, desea imprimir Comprobante");
+           if(opcion==0){
+               
+           }*/
            Imprimir imprimir=new Imprimir();
            imprimir.imprimirComprobante(idPago, idRegistro,nombreCompleto,domicilio,barrio,tipoPago,periodo,tipoTarifa,precioTarifaAnual, 
                tipoDescuento,precioDescuentoMensual, descuentoAnual,mesDepago, fechaPago, cadenaImporte);
            
-           mostrarPagosCliente(idCliente);
+           mostrarPagosCliente(idCliente,periodo);
            mostrarDetallePagos(idPago);
            
            System.out.println("id pago-- "+idPago);
            System.out.println(sumatoriaImportesPagadosTablaDetallePagos);
            System.out.println(deuda);
-           
+           this.dispose();
         }
     }//GEN-LAST:event_botonCobrarActionPerformed
 
@@ -432,7 +425,6 @@ public class VentanaPagos extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonCobrar;
-    private javax.swing.JButton botonDetalles;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

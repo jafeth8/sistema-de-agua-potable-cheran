@@ -442,7 +442,6 @@ public class MainJFrame extends javax.swing.JFrame {
         });
         tablaUsuarios.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         tablaUsuarios.setAutoscrolls(false);
-        tablaUsuarios.setComponentPopupMenu(jPopupMenuUsuarios);
         jScrollPaneUsuarios.setViewportView(tablaUsuarios);
 
         botonFactura.setText("Generar nueva factura");
@@ -536,6 +535,8 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jLabel21.setText("Ver pagos del:");
 
+        jScrollPane1.setComponentPopupMenu(jPopupMenuUsuarios);
+
         tablaDetallePagos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -544,6 +545,7 @@ public class MainJFrame extends javax.swing.JFrame {
                 "Id", "Nombre", "Forma de pago", "Perido", "estado"
             }
         ));
+        tablaDetallePagos.setComponentPopupMenu(jPopupMenuUsuarios);
         jScrollPane1.setViewportView(tablaDetallePagos);
 
         botonGestionDescuentos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cupon.png"))); // NOI18N
@@ -757,26 +759,31 @@ public class MainJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         mostrarClientes(buscadorNombre.getText(),buscadorApaterno.getText(),
             buscadorAmaterno.getText(),buscadorDomicilio.getText(),buscadorBarrio.getText());
+        
+        buscadorNombre.setText("");buscadorApaterno.setText("");buscadorAmaterno.setText("");
+        buscadorDomicilio.setText(""); buscadorBarrio.setText("");
+        
     }//GEN-LAST:event_botonBuscarActionPerformed
 
     private void jMenuItemCobrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCobrarActionPerformed
         // TODO add your handling code here:
-        int fila = tablaUsuarios.getSelectedRow();
-
-        if(fila>=0){
-
-            VentanaPagos.idCliente=tablaUsuarios.getValueAt(fila,0).toString();
+        int filaTablaUsuarios = tablaUsuarios.getSelectedRow();
+        int filaTablaDetallePagos=tablaDetallePagos.getSelectedRow();
+        if(filaTablaUsuarios>=0 && filaTablaDetallePagos>=0){
+            String periodo=tablaDetallePagos.getValueAt(filaTablaDetallePagos,3).toString();
+            VentanaPagos.periodo=periodo;
+            VentanaPagos.idCliente=tablaUsuarios.getValueAt(filaTablaUsuarios,0).toString();
             VentanaPagos instanciaPagos = new VentanaPagos(this, rootPaneCheckingEnabled);
-            instanciaPagos.jlabelValueIdCliente.setText(tablaUsuarios.getValueAt(fila,0).toString());
-            instanciaPagos.jlabelValueNombre.setText(tablaUsuarios.getValueAt(fila,3).toString());
-            instanciaPagos.jlabelValueApellidoPaterno.setText(tablaUsuarios.getValueAt(fila,4).toString());
-            instanciaPagos.jlabelValueApellidoMaterno.setText(tablaUsuarios.getValueAt(fila,5).toString());
-            instanciaPagos.jlabelValueDomicilio.setText(tablaUsuarios.getValueAt(fila,6).toString());
-            instanciaPagos.jlabelValueBarrio.setText(tablaUsuarios.getValueAt(fila,8).toString());
-
+            instanciaPagos.jlabelValueIdCliente.setText(tablaUsuarios.getValueAt(filaTablaUsuarios,0).toString());
+            instanciaPagos.jlabelValueNombre.setText(tablaUsuarios.getValueAt(filaTablaUsuarios,3).toString());
+            instanciaPagos.jlabelValueApellidoPaterno.setText(tablaUsuarios.getValueAt(filaTablaUsuarios,4).toString());
+            instanciaPagos.jlabelValueApellidoMaterno.setText(tablaUsuarios.getValueAt(filaTablaUsuarios,5).toString());
+            instanciaPagos.jlabelValueDomicilio.setText(tablaUsuarios.getValueAt(filaTablaUsuarios,6).toString());
+            instanciaPagos.jlabelValueBarrio.setText(tablaUsuarios.getValueAt(filaTablaUsuarios,8).toString());
+            
             instanciaPagos.setVisible(true);
         }else{
-            JOptionPane.showMessageDialog(null,"no selecciono un registro","Atencion",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null,"seleccione el registro faltante","Atencion",JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_jMenuItemCobrarActionPerformed
 

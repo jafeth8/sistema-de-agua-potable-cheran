@@ -86,6 +86,8 @@ public class FacturaNueva extends javax.swing.JDialog {
 
         jLabel6.setText("Periodo");
 
+        jYearChooser1.setEnabled(false);
+
         jComboBoxTipoPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Anual", "Mensual" }));
 
         jLabel7.setText("tipo pago");

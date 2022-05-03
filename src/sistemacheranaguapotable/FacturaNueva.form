@@ -193,6 +193,9 @@
       </Properties>
     </Component>
     <Component class="com.toedter.calendar.JYearChooser" name="jYearChooser1">
+      <Properties>
+        <Property name="enabled" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JComboBox" name="jComboBoxTipoPago">
       <Properties>
