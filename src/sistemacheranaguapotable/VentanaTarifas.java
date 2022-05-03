@@ -20,6 +20,7 @@ import sistemacheranaguapotable.bd.ConexionBd;
  * @author jafeth888
  */
 public class VentanaTarifas extends javax.swing.JFrame {
+    String oldTipoTarifa="";  //variable para modificar la descripcion de la tarifa correctamente  
     ConexionBd cc= ConexionBd.obtenerInstancia();
     Connection cn= cc.conexion();
     /**
@@ -276,7 +277,7 @@ public class VentanaTarifas extends javax.swing.JFrame {
     private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
         // TODO add your handling code here:
         SqlTarifas instancia=new SqlTarifas();
-        instancia.actualizarRegistroTarifa(textFieldTipoTarifa.getText(),textFieldTarifaAnual.getText());
+        instancia.actualizarRegistroTarifa(textFieldTipoTarifa.getText(),oldTipoTarifa,textFieldTarifaAnual.getText());
         mostrarTarifas();
         textFieldTipoTarifa.setText("");
         textFieldTarifaAnual.setText("");
@@ -287,6 +288,7 @@ public class VentanaTarifas extends javax.swing.JFrame {
         int fila=tablaTarifas.getSelectedRow();
         if(fila>=0){
             textFieldTipoTarifa.setText(tablaTarifas.getValueAt(fila,0).toString());
+            oldTipoTarifa=tablaTarifas.getValueAt(fila,0).toString();
             textFieldTarifaAnual.setText(tablaTarifas.getValueAt(fila,1).toString());
         }else{
             JOptionPane.showMessageDialog(rootPane,"no selecciono un registro","Atencion!",JOptionPane.WARNING_MESSAGE);

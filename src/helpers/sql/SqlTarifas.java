@@ -45,7 +45,7 @@ public class SqlTarifas {
         }
     }
     
-    public void actualizarRegistroTarifa(String tipoTarifa,String TarifaAnual){
+    public void actualizarRegistroTarifa(String tipoTarifa,String oldTipoTarifa,String TarifaAnual){
         PreparedStatement pst=null;
         try {
             pst = cn.prepareStatement("UPDATE tarifas SET tipo_tarifa=?, "
@@ -53,7 +53,7 @@ public class SqlTarifas {
             pst.setString(1,tipoTarifa);
             pst.setString(2,TarifaAnual);
             pst.setString(3,TarifaAnual);//se actualiza la tarifa mensual obteniendolo de la tariaAnual / 12
-            pst.setString(4,tipoTarifa);
+            pst.setString(4,oldTipoTarifa);
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null,"Modificacion realizada","!!",JOptionPane.INFORMATION_MESSAGE );
             

@@ -44,7 +44,7 @@ public class SqlDescuentos {
         }
     }
     
-    public void actualizarRegistroDescuento(String tipoDescuento,String descuento){
+    public void actualizarRegistroDescuento(String tipoDescuento,String oldTipoDescuento,String descuento){
         PreparedStatement pst=null;
         try {
             pst = cn.prepareStatement("UPDATE descuentos SET tipo_descuento=?, "
@@ -52,7 +52,7 @@ public class SqlDescuentos {
             pst.setString(1,tipoDescuento);
             pst.setString(2,descuento);
             pst.setString(3,descuento);
-            pst.setString(4,tipoDescuento);
+            pst.setString(4,oldTipoDescuento);
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null,"Modificacion realizada","!!",JOptionPane.INFORMATION_MESSAGE );
         } catch (SQLException e) {

@@ -21,6 +21,7 @@ import sistemacheranaguapotable.bd.ConexionBd;
  * @author jafeth888
  */
 public class VentanaDescuentos extends javax.swing.JFrame {
+    String oldTipoDescuento="";  //variable para modificar la descripcion del descuento correctamente  
     ConexionBd cc= ConexionBd.obtenerInstancia();
     Connection cn= cc.conexion();
     /**
@@ -279,7 +280,8 @@ public class VentanaDescuentos extends javax.swing.JFrame {
     private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
         // TODO add your handling code here:
         SqlDescuentos instanciaSql=new SqlDescuentos();
-        instanciaSql.actualizarRegistroDescuento(textFieldTipoDescuento.getText(),textField_descuento.getText());
+        
+        instanciaSql.actualizarRegistroDescuento(textFieldTipoDescuento.getText(),oldTipoDescuento,textField_descuento.getText());
         mostrarDescuentos();
         textFieldTipoDescuento.setText("");
         textField_descuento.setText("");
@@ -290,6 +292,7 @@ public class VentanaDescuentos extends javax.swing.JFrame {
         int fila=tablaDescuentos.getSelectedRow();
         if(fila>=0){
             textFieldTipoDescuento.setText(tablaDescuentos.getValueAt(fila,0).toString());
+            oldTipoDescuento=tablaDescuentos.getValueAt(fila,0).toString();
             textField_descuento.setText(tablaDescuentos.getValueAt(fila,1).toString());
         }else{
             JOptionPane.showMessageDialog(rootPane,"no selecciono un registro","Atencion!",JOptionPane.WARNING_MESSAGE);
