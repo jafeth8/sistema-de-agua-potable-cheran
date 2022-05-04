@@ -7,6 +7,7 @@ package sistemacheranaguapotable;
 
 import helpers.sql.SqlDetallePagos;
 import helpers.sql.SqlPagos;
+import helpers.sql.SqlUsuarios;
 import helpers.sql.clases.MostrarPagos;
 import impresiones.Imprimir;
 import java.sql.Connection;
@@ -265,7 +266,7 @@ public class VentanaPagos extends javax.swing.JDialog {
                         .addComponent(botonDestruirRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(botonCobrar, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(23, 23, 23))))
+                        .addGap(249, 249, 249))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -419,11 +420,13 @@ public class VentanaPagos extends javax.swing.JDialog {
                     String idPago= jtablePagos.getValueAt(0,0).toString();
                     instanciaSqlPagos.eliminarPermanentementeRegistroPago(idPago);
                     
-                    //actulizamos la tabla de detalle pagos en la pestania al eliminar el registro del pago
+                    //actulizamos la tabla de detalle pagos en la pestania cobros al eliminar el registro del pago
                     MostrarPagos instancia=new MostrarPagos();
                     instancia.mostrarDetallePagos(jlabelValueIdCliente.getText(),periodo1,periodo2, 
                         MainJFrame.tablaDetallePagos);
-                            
+                    ////actulizamos el jlabel deDeudaTotal del cliente en la pestania de cobros
+                    SqlUsuarios instanciaSqlUsuarios=new SqlUsuarios();
+                    MainJFrame.jLabelValueDeudaTotal.setText(""+instanciaSqlUsuarios.obtenerDeudaTotalCliente(idCliente, periodo1, periodo2));
                     this.dispose();
                 }else{
                     JOptionPane.showMessageDialog(rootPane,"la frase no coincide");

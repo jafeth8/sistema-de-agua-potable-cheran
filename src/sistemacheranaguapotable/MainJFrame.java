@@ -178,6 +178,8 @@ public class MainJFrame extends javax.swing.JFrame {
         botonGestionDescuentos = new javax.swing.JButton();
         botonGestionTarifas = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabelValueDeudaTotal = new javax.swing.JLabel();
         jPanelPagos = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
@@ -572,6 +574,10 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setText("Deuda total:");
+
+        jLabelValueDeudaTotal.setText("0");
+
         javax.swing.GroupLayout jPanelCobrosLayout = new javax.swing.GroupLayout(jPanelCobros);
         jPanelCobros.setLayout(jPanelCobrosLayout);
         jPanelCobrosLayout.setHorizontalGroup(
@@ -593,7 +599,10 @@ public class MainJFrame extends javax.swing.JFrame {
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanelCobrosLayout.createSequentialGroup()
                         .addComponent(botonFactura)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabelValueDeudaTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
             .addGroup(jPanelCobrosLayout.createSequentialGroup()
@@ -626,7 +635,10 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(botonFactura)
+                .addGroup(jPanelCobrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonFactura)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelValueDeudaTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(74, Short.MAX_VALUE))
         );
 
@@ -723,6 +735,10 @@ public class MainJFrame extends javax.swing.JFrame {
             String idCliente=tablaUsuarios.getValueAt(fila,0).toString();
             instancia.mostrarDetallePagos(idCliente,jyearPeriodo1.getYear(),jyearPeriodo2.getYear(), 
                 tablaDetallePagos);
+            
+            SqlUsuarios instanciaSqlUsuario=new SqlUsuarios();
+            float deudaTotal=instanciaSqlUsuario.obtenerDeudaTotalCliente(idCliente,jyearPeriodo1.getYear(),jyearPeriodo2.getYear());
+            jLabelValueDeudaTotal.setText(""+deudaTotal);
         }else{
             JOptionPane.showMessageDialog(null,"selecciona un cliente","!",JOptionPane.WARNING_MESSAGE);
         }
@@ -1062,6 +1078,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
@@ -1071,6 +1088,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    public static javax.swing.JLabel jLabelValueDeudaTotal;
     private javax.swing.JMenuItem jMenuItemCobrar;
     private javax.swing.JMenuItem jMenuItemEliminarRegistroUsuarios;
     private javax.swing.JMenuItem jMenuItemModificarRegistroUsuarios;

@@ -215,4 +215,30 @@ public class SqlUsuarios {
         }
     }
     
+    public float obtenerDeudaTotalCliente(String idCliente,int periodo1, int periodo2){
+        
+        String sql="SELECT SUM(deuda) FROM clientes JOIN pagos ON clientes.id_cliente=pagos.fk_id_cliente "
+            + "WHERE clientes.id_cliente='"+idCliente+"' AND periodo BETWEEN '"+periodo1+"' AND '"+periodo2+"'";
+        
+       
+        float deuda=0;    	 
+		    
+        try {
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+
+                deuda=rs.getFloat(1);
+
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }finally {
+                //Aqui no se cierra la conexion para permitir mas operaciones
+        }
+
+        return deuda;
+    }
+    
 }

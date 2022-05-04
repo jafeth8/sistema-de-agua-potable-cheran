@@ -84,19 +84,20 @@ public class MostrarPagos {
         modelo.addColumn("Forma de pago");
         modelo.addColumn("Periodo");
         modelo.addColumn("Estado");
+        modelo.addColumn("Deuda");
 
         String sql="";
         
         tablaDetallePagos.setModel(modelo);
 
-        sql="SELECT id_cliente,nombre,tipo_pago,periodo,c_estado_pagos.descripcion "
+        sql="SELECT id_cliente,nombre,tipo_pago,periodo,c_estado_pagos.descripcion,deuda "
             + "FROM clientes JOIN pagos ON clientes.id_cliente=pagos.fk_id_cliente "
             + "JOIN c_estado_pagos ON pagos.fk_id_estado_pago=c_estado_pagos.id_estado_pago "
             + "WHERE clientes.id_cliente='"+idCliente+"' AND periodo BETWEEN "+periodo1+" AND "+periodo2+"";
 
      
         
-        Object []datos = new Object [5];
+        Object []datos = new Object [6];
         try {
             Statement st = cn.createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -107,6 +108,7 @@ public class MostrarPagos {
                 datos[2]=rs.getString(3);
                 datos[3]=rs.getInt(4);
                 datos[4]=rs.getString(5);
+                datos[5]=rs.getString(6);
                 modelo.addRow(datos);
             }
 
