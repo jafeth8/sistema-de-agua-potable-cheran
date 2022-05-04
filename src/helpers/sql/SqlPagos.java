@@ -10,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import sistemacheranaguapotable.bd.ConexionBd;
 
@@ -99,6 +101,21 @@ public class SqlPagos {
                 ex.printStackTrace();
              }
         }
+    }
+    
+    public void eliminarPermanentementeRegistroPago(String idPago){
+        PreparedStatement pst=null;
+        
+        try {
+            pst=cn.prepareStatement("DELETE FROM pagos WHERE id_pago=?");
+            pst.setString(1, idPago);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null,"se ha eliminado todo registro referente al pago");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null,e.getMessage(),"error al eliminar todo registro del pago", JOptionPane.ERROR_MESSAGE);
+        }
+        
+                
     }
     
     public boolean yaExistePagoConUsuarioPeriodo(String idCliente, String periodo) {

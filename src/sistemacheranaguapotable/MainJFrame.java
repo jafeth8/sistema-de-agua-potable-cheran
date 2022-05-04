@@ -787,6 +787,8 @@ public class MainJFrame extends javax.swing.JFrame {
             instanciaPagos.jlabelValueApellidoMaterno.setText(datosUsuario.get("apellido_materno"));
             instanciaPagos.jlabelValueDomicilio.setText(datosUsuario.get("domicilio"));
             instanciaPagos.jlabelValueBarrio.setText(datosUsuario.get("barrio"));
+            VentanaPagos.periodo1=jyearPeriodo1.getYear();
+            VentanaPagos.periodo2=jyearPeriodo2.getYear();
             
             instanciaPagos.setVisible(true);
         }else{
@@ -1097,7 +1099,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jtextFieldUserTelefono;
     private com.toedter.calendar.JYearChooser jyearPeriodo1;
     private com.toedter.calendar.JYearChooser jyearPeriodo2;
-    private javax.swing.JTable tablaDetallePagos;
+    public static javax.swing.JTable tablaDetallePagos;
     private javax.swing.JTable tablaHistorialRecibos;
     private javax.swing.JTable tablaRegistroUsuarios;
     private javax.swing.JTable tablaUsuarios;

@@ -7,6 +7,7 @@ package sistemacheranaguapotable;
 
 import helpers.sql.SqlDetallePagos;
 import helpers.sql.SqlPagos;
+import helpers.sql.clases.MostrarPagos;
 import impresiones.Imprimir;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -26,6 +27,7 @@ public class VentanaPagos extends javax.swing.JDialog {
     Connection cn= cc.conexion();
     public static String idCliente;// variable estatica para mostrar los pagos en relacion al id 
     public static String periodo;  //variable estatica para mostrar exclusivamente los pagos de un año determinado
+    public static int periodo1,periodo2;//variables para actulizar la tablaDetallePagos en la pestania de cobros
     /**
      * Creates new form VentanaPagos
      */
@@ -152,6 +154,7 @@ public class VentanaPagos extends javax.swing.JDialog {
         jScrollPane2 = new javax.swing.JScrollPane();
         jtableDetallePagos = new javax.swing.JTable();
         botonCobrar = new javax.swing.JButton();
+        botonDestruirRegistro = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -211,6 +214,14 @@ public class VentanaPagos extends javax.swing.JDialog {
             }
         });
 
+        botonDestruirRegistro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/advertencia.png"))); // NOI18N
+        botonDestruirRegistro.setText("Destruir Registro");
+        botonDestruirRegistro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonDestruirRegistroActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -218,39 +229,43 @@ public class VentanaPagos extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jlabelPagos)
-                            .addComponent(jLabel2)
+                            .addComponent(jScrollPane2)
+                            .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(jlabelCliente)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jlabelPagos)
+                                    .addComponent(jLabel2)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addComponent(jlabelCliente)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jlabelValueNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addComponent(label_idCliente)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jlabelValueIdCliente)))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jlabelValueNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(label_idCliente)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jlabelValueIdCliente)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jlabelValueApellidoPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jlabelValueApellidoMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jlabelDomicilio)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jlabelValueDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jlabelValueBarrio, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 226, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(botonCobrar, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                                        .addComponent(jlabelValueApellidoPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jlabelValueApellidoMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jlabelDomicilio)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jlabelValueDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jlabelValueBarrio, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 252, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(botonDestruirRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonCobrar, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(23, 23, 23))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -277,9 +292,11 @@ public class VentanaPagos extends javax.swing.JDialog {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(botonCobrar)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonDestruirRegistro)
+                    .addComponent(botonCobrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
 
         jlabelValueIdCliente.getAccessibleContext().setAccessibleName("codigoPago");
@@ -382,6 +399,43 @@ public class VentanaPagos extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_botonCobrarActionPerformed
 
+    private void botonDestruirRegistroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDestruirRegistroActionPerformed
+        // TODO add your handling code here:
+        //aceptar=0 cancelar=2
+        int opcion=JOptionPane.showConfirmDialog(rootPane,"Todo registro referente a este pago sera eliminado permanentemente y no podra recuperarse"
+                + " esta seguro de realizar esta accion? ","BORRADO PERMANENTE",JOptionPane.OK_CANCEL_OPTION,JOptionPane.WARNING_MESSAGE);
+        //System.err.println("opcionElegida-----"+opcion);
+        if(opcion==0){
+            String frase="";
+            String fraseConfirmacion="estoy seguro de eliminar registro";
+            while(!fraseConfirmacion.equals(frase) && frase!=null){
+                //frase==null cuando se cierra o cancela la ventana del inputDialog
+                frase=JOptionPane.showInputDialog(rootPane,"escriba la siguiente frase: 'estoy seguro de eliminar registro'", 
+                    "CONFIRMAR ELIMINACION",JOptionPane.INFORMATION_MESSAGE);
+                if(frase==null)JOptionPane.showMessageDialog(rootPane,"operacion cancelada","eliminacion cancelada",JOptionPane.INFORMATION_MESSAGE);
+                
+                if(frase.equals(fraseConfirmacion)){
+                    SqlPagos instanciaSqlPagos= new SqlPagos();
+                    String idPago= jtablePagos.getValueAt(0,0).toString();
+                    instanciaSqlPagos.eliminarPermanentementeRegistroPago(idPago);
+                    
+                    //actulizamos la tabla de detalle pagos en la pestania al eliminar el registro del pago
+                    MostrarPagos instancia=new MostrarPagos();
+                    instancia.mostrarDetallePagos(jlabelValueIdCliente.getText(),periodo1,periodo2, 
+                        MainJFrame.tablaDetallePagos);
+                            
+                    this.dispose();
+                }else{
+                    JOptionPane.showMessageDialog(rootPane,"la frase no coincide");
+                }
+                
+            }
+            
+        }else{
+            JOptionPane.showMessageDialog(rootPane,"operacion cancelada","eliminacion cancelada",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_botonDestruirRegistroActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -427,6 +481,7 @@ public class VentanaPagos extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonCobrar;
+    private javax.swing.JButton botonDestruirRegistro;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
