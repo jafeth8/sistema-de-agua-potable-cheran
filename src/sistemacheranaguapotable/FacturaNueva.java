@@ -9,7 +9,12 @@ import helpers.sql.SqlDetallePagos;
 import helpers.sql.SqlPagoMinimo;
 import helpers.sql.SqlPagos;
 import helpers.sql.SqlPagosYdetallePagos;
+import helpers.sql.SqlUsuarios;
+import helpers.sql.clases.MostrarPagos;
 import javax.swing.JOptionPane;
+import static sistemacheranaguapotable.VentanaPagos.idCliente;
+import static sistemacheranaguapotable.VentanaPagos.periodo1;
+import static sistemacheranaguapotable.VentanaPagos.periodo2;
 
 
 /**
@@ -17,7 +22,7 @@ import javax.swing.JOptionPane;
  * @author jafeth888
  */
 public class FacturaNueva extends javax.swing.JDialog {
-
+    public static int periodo1,periodo2;
     /**
      * Creates new form FacturaNueva
      */
@@ -176,7 +181,7 @@ public class FacturaNueva extends javax.swing.JDialog {
 
     private void buttonGenerarFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonGenerarFacturaActionPerformed
         // TODO add your handling code here:
-
+        
         SqlPagos pago= new SqlPagos();
         SqlPagosYdetallePagos pagoYdetalle =new SqlPagosYdetallePagos();
         SqlPagoMinimo instanciaPagoMinimo=new SqlPagoMinimo();
@@ -205,8 +210,15 @@ public class FacturaNueva extends javax.swing.JDialog {
 
             /*----------------------------------------REGISTRAR PAGO Y DETALLE PAGO: TIPO DE PAGO ANUAL-------------------------------------------------*/
             pagoYdetalle.registrarPagoYdetalleTipoAnual(fkIdCliente, tipoTarifa, precioTarifa, 
-                tipoDescuento, descuentoAplicado, tipoPago, descuentoAnual, total, periodo);
+                tipoDescuento, descuentoAplicado, tipoPago, descuentoAnual, total,total, periodo);//el parametro total se repite porque inicialmente el total a pagar es la deuda
             /*----------------------------------------FIN DE REGISTRAR PAGO Y DETALLE PAGO: TIPO DE PAGO ANUAL-------------------------------------------------*/
+            //actulizamos la tabla de detalle pagos en la pestania cobros al eliminar el registro del pago
+            MostrarPagos instancia=new MostrarPagos();
+            instancia.mostrarDetallePagos(campoIdCliente.getText(),periodo1,periodo2, 
+                MainJFrame.tablaDetallePagos);
+            ////actulizamos el jlabel deDeudaTotal del cliente en la pestania de cobros
+            SqlUsuarios instanciaSqlUsuarios=new SqlUsuarios();
+            MainJFrame.jLabelValueDeudaTotal.setText(""+instanciaSqlUsuarios.obtenerDeudaTotalCliente(campoIdCliente.getText(), periodo1, periodo2));
         }else if(item.equals("Mensual")){
             
             if(pago.yaExistePagoConUsuarioPeriodo(campoIdCliente.getText(),String.valueOf(jYearChooser1.getYear()))){
@@ -233,7 +245,15 @@ public class FacturaNueva extends javax.swing.JDialog {
             }
                 
             pagoYdetalle.registrarPagoYdetalleTipoMensual(idCliente, tipoTarifa, precioTarifa, 
-                tipoDescuento, descuentoAplicado, tipoPago, descuentoAnual, total, periodo, importeMes);
+                tipoDescuento, descuentoAplicado, tipoPago, descuentoAnual, total,total, periodo, importeMes);//el parametro total se repite porque inicialmente el total a pagar es la deuda
+            
+            //actulizamos la tabla de detalle pagos en la pestania cobros al eliminar el registro del pago
+            MostrarPagos instancia=new MostrarPagos();
+            instancia.mostrarDetallePagos(campoIdCliente.getText(),periodo1,periodo2, 
+                MainJFrame.tablaDetallePagos);
+            //actulizamos el jlabel deDeudaTotal del cliente en la pestania de cobros
+            SqlUsuarios instanciaSqlUsuarios=new SqlUsuarios();
+            MainJFrame.jLabelValueDeudaTotal.setText(""+instanciaSqlUsuarios.obtenerDeudaTotalCliente(campoIdCliente.getText(), periodo1, periodo2));
             
         }
         dispose();

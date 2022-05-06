@@ -17,8 +17,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -765,6 +763,8 @@ public class MainJFrame extends javax.swing.JFrame {
             FacturaNueva.campoTipoTarifa.setText(tipoTarifa);
             FacturaNueva.campoPrecioTarifa.setText(String.valueOf(precioTarifa));
             FacturaNueva.campoDescuento.setText(String.valueOf(cantidadDescuento));
+            FacturaNueva.periodo1=jyearPeriodo1.getYear();
+            FacturaNueva.periodo2=jyearPeriodo2.getYear();
             instancia.setVisible(true);
         }else{
             JOptionPane.showMessageDialog(null,"no selecciono un registro","Atencion",JOptionPane.WARNING_MESSAGE);
