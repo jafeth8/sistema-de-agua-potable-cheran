@@ -11,6 +11,7 @@ import helpers.sql.clases.FiltradoUsuarios;
 import helpers.sql.clases.HistorialPagos;
 import helpers.sql.clases.InfoRecibo;
 import helpers.sql.clases.MostrarPagos;
+import helpers.sql.clases.MostrarUsuarios;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,6 +32,10 @@ public class MainJFrame extends javax.swing.JFrame {
     Connection cn= cc.conexion();
     ComboBoxUsuarios instanciaComboBoxUsuarios=new ComboBoxUsuarios();
     public static String modificando="no";
+    
+    /*Variables para actualizar la tablaPagos en la pestania cobros al actulizar usuarios en la pestania usuarios*/
+    public static String nombreStatic="",apellidoPaternoStatic="",apellidoMaternoStatic="",domicilioStatic="", barrioStatic="";
+    /*fin de variables para actualizar tabla pagos*/
     /**
      * Creates new form MainJFrame
      */
@@ -38,72 +43,7 @@ public class MainJFrame extends javax.swing.JFrame {
         initComponents();
         botonModificarUsuario.setEnabled(false);
     }
-    
-    public void mostrarClientes(String nombre, String apellidoPaterno,String apellidoMaterno,
-        String domicilio,String barrio){
-        DefaultTableModel modelo= new DefaultTableModel();
- 
-        modelo.addColumn("Id");
-        modelo.addColumn("No. cliente");
-        modelo.addColumn("No. Contrato");
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Apellido paterno");
-        modelo.addColumn("Apellido materno");
-        modelo.addColumn("Domicilio");
-        modelo.addColumn("Telefono");
-        modelo.addColumn("Barrio");
-        modelo.addColumn("descuento");
-        modelo.addColumn("tarifa");
-        
-        tablaUsuarios.setModel(modelo);
-        /*---------ESTABLECIMIENTO DE TAMAÑO DE COLUMNAS-------------*/
-        TableColumn columnaId=tablaUsuarios.getColumn("Id");
-        columnaId.setMinWidth(0);
-        columnaId.setPreferredWidth(0);
-        columnaId.setMaxWidth(0);
-        TableColumn columnaDomicilio=tablaUsuarios.getColumn("Domicilio");
-        columnaDomicilio.setMinWidth(300);
-        columnaDomicilio.setPreferredWidth(400);
-        columnaDomicilio.setMaxWidth(300);
-        /*--------FIN DE ESTABLECIMIENTO DE TAMAÑO DE COLUMNAS---------*/
-        String sql="";
-        if(nombre.equals("") && apellidoPaterno.equals("") && apellidoMaterno.equals("") && domicilio.equals("") && barrio.equals(""))
-        {
-            sql="SELECT * FROM clientes WHERE fk_id_estado_cliente=1";
-        }
-        else{
-            //SELECT * FROM clientes WHERE nombre LIKE '%R%'
-            sql="SELECT * FROM clientes WHERE nombre LIKE '%"+nombre+"%' "
-                + "AND apellido_paterno LIKE '%"+apellidoPaterno+"%' AND apellido_materno LIKE '%"+apellidoMaterno+"%' "
-                + "AND domicilio LIKE '%"+domicilio+"%' AND barrio like '%"+barrio+"%' AND fk_id_estado_cliente=1";
-        }
-
-        String []datos = new String [11];
-        try {
-            Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            while(rs.next()){
-                datos[0]=rs.getString(1);
-                datos[1]=rs.getString(2);
-                datos[2]=rs.getString(3);
-                datos[3]=rs.getString(4);
-                datos[4]=rs.getString(5);
-                datos[5]=rs.getString(6);
-                datos[6]=rs.getString(7);
-                datos[7]=rs.getString(8);
-                datos[8]=rs.getString(9);
-                datos[9]=rs.getString(10);
-                datos[10]=rs.getString(11);
-                modelo.addRow(datos);
-            }
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            System.out.println(ex.getMessage());
-        }
-    }
-    
-    
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -633,10 +573,11 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelCobrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonFactura)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelValueDeudaTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanelCobrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelValueDeudaTotal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelCobrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(botonFactura)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(74, Short.MAX_VALUE))
         );
 
@@ -773,12 +714,19 @@ public class MainJFrame extends javax.swing.JFrame {
 
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
         // TODO add your handling code here:
-        mostrarClientes(buscadorNombre.getText(),buscadorApaterno.getText(),
-            buscadorAmaterno.getText(),buscadorDomicilio.getText(),buscadorBarrio.getText());
+        MostrarUsuarios instanciaMostrarUsuarios = new MostrarUsuarios();
         
+        instanciaMostrarUsuarios.mostrarUsuariosCobros(buscadorNombre.getText(),buscadorApaterno.getText(),
+            buscadorAmaterno.getText(),buscadorDomicilio.getText(),buscadorBarrio.getText(),tablaUsuarios);
+                
+        /*inicializamos las Variables staticas para actualizar la tablaPagos en la pestania cobros al actulizar usuarios en la pestania usuarios*/
+        nombreStatic=buscadorNombre.getText();apellidoPaternoStatic=buscadorApaterno.getText();
+        apellidoMaternoStatic=buscadorAmaterno.getText();domicilioStatic=buscadorDomicilio.getText();
+        barrioStatic=buscadorBarrio.getText();
+        /*fin de inicalizacion de variables staticas */
+  
         buscadorNombre.setText("");buscadorApaterno.setText("");buscadorAmaterno.setText("");
         buscadorDomicilio.setText(""); buscadorBarrio.setText("");
-        
     }//GEN-LAST:event_botonBuscarActionPerformed
 
     private void jMenuItemCobrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCobrarActionPerformed
@@ -936,6 +884,16 @@ public class MainJFrame extends javax.swing.JFrame {
         instanciaComboBoxUsuarios.mostrarTarifas(jComboBoxTarifas);
         
         botonModificarUsuario.setEnabled(false);
+        
+        int filasTablaUsuarios=MainJFrame.tablaUsuarios.getRowCount();
+        if(filasTablaUsuarios>0){//tabla usuarios en pestania cobros
+            MostrarUsuarios instanciaMostrarUsuarios=new MostrarUsuarios();
+            instanciaMostrarUsuarios.mostrarUsuariosCobros(MainJFrame.nombreStatic, 
+                MainJFrame.apellidoPaternoStatic,MainJFrame.apellidoMaternoStatic,
+                MainJFrame.domicilioStatic,MainJFrame.barrioStatic, MainJFrame.tablaUsuarios);
+        }
+        
+        
         
     }//GEN-LAST:event_botonModificarUsuarioActionPerformed
 
@@ -1120,6 +1078,6 @@ public class MainJFrame extends javax.swing.JFrame {
     public static javax.swing.JTable tablaDetallePagos;
     private javax.swing.JTable tablaHistorialRecibos;
     private javax.swing.JTable tablaRegistroUsuarios;
-    private javax.swing.JTable tablaUsuarios;
+    public static javax.swing.JTable tablaUsuarios;
     // End of variables declaration//GEN-END:variables
 }
