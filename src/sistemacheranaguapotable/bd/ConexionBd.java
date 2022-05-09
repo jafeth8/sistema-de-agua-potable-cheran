@@ -32,7 +32,7 @@ public class ConexionBd {
     public Connection conexion(){
         try {
             //Class.forName("com.mysql.jdbc.Driver");
-            conectar=DriverManager.getConnection("jdbc:mysql://localhost/agua_potable_temp","root","");
+            conectar=DriverManager.getConnection("jdbc:mysql://localhost/"+Ruta.database+"",""+Ruta.Usuario+"",""+Ruta.Contrasenia+"");
             
             System.out.println("sistemacheranaguapotable.bd.ConexionBd.conexion()");
             //conectar.setAutoCommit(false);

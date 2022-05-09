@@ -5,6 +5,9 @@
  */
 package sistemacheranaguapotable;
 
+import backupData.RespaldoAutomatico;
+import backupData.VentanaRespaldo;
+import helpers.sql.SqlRespaldo;
 import helpers.sql.SqlUsuarios;
 import helpers.sql.clases.ComboBoxUsuarios;
 import helpers.sql.clases.FiltradoUsuarios;
@@ -115,9 +118,10 @@ public class MainJFrame extends javax.swing.JFrame {
         tablaDetallePagos = new javax.swing.JTable();
         botonGestionDescuentos = new javax.swing.JButton();
         botonGestionTarifas = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        botonPagoMinimo = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabelValueDeudaTotal = new javax.swing.JLabel();
+        botonRespaldoDatos = new javax.swing.JButton();
         jPanelPagos = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
@@ -157,8 +161,16 @@ public class MainJFrame extends javax.swing.JFrame {
         });
         jPopupMenuHistorialRecibos.add(jMenuItemVerRecibo);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(".");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanelUsuarios.setBackground(new java.awt.Color(102, 102, 255));
         jPanelUsuarios.setName(""); // NOI18N
@@ -504,17 +516,25 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pago-minimo.png"))); // NOI18N
-        jButton2.setText("Pago Minimo");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        botonPagoMinimo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pago-minimo.png"))); // NOI18N
+        botonPagoMinimo.setText("Pago Minimo");
+        botonPagoMinimo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                botonPagoMinimoActionPerformed(evt);
             }
         });
 
         jLabel2.setText("Deuda total:");
 
         jLabelValueDeudaTotal.setText("0");
+
+        botonRespaldoDatos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/establecer-backup.png"))); // NOI18N
+        botonRespaldoDatos.setText("Respaldar datos");
+        botonRespaldoDatos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonRespaldoDatosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelCobrosLayout = new javax.swing.GroupLayout(jPanelCobros);
         jPanelCobros.setLayout(jPanelCobrosLayout);
@@ -549,7 +569,9 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(botonGestionTarifas, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(botonPagoMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(botonRespaldoDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelCobrosLayout.setVerticalGroup(
@@ -558,7 +580,8 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addGroup(jPanelCobrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(botonGestionDescuentos, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
                     .addComponent(botonGestionTarifas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(botonPagoMinimo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(botonRespaldoDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -772,11 +795,11 @@ public class MainJFrame extends javax.swing.JFrame {
         instanciaTarifas.setVisible(true);
     }//GEN-LAST:event_botonGestionTarifasActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void botonPagoMinimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonPagoMinimoActionPerformed
         // TODO add your handling code here:
         VentanaDePagoMinimo instancia=new VentanaDePagoMinimo();
         instancia.setVisible(rootPaneCheckingEnabled);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_botonPagoMinimoActionPerformed
 
     private void botonFiltrarUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonFiltrarUsuariosActionPerformed
         // TODO add your handling code here:
@@ -972,6 +995,32 @@ public class MainJFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jMenuItemVerReciboActionPerformed
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        SqlRespaldo instanciaRespaldo=new SqlRespaldo();
+        if(instanciaRespaldo.registro_ruta_respaldo()!=true) {
+            JOptionPane.showMessageDialog(null,"No hay ninguna ruta registrada para el respaldo automatico","Advertencia",JOptionPane.WARNING_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_formWindowOpened
+
+    private void botonRespaldoDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRespaldoDatosActionPerformed
+        // TODO add your handling code here:
+        VentanaRespaldo instancia=new VentanaRespaldo();
+        instancia.setVisible(rootPaneCheckingEnabled);
+    }//GEN-LAST:event_botonRespaldoDatosActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        SqlRespaldo instanciaRespaldo=new SqlRespaldo();
+        if(instanciaRespaldo.registro_ruta_respaldo()) {
+            RespaldoAutomatico instancia=new RespaldoAutomatico(this, rootPaneCheckingEnabled);
+            instancia.setVisible(true);
+            System.out.println("sistemacheranaguapotable.MainJFrame.formWindowClosed()");
+        }
+       
+    }//GEN-LAST:event_formWindowClosed
+
     /**
      * @param args the command line arguments
      */
@@ -1016,13 +1065,14 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JButton botonGestionTarifas;
     private javax.swing.JButton botonM;
     private javax.swing.JButton botonModificarUsuario;
+    private javax.swing.JButton botonPagoMinimo;
     private javax.swing.JButton botonRegistrarUsuario;
+    private javax.swing.JButton botonRespaldoDatos;
     private javax.swing.JTextField buscadorAmaterno;
     private javax.swing.JTextField buscadorApaterno;
     private javax.swing.JTextField buscadorBarrio;
     private javax.swing.JTextField buscadorDomicilio;
     private javax.swing.JTextField buscadorNombre;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonUsuariosEliminados;
     private javax.swing.JComboBox<String> jComboBoxDescuentos;
     private javax.swing.JComboBox<String> jComboBoxTarifas;
