@@ -60,7 +60,7 @@
                           </Group>
                           <Component id="botonDestruirRegistro" alignment="0" min="-2" pref="162" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="57" max="32767" attributes="0"/>
+                      <EmptySpace pref="125" max="32767" attributes="0"/>
                       <Component id="botonCobrar" min="-2" pref="195" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -200,12 +200,12 @@
     </Container>
     <Component class="javax.swing.JLabel" name="jlabelPagos">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Pagos"/>
+        <Property name="text" type="java.lang.String" value="Pago"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Detalle Pagos"/>
+        <Property name="text" type="java.lang.String" value="Detalle Pago"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane2">

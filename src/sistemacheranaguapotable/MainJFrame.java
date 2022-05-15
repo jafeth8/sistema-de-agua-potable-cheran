@@ -128,6 +128,7 @@ public class MainJFrame extends javax.swing.JFrame {
         botonFiltrarPagos = new javax.swing.JButton();
         jScrollPanePagos = new javax.swing.JScrollPane();
         tablaHistorialRecibos = new javax.swing.JTable();
+        botonConsultarPago = new javax.swing.JButton();
 
         jMenuItemCobrar.setText("Cobrar");
         jMenuItemCobrar.addActionListener(new java.awt.event.ActionListener() {
@@ -606,7 +607,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("cobros", jPanelCobros);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(102, 204, 255), new java.awt.Color(51, 204, 255), new java.awt.Color(102, 204, 255), new java.awt.Color(51, 204, 255)), "Campos para filtrado de historial de pagos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(102, 204, 255), new java.awt.Color(51, 204, 255), new java.awt.Color(102, 204, 255), new java.awt.Color(51, 204, 255)), "Campos para filtrado de historial de recibos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP));
 
         botonFiltrarPagos.setText("Filtrar pagos por fecha");
         botonFiltrarPagos.addActionListener(new java.awt.event.ActionListener() {
@@ -624,7 +625,7 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(botonFiltrarPagos, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(528, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -647,24 +648,35 @@ public class MainJFrame extends javax.swing.JFrame {
         tablaHistorialRecibos.setComponentPopupMenu(jPopupMenuHistorialRecibos);
         jScrollPanePagos.setViewportView(tablaHistorialRecibos);
 
+        botonConsultarPago.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/consultarPago.png"))); // NOI18N
+        botonConsultarPago.setText("Consultar pago");
+        botonConsultarPago.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonConsultarPagoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelPagosLayout = new javax.swing.GroupLayout(jPanelPagos);
         jPanelPagos.setLayout(jPanelPagosLayout);
         jPanelPagosLayout.setHorizontalGroup(
             jPanelPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPanePagos, javax.swing.GroupLayout.DEFAULT_SIZE, 926, Short.MAX_VALUE)
             .addGroup(jPanelPagosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPanePagos, javax.swing.GroupLayout.DEFAULT_SIZE, 914, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(botonConsultarPago, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelPagosLayout.setVerticalGroup(
             jPanelPagosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelPagosLayout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(botonConsultarPago, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPanePagos, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(315, Short.MAX_VALUE))
+                .addContainerGap(300, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Recibos de pago", jPanelPagos);
@@ -1021,6 +1033,12 @@ public class MainJFrame extends javax.swing.JFrame {
        
     }//GEN-LAST:event_formWindowClosed
 
+    private void botonConsultarPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonConsultarPagoActionPerformed
+        // TODO add your handling code here:
+        ConsultaPago instancia= new ConsultaPago();
+        instancia.setVisible(rootPaneCheckingEnabled);
+    }//GEN-LAST:event_botonConsultarPagoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1058,6 +1076,7 @@ public class MainJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonBuscar;
+    private javax.swing.JButton botonConsultarPago;
     private javax.swing.JButton botonFactura;
     private javax.swing.JButton botonFiltrarPagos;
     private javax.swing.JButton botonFiltrarUsuarios;

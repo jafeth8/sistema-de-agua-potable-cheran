@@ -50,7 +50,7 @@ public class VentanaPagos extends javax.swing.JDialog {
         modelo.addColumn("descuento");
         modelo.addColumn("pago");
         modelo.addColumn("descuento anual");
-        modelo.addColumn("Total");
+        modelo.addColumn("Total a pagar");
         modelo.addColumn("Total Pagado");
         modelo.addColumn("Deuda");
         modelo.addColumn("periodo");
@@ -194,9 +194,9 @@ public class VentanaPagos extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(jtablePagos);
 
-        jlabelPagos.setText("Pagos");
+        jlabelPagos.setText("Pago");
 
-        jLabel2.setText("Detalle Pagos");
+        jLabel2.setText("Detalle Pago");
 
         jtableDetallePagos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -259,7 +259,7 @@ public class VentanaPagos extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jlabelValueBarrio, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(botonDestruirRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
                         .addComponent(botonCobrar, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -357,10 +357,12 @@ public class VentanaPagos extends javax.swing.JDialog {
                return ;
            }
            */
-           cadenaPagoRecibido="0";
+           //cadenaPagoRecibido="0";
            cambio=0;
-           detallePago.cobrarImporteDetallePagos(idRegistro, cadenaPagoRecibido,String.valueOf(cambio), 
+           detallePago.cobrarImporteDetallePagos(idRegistro,String.valueOf(importe),String.valueOf(cambio), 
                 fechaPago,1);
+           
+           JOptionPane.showMessageDialog(rootPane,"se ha cobrado el mes: "+mesDepago);
            
            float totalTablaPagos;//esta variable representa el total a pagar de una factura, aplicado los descuentos
            float sumatoriaImportesPagadosTablaDetallePagos;

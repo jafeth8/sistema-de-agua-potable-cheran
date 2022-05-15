@@ -24,6 +24,9 @@ public class VentanaRespaldo extends javax.swing.JFrame {
         initComponents();
         String ruta=instanciaRespaldo.obtenerRutaRespaldo();
         textPaneRuta.setText(ruta);
+        if(instanciaRespaldo.registro_ruta_respaldo()) {//al iniciar el jdialog
+            btnRegistrar.setEnabled(false);
+        }
     }
 
     /**

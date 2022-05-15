@@ -24,7 +24,7 @@ public class SqlPagosYdetallePagos {
     Connection cn= cc.conexion();
    
     public void registrarPagoYdetalleTipoAnual(String fkIdCliente,String tipoTarifa,String precioTarifa,
-        String tipoDescuento,String descuentoAplicado,String tipoPago,float descuentoAnual,float total,float deuda,String periodo){
+        String tipoDescuento,String descuentoAplicado,String tipoPago,float descuentoAnual,float total,float deuda,String periodo,String fecha){
         
         try {
             /*desactivamos el autocommit para ejecutar las instrucciones de pago y detalle en un solo bloque
@@ -38,7 +38,7 @@ public class SqlPagosYdetallePagos {
         int idPago=0;
         String queryTablaPagos="INSERT INTO pagos"
                     + "(fk_id_cliente,tipo_tarifa,precio_tarifa,tipo_descuento,descuento,tipo_pago,"
-                    + "descuento_anual,total,deuda,periodo,fk_id_estado_pago) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+                    + "descuento_anual,total,deuda,periodo,fk_id_estado_pago,fecha_registro) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement psPagos=null,psDetallePagos=null;
         ResultSet resultado=null;
         try {
@@ -54,6 +54,7 @@ public class SqlPagosYdetallePagos {
             psPagos.setFloat(9,deuda);
             psPagos.setString(10, periodo);
             psPagos.setInt(11,2);
+            psPagos.setString(12, fecha);
 
             psPagos.executeUpdate();
 
@@ -98,7 +99,7 @@ public class SqlPagosYdetallePagos {
    }
    
    public void registrarPagoYdetalleTipoMensual(String fkIdCliente,String tipoTarifa,String precioTarifa,
-        String tipoDescuento,String descuentoAplicado,String tipoPago,float descuentoAnual,float total,float deuda,String periodo,float importeMes){
+        String tipoDescuento,String descuentoAplicado,String tipoPago,float descuentoAnual,float total,float deuda,String periodo,float importeMes,String fecha){
        
         try {
             /*desactivamos el autocommit para ejecutar las instrucciones de pago y detalle en un solo bloque
@@ -118,7 +119,7 @@ public class SqlPagosYdetallePagos {
         int idPago=0;
         String queryTablaPagos="INSERT INTO pagos"
                     + "(fk_id_cliente,tipo_tarifa,precio_tarifa,tipo_descuento,descuento,tipo_pago,"
-                    + "descuento_anual,total,deuda,periodo,fk_id_estado_pago) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+                    + "descuento_anual,total,deuda,periodo,fk_id_estado_pago,fecha_registro) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement psPagos=null,psDetallePagos=null;
         ResultSet resultado=null;
         
@@ -135,6 +136,7 @@ public class SqlPagosYdetallePagos {
             psPagos.setFloat(9, deuda);
             psPagos.setString(10, periodo);
             psPagos.setInt(11,2);
+            psPagos.setString(12, fecha);
 
             psPagos.executeUpdate();
 

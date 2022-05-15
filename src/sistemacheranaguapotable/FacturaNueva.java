@@ -11,6 +11,7 @@ import helpers.sql.SqlPagos;
 import helpers.sql.SqlPagosYdetallePagos;
 import helpers.sql.SqlUsuarios;
 import helpers.sql.clases.MostrarPagos;
+import java.time.LocalDate;
 import javax.swing.JOptionPane;
 import static sistemacheranaguapotable.VentanaPagos.idCliente;
 import static sistemacheranaguapotable.VentanaPagos.periodo1;
@@ -209,8 +210,9 @@ public class FacturaNueva extends javax.swing.JDialog {
             }
 
             /*----------------------------------------REGISTRAR PAGO Y DETALLE PAGO: TIPO DE PAGO ANUAL-------------------------------------------------*/
+            String fecha =LocalDate.now().toString();//registramos la fecha, para futuras busquedas por fecha al pago
             pagoYdetalle.registrarPagoYdetalleTipoAnual(fkIdCliente, tipoTarifa, precioTarifa, 
-                tipoDescuento, descuentoAplicado, tipoPago, descuentoAnual, total,total, periodo);//el parametro total se repite porque inicialmente el total a pagar es la deuda
+                tipoDescuento, descuentoAplicado, tipoPago, descuentoAnual, total,total, periodo,fecha);//el parametro total se repite porque inicialmente el total a pagar es la deuda
             /*----------------------------------------FIN DE REGISTRAR PAGO Y DETALLE PAGO: TIPO DE PAGO ANUAL-------------------------------------------------*/
             //actulizamos la tabla de detalle pagos en la pestania cobros al eliminar el registro del pago
             MostrarPagos instancia=new MostrarPagos();
@@ -243,9 +245,9 @@ public class FacturaNueva extends javax.swing.JDialog {
             if(importeMes<=0){
                 importeMes=pagoMinimo;
             }
-                
+            String fecha =LocalDate.now().toString();//registramos la fecha, para futuras busquedas por fecha al pago    
             pagoYdetalle.registrarPagoYdetalleTipoMensual(idCliente, tipoTarifa, precioTarifa, 
-                tipoDescuento, descuentoAplicado, tipoPago, descuentoAnual, total,total, periodo, importeMes);//el parametro total se repite porque inicialmente el total a pagar es la deuda
+                tipoDescuento, descuentoAplicado, tipoPago, descuentoAnual, total,total, periodo, importeMes,fecha);//el parametro total se repite porque inicialmente el total a pagar es la deuda
             
             //actulizamos la tabla de detalle pagos en la pestania cobros al eliminar el registro del pago
             MostrarPagos instancia=new MostrarPagos();
