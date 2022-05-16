@@ -781,9 +781,8 @@ public class MainJFrame extends javax.swing.JFrame {
             datosUsuario=instanciaUsuarios.obtenerDatosClientes(idCliente);
             
             instanciaPagos.jlabelValueIdCliente.setText(idCliente);
-            instanciaPagos.jlabelValueNombre.setText(datosUsuario.get("nombre"));
-            instanciaPagos.jlabelValueApellidoPaterno.setText(datosUsuario.get("apellido_paterno"));
-            instanciaPagos.jlabelValueApellidoMaterno.setText(datosUsuario.get("apellido_materno"));
+            instanciaPagos.jLabelvalueCliente.setText(datosUsuario.get("nombre")+" "+datosUsuario.get("apellido_paterno")
+            +" "+datosUsuario.get("apellido_materno"));
             instanciaPagos.jlabelValueDomicilio.setText(datosUsuario.get("domicilio"));
             instanciaPagos.jlabelValueBarrio.setText(datosUsuario.get("barrio"));
             VentanaPagos.periodo1=jyearPeriodo1.getYear();

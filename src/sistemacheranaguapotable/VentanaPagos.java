@@ -44,10 +44,10 @@ public class VentanaPagos extends javax.swing.JDialog {
         DefaultTableModel modelo= new DefaultTableModel();
  
         modelo.addColumn("Idpago");
-        modelo.addColumn("Tarifa");
-        modelo.addColumn("Precio Tarifa");
+        modelo.addColumn("Tipo Tarifa");
+        modelo.addColumn("Tarifa x año");
         modelo.addColumn("Tipo descuento");
-        modelo.addColumn("descuento");
+        modelo.addColumn("descuento x mes");
         modelo.addColumn("pago");
         modelo.addColumn("descuento anual");
         modelo.addColumn("Total a pagar");
@@ -138,48 +138,23 @@ public class VentanaPagos extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        label_idCliente = new javax.swing.JLabel();
-        jlabelValueIdCliente = new javax.swing.JLabel();
-        jlabelCliente = new javax.swing.JLabel();
-        jlabelValueNombre = new javax.swing.JLabel();
-        jlabelValueApellidoPaterno = new javax.swing.JLabel();
-        jlabelValueApellidoMaterno = new javax.swing.JLabel();
-        jlabelDomicilio = new javax.swing.JLabel();
-        jlabelValueDomicilio = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jlabelValueBarrio = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtablePagos = new javax.swing.JTable();
-        jlabelPagos = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtableDetallePagos = new javax.swing.JTable();
         botonCobrar = new javax.swing.JButton();
         botonDestruirRegistro = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        label_idCliente = new javax.swing.JLabel();
+        jlabelValueIdCliente = new javax.swing.JLabel();
+        jlabelCliente = new javax.swing.JLabel();
+        jLabelvalueCliente = new javax.swing.JLabel();
+        jlabelDomicilio = new javax.swing.JLabel();
+        jlabelValueDomicilio = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jlabelValueBarrio = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        label_idCliente.setText("Codigo cliente:");
-        label_idCliente.setToolTipText("");
-
-        jlabelValueIdCliente.setText("codigo cliente");
-
-        jlabelCliente.setText("Cliente:");
-        jlabelCliente.setToolTipText("");
-
-        jlabelValueNombre.setText("Guillermo");
-
-        jlabelValueApellidoPaterno.setText("Hernandez");
-
-        jlabelValueApellidoMaterno.setText("Quintanilla");
-
-        jlabelDomicilio.setText("Domicilio:");
-
-        jlabelValueDomicilio.setText("Francisco I madero #584 col. lazaro cardenas");
-
-        jLabel1.setText("Barrio");
-
-        jlabelValueBarrio.setText("1");
 
         jtablePagos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -193,10 +168,6 @@ public class VentanaPagos extends javax.swing.JDialog {
             }
         ));
         jScrollPane1.setViewportView(jtablePagos);
-
-        jlabelPagos.setText("Pago");
-
-        jLabel2.setText("Detalle Pago");
 
         jtableDetallePagos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -223,6 +194,76 @@ public class VentanaPagos extends javax.swing.JDialog {
             }
         });
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(102, 204, 255), new java.awt.Color(153, 204, 255)), "Datos del cliente", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+
+        label_idCliente.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        label_idCliente.setText("Codigo cliente:");
+        label_idCliente.setToolTipText("");
+
+        jlabelValueIdCliente.setText("codigo cliente");
+
+        jlabelCliente.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jlabelCliente.setText("Cliente:");
+        jlabelCliente.setToolTipText("");
+
+        jLabelvalueCliente.setText("no value");
+
+        jlabelDomicilio.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jlabelDomicilio.setText("Domicilio:");
+
+        jlabelValueDomicilio.setText("Francisco I madero #584 col. lazaro cardenas");
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel1.setText("Barrio");
+
+        jlabelValueBarrio.setText("1");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(label_idCliente)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jlabelValueIdCliente))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jlabelCliente)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelvalueCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jlabelDomicilio)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jlabelValueDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jlabelValueBarrio, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(395, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(label_idCliente)
+                    .addComponent(jlabelValueIdCliente))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jlabelCliente)
+                    .addComponent(jLabelvalueCliente)
+                    .addComponent(jlabelDomicilio)
+                    .addComponent(jlabelValueDomicilio)
+                    .addComponent(jLabel1)
+                    .addComponent(jlabelValueBarrio))
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+
+        jlabelValueIdCliente.getAccessibleContext().setAccessibleName("codigoPago");
+        jlabelValueIdCliente.getAccessibleContext().setAccessibleDescription("");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -232,71 +273,28 @@ public class VentanaPagos extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2)
                     .addComponent(jScrollPane1)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jlabelPagos)
-                            .addComponent(jLabel2)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(jlabelCliente)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jlabelValueNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(label_idCliente)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jlabelValueIdCliente)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jlabelValueApellidoPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jlabelValueApellidoMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jlabelDomicilio)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jlabelValueDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jlabelValueBarrio, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(botonDestruirRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
+                        .addComponent(botonDestruirRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(botonCobrar, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(label_idCliente)
-                    .addComponent(jlabelValueIdCliente))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jlabelCliente)
-                    .addComponent(jlabelValueNombre)
-                    .addComponent(jlabelValueApellidoPaterno)
-                    .addComponent(jlabelValueApellidoMaterno)
-                    .addComponent(jlabelDomicilio)
-                    .addComponent(jlabelValueDomicilio)
-                    .addComponent(jLabel1)
-                    .addComponent(jlabelValueBarrio))
-                .addGap(45, 45, 45)
-                .addComponent(jlabelPagos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(16, 16, 16)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(39, 39, 39)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonDestruirRegistro)
                     .addComponent(botonCobrar, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(74, Short.MAX_VALUE))
         );
-
-        jlabelValueIdCliente.getAccessibleContext().setAccessibleName("codigoPago");
-        jlabelValueIdCliente.getAccessibleContext().setAccessibleDescription("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -318,7 +316,7 @@ public class VentanaPagos extends javax.swing.JDialog {
            float pagoRecibido;
            float importe;
            /*VARIABLES FALTANTES PARA GENERAR EL RECIBO */
-           String nombreCompleto=jlabelValueNombre.getText()+" "+jlabelValueApellidoPaterno.getText()+" "+jlabelValueApellidoMaterno.getText();
+           String nombreCompleto=jLabelvalueCliente.getText();
            String domicilio=jlabelValueDomicilio.getText();
            String barrio=jlabelValueBarrio.getText();
            String tipoPago=jtablePagos.getValueAt(0,5).toString();
@@ -485,18 +483,15 @@ public class VentanaPagos extends javax.swing.JDialog {
     private javax.swing.JButton botonCobrar;
     private javax.swing.JButton botonDestruirRegistro;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    public static javax.swing.JLabel jLabelvalueCliente;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel jlabelCliente;
     private javax.swing.JLabel jlabelDomicilio;
-    private javax.swing.JLabel jlabelPagos;
-    public static javax.swing.JLabel jlabelValueApellidoMaterno;
-    public static javax.swing.JLabel jlabelValueApellidoPaterno;
     public static javax.swing.JLabel jlabelValueBarrio;
     public static javax.swing.JLabel jlabelValueDomicilio;
     public static javax.swing.JLabel jlabelValueIdCliente;
-    public static javax.swing.JLabel jlabelValueNombre;
     private javax.swing.JTable jtableDetallePagos;
     private javax.swing.JTable jtablePagos;
     private javax.swing.JLabel label_idCliente;
