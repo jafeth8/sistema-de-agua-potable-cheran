@@ -24,6 +24,7 @@ import java.util.HashMap;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import reportes.VerReportes;
 import sistemacheranaguapotable.bd.ConexionBd;
 
 /**
@@ -122,6 +123,7 @@ public class MainJFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabelValueDeudaTotal = new javax.swing.JLabel();
         botonRespaldoDatos = new javax.swing.JButton();
+        botonReportes = new javax.swing.JButton();
         jPanelPagos = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
@@ -537,6 +539,14 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
 
+        botonReportes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/reporte.png"))); // NOI18N
+        botonReportes.setText("Reportes");
+        botonReportes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonReportesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelCobrosLayout = new javax.swing.GroupLayout(jPanelCobros);
         jPanelCobros.setLayout(jPanelCobrosLayout);
         jPanelCobrosLayout.setHorizontalGroup(
@@ -573,6 +583,8 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addComponent(botonPagoMinimo, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(botonRespaldoDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(botonReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelCobrosLayout.setVerticalGroup(
@@ -582,7 +594,8 @@ public class MainJFrame extends javax.swing.JFrame {
                     .addComponent(botonGestionDescuentos, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
                     .addComponent(botonGestionTarifas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(botonPagoMinimo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(botonRespaldoDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(botonRespaldoDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(botonReportes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -1038,6 +1051,12 @@ public class MainJFrame extends javax.swing.JFrame {
         instancia.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_botonConsultarPagoActionPerformed
 
+    private void botonReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonReportesActionPerformed
+        // TODO add your handling code here:
+        VerReportes verReportes=new VerReportes();
+        verReportes.setVisible(rootPaneCheckingEnabled);
+    }//GEN-LAST:event_botonReportesActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1085,6 +1104,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JButton botonModificarUsuario;
     private javax.swing.JButton botonPagoMinimo;
     private javax.swing.JButton botonRegistrarUsuario;
+    private javax.swing.JButton botonReportes;
     private javax.swing.JButton botonRespaldoDatos;
     private javax.swing.JTextField buscadorAmaterno;
     private javax.swing.JTextField buscadorApaterno;
