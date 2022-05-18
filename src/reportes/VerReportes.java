@@ -37,7 +37,15 @@ public class VerReportes extends javax.swing.JFrame {
         campos.add(campoBase);
         DefaultTableModel modelo=new DefaultTableModel();
         for (int i = 0; i < campos.size(); i++) {
-            modelo.addColumn(campos.get(i));
+            if(campos.get(i).equals("mes")){
+                modelo.addColumn("mes que se pago");
+            }else if(campos.get(i).equals("importe")){
+                modelo.addColumn("importe pagado");
+            }
+            else{
+                modelo.addColumn(campos.get(i));
+            }
+            
         }
         //modelo.addColumn(campoBase);
         tablaReportes.setModel(modelo);
@@ -76,18 +84,27 @@ public class VerReportes extends javax.swing.JFrame {
         }
     }
     
-    public void mostrarTotalImporte(String fechaInicio,String fechaFinal){
+    public void mostrarTotalImporte(String fechaInicio,String fechaFinal,String filtroRezagos){
+        //el parametro filtroRezagos: es para realizar bien la sumatoria de importes
         Statement st=null;
         ResultSet rs=null;
-        String sql="SELECT SUM(importe) FROM detalle_pagos WHERE fecha_pago BETWEEN '"+fechaInicio+"' AND '"+fechaFinal+"'";
+        String sql="SELECT SUM(importe) FROM detalle_pagos JOIN pagos ON fk_id_pago=pagos.id_pago WHERE fecha_pago BETWEEN '"+fechaInicio+"' AND '"+fechaFinal+"' "+filtroRezagos+"";
         try {
             st = cn.createStatement();
             rs = st.executeQuery(sql);
             if(rs.next()){
                 jLabelTotal.setText(rs.getString(1));
             }
+            jTextArea1.setText(sql);
         } catch (SQLException ex) {
             ex.printStackTrace();
+        }finally{
+            try {
+                if(st!=null)st.close();
+                if(rs!=null)rs.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
         
     }
@@ -112,6 +129,10 @@ public class VerReportes extends javax.swing.JFrame {
         jCheckBoxPeriodo = new javax.swing.JCheckBox();
         jCheckBoxTipoPago = new javax.swing.JCheckBox();
         jCheckBoxFechaPago = new javax.swing.JCheckBox();
+        jCheckBoxApellidoPaterno = new javax.swing.JCheckBox();
+        jCheckBoxApellidoMaterno = new javax.swing.JCheckBox();
+        jCheckBoxBarrio = new javax.swing.JCheckBox();
+        jCheckBoxMesDePago = new javax.swing.JCheckBox();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaReportes = new javax.swing.JTable();
@@ -119,8 +140,13 @@ public class VerReportes extends javax.swing.JFrame {
         textArea = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
         jLabelTotal = new javax.swing.JLabel();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
+        jYearChooserPeriodoActual = new com.toedter.calendar.JYearChooser();
+        jLabel4 = new javax.swing.JLabel();
+        jRadioButtonRezagos = new javax.swing.JRadioButton();
+        jRadioButtonNormal = new javax.swing.JRadioButton();
+        jRadioButtonRezagosAndNormal = new javax.swing.JRadioButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Corte de caja");
@@ -136,11 +162,19 @@ public class VerReportes extends javax.swing.JFrame {
 
         jCheckBoxDomicilio.setText("domicilio");
 
-        jCheckBoxPeriodo.setText("periodo de pago");
+        jCheckBoxPeriodo.setText("periodo");
 
         jCheckBoxTipoPago.setText("Tipo de pago ");
 
         jCheckBoxFechaPago.setText("fecha del pago");
+
+        jCheckBoxApellidoPaterno.setText("Apellido paterno");
+
+        jCheckBoxApellidoMaterno.setText("Apellido materno");
+
+        jCheckBoxBarrio.setText("barrio");
+
+        jCheckBoxMesDePago.setText("Mes que se pago");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -150,26 +184,40 @@ public class VerReportes extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jCheckBoxNombre)
+                    .addComponent(jCheckBoxPeriodo))
+                .addGap(26, 26, 26)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckBoxMesDePago)
+                    .addComponent(jCheckBoxApellidoPaterno))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jCheckBoxApellidoMaterno)
+                        .addGap(18, 18, 18)
                         .addComponent(jCheckBoxDomicilio)
                         .addGap(18, 18, 18)
-                        .addComponent(jCheckBoxPeriodo)
-                        .addGap(18, 18, 18)
+                        .addComponent(jCheckBoxBarrio))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jCheckBoxTipoPago, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jCheckBoxFechaPago)))
-                .addContainerGap(519, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jCheckBoxNombre)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBoxNombre)
+                    .addComponent(jCheckBoxApellidoPaterno)
+                    .addComponent(jCheckBoxApellidoMaterno)
+                    .addComponent(jCheckBoxDomicilio)
+                    .addComponent(jCheckBoxBarrio))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBoxDomicilio)
                     .addComponent(jCheckBoxPeriodo)
                     .addComponent(jCheckBoxTipoPago)
-                    .addComponent(jCheckBoxFechaPago))
+                    .addComponent(jCheckBoxFechaPago)
+                    .addComponent(jCheckBoxMesDePago))
                 .addGap(0, 61, Short.MAX_VALUE))
         );
 
@@ -200,11 +248,23 @@ public class VerReportes extends javax.swing.JFrame {
         jLabelTotal.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jLabelTotal.setText("no value");
 
-        buttonGroup1.add(jRadioButton3);
-        jRadioButton3.setText("rezagados");
+        jYearChooserPeriodoActual.setEnabled(false);
 
-        buttonGroup1.add(jRadioButton4);
-        jRadioButton4.setText("normal");
+        jLabel4.setText("periodo actual:");
+
+        buttonGroup1.add(jRadioButtonRezagos);
+        jRadioButtonRezagos.setText("rezagos");
+
+        buttonGroup1.add(jRadioButtonNormal);
+        jRadioButtonNormal.setText("normal");
+
+        buttonGroup1.add(jRadioButtonRezagosAndNormal);
+        jRadioButtonRezagosAndNormal.setSelected(true);
+        jRadioButtonRezagosAndNormal.setText("rezagos y normal");
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane3.setViewportView(jTextArea1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -213,6 +273,12 @@ public class VerReportes extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane3)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())
@@ -225,28 +291,39 @@ public class VerReportes extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(dateChooserFechaFinal, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                         .addGap(729, 729, 729))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jRadioButton3)
-                        .addGap(18, 18, 18)
-                        .addComponent(jRadioButton4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane1)
                         .addContainerGap())
-                    .addComponent(jScrollPane2)))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(18, 18, 18)
+                                .addComponent(jYearChooserPeriodoActual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jRadioButtonRezagos)
+                        .addGap(18, 18, 18)
+                        .addComponent(jRadioButtonNormal)
+                        .addGap(18, 18, 18)
+                        .addComponent(jRadioButtonRezagosAndNormal)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(59, 59, 59)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jYearChooserPeriodoActual, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(dateChooserFechaFinal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -258,16 +335,19 @@ public class VerReportes extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jRadioButton3)
-                    .addComponent(jRadioButton4))
+                    .addComponent(jRadioButtonRezagos)
+                    .addComponent(jRadioButtonNormal)
+                    .addComponent(jRadioButtonRezagosAndNormal))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabelTotal))
-                .addGap(27, 27, 27)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -281,8 +361,12 @@ public class VerReportes extends javax.swing.JFrame {
         if(jCheckBoxNombre.isSelected()){
            camposSql.add("nombre");
         }
+        if(jCheckBoxApellidoPaterno.isSelected()) camposSql.add("apellido_paterno");
+        if(jCheckBoxApellidoMaterno.isSelected()) camposSql.add("apellido_materno");
         if(jCheckBoxDomicilio.isSelected()) camposSql.add("domicilio"); 
+        if(jCheckBoxBarrio.isSelected()) camposSql.add("barrio");
         if(jCheckBoxPeriodo.isSelected()) camposSql.add("periodo");
+        if(jCheckBoxMesDePago.isSelected()) camposSql.add("mes");
         if(jCheckBoxTipoPago.isSelected()) camposSql.add("tipo_pago");
         if(jCheckBoxFechaPago.isSelected()) camposSql.add("fecha_pago");
         
@@ -295,16 +379,29 @@ public class VerReportes extends javax.swing.JFrame {
         }
         
         String fechaInicio,fechaFinal;
-        
+        /*-----------bloque para: mostrar rezagados, mormal o normal y rezagados---------------*/
+        String filtroRezagos;
+        int periodoActual=jYearChooserPeriodoActual.getYear();
+        if(jRadioButtonRezagos.isSelected()){
+            filtroRezagos=" AND periodo<"+periodoActual+"";
+        }else if(jRadioButtonNormal.isSelected()){
+           filtroRezagos=" AND periodo="+periodoActual+"";
+        }else if(jRadioButtonRezagosAndNormal.isSelected()){
+            filtroRezagos="";
+        }
+        else{
+            filtroRezagos="";
+        }
+        /*------------Fin de bloque para: mostrar rezagados, mormal o normal y rezagados-----------*/
         try {
             SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
             fechaInicio=formatoFecha.format(dateChooserInicioFecha.getDate());
             fechaFinal=formatoFecha.format(dateChooserFechaFinal.getDate());
             
             sql="SELECT "+campos+""+campoSqlBase+" FROM detalle_pagos JOIN pagos ON fk_id_pago=pagos.id_pago "
-                + "JOIN clientes ON pagos.fk_id_cliente=clientes.id_cliente WHERE fecha_pago BETWEEN '"+fechaInicio+"' AND '"+fechaFinal+"'";
+                + "JOIN clientes ON pagos.fk_id_cliente=clientes.id_cliente WHERE fecha_pago BETWEEN '"+fechaInicio+"' AND '"+fechaFinal+"' "+filtroRezagos+"";
             mostrarReportes(camposSql,campoSqlBase,sql);
-            mostrarTotalImporte(fechaInicio, fechaFinal);
+            mostrarTotalImporte(fechaInicio, fechaFinal,filtroRezagos);//el parametro filtroRezagos: es para realizar correctamente la sumatoria de importes
             
         } catch (NullPointerException vacio) {
             System.err.println(vacio.getMessage());
@@ -358,20 +455,29 @@ public class VerReportes extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser dateChooserFechaFinal;
     private com.toedter.calendar.JDateChooser dateChooserInicioFecha;
     private javax.swing.JButton jButton1;
+    private javax.swing.JCheckBox jCheckBoxApellidoMaterno;
+    private javax.swing.JCheckBox jCheckBoxApellidoPaterno;
+    private javax.swing.JCheckBox jCheckBoxBarrio;
     private javax.swing.JCheckBox jCheckBoxDomicilio;
     private javax.swing.JCheckBox jCheckBoxFechaPago;
+    private javax.swing.JCheckBox jCheckBoxMesDePago;
     private javax.swing.JCheckBox jCheckBoxNombre;
     private javax.swing.JCheckBox jCheckBoxPeriodo;
     private javax.swing.JCheckBox jCheckBoxTipoPago;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabelTotal;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
+    private javax.swing.JRadioButton jRadioButtonNormal;
+    private javax.swing.JRadioButton jRadioButtonRezagos;
+    private javax.swing.JRadioButton jRadioButtonRezagosAndNormal;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTextArea jTextArea1;
+    private com.toedter.calendar.JYearChooser jYearChooserPeriodoActual;
     private javax.swing.JTable tablaReportes;
     private javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables
