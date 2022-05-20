@@ -24,6 +24,8 @@ import sistemacheranaguapotable.bd.ConexionBd;
 public class VerReportes extends javax.swing.JFrame {
     ConexionBd cc= ConexionBd.obtenerInstancia();
     Connection cn= cc.conexion();
+    String fechaInicio,fechaFinal;
+    String rezagados="";
     /**
      * Creates new form VerReportes
      */
@@ -389,16 +391,19 @@ public class VerReportes extends javax.swing.JFrame {
             campos+=camposSql.get(i)+",";
         }
         
-        String fechaInicio,fechaFinal;
+        
         /*-----------bloque para: mostrar rezagados, mormal o normal y rezagados---------------*/
         String filtroRezagos;
         int periodoActual=jYearChooserPeriodoActual.getYear();
         if(jRadioButtonRezagos.isSelected()){
             filtroRezagos=" AND periodo<"+periodoActual+"";
+            rezagados="rezagados";
         }else if(jRadioButtonNormal.isSelected()){
            filtroRezagos=" AND periodo="+periodoActual+"";
+           rezagados="normal";
         }else if(jRadioButtonRezagosAndNormal.isSelected()){
             filtroRezagos="";
+            rezagados="normal y rezagados";
         }
         else{
             filtroRezagos="";
@@ -434,7 +439,7 @@ public class VerReportes extends javax.swing.JFrame {
         int filas=tablaReportes.getRowCount();
         //JOptionPane.showMessageDialog(rootPane,"filas: "+filas);
         if(filas>0){
-            excel.crearReporte(tablaReportes);
+            excel.crearReporte(tablaReportes,jLabelTotal.getText(),fechaInicio,fechaFinal,rezagados);
         }else{
             JOptionPane.showMessageDialog(rootPane,"no hay datos que reportar");
         }

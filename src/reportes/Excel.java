@@ -1,11 +1,13 @@
 
 package reportes;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -29,6 +31,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * @author jafeth888
  */
 public class Excel {
+    /**
+     @deprecated solo metodo de pruebas
+     **/
     public void crearExcel(){
         //**version vieja .xls
         //Workbook book=new HSSFWorkbook();//archivo en excel
@@ -71,7 +76,7 @@ public class Excel {
     }
     
     
-    public void crearReporte(JTable tablaReportes){
+    public void crearReporte(JTable tablaReportes,String total,String FechaInicio,String fechaFinal,String rezagos){
         Workbook book =new XSSFWorkbook();
         Sheet sheet=book.createSheet("reporte");
         /*---------titulo-----------------------------------------*/
@@ -89,8 +94,8 @@ public class Excel {
         Row filaTitulo=sheet.createRow(0);
         Cell celdaTitulo= filaTitulo.createCell(0);
         celdaTitulo.setCellStyle(tituloEstilo);
-        celdaTitulo.setCellValue("Reporte Agua Potable");
-        sheet.addMergedRegion(new CellRangeAddress(0, 1, 0, 4));//primeros 2 parametros rango de filas a ocupar, 3 y 4 parametros: rango de columnas a utilizar
+        celdaTitulo.setCellValue("informe de "+FechaInicio+" al "+fechaFinal+": "+rezagos+"");
+        sheet.addMergedRegion(new CellRangeAddress(0, 1, 0, tablaReportes.getColumnCount()-1));//primeros 2 parametros rango de filas a ocupar, 3 y 4 parametros: rango de columnas a utilizar
         /*-------Fin de titulo------------------------------------------*/
         /*--------------Encabezado---------------------------------------*/
         CellStyle headerStyle = book.createCellStyle();
@@ -143,11 +148,22 @@ public class Excel {
         
         /*-------Fin de insercion de filas y datos-----------------------------------------*/
         
-        
-        
+        Row filaTotalImporte = sheet.createRow(numfilas+5);// 3 filas ocupadas por el titulo
+        Cell celdaTotal=filaTotalImporte.createCell(numeroColumnas-2);
+        celdaTotal.setCellValue("Total:");
+        Cell celdaTotalImporte=filaTotalImporte.createCell(numeroColumnas-1);
+        celdaTotalImporte.setCellValue(total);
         FileOutputStream fileOut=null;
+        
+        JFileChooser file=new JFileChooser();
+	file.showSaveDialog(null);
+        File guarda =file.getSelectedFile();
+        if(guarda==null){
+            JOptionPane.showMessageDialog(null,"operacion cancelada");
+            return;
+        }
         try {
-            fileOut = new FileOutputStream("reporteDeImportes.xlsx");
+            fileOut = new FileOutputStream(guarda+".xlsx");
             book.write(fileOut);
             JOptionPane.showMessageDialog(null,"documento creado");
         } catch (FileNotFoundException ex) {
