@@ -46,6 +46,7 @@ public class MainJFrame extends javax.swing.JFrame {
     public MainJFrame() {
         initComponents();
         botonModificarUsuario.setEnabled(false);
+        jyearPeriodo1.setYear(jyearPeriodo2.getYear()-20);
     }
    
     /**
@@ -399,7 +400,7 @@ public class MainJFrame extends javax.swing.JFrame {
         tablaUsuarios.setAutoscrolls(false);
         jScrollPaneUsuarios.setViewportView(tablaUsuarios);
 
-        botonFactura.setText("Generar nueva factura");
+        botonFactura.setText("Generar nueva factura a usuario seleccionado");
         botonFactura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonFacturaActionPerformed(evt);
