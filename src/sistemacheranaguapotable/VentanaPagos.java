@@ -32,6 +32,7 @@ public class VentanaPagos extends javax.swing.JDialog {
     public static String idCliente;// variable estatica para mostrar los pagos en relacion al id 
     public static String periodo;  //variable estatica para mostrar exclusivamente los pagos de un año determinado
     public static int periodo1,periodo2;//variables para actulizar la tablaDetallePagos en la pestania de cobros
+    
     /**
      * Creates new form VentanaPagos
      */
@@ -110,10 +111,10 @@ public class VentanaPagos extends javax.swing.JDialog {
         }
         
     }
-    
+    TableColumn seleccionar;// no mover de este lugar xd
     public void mostrarDetallePagos(String idPago){
         DefaultTableModel modelo= new DefaultTableModel();
-      
+        MetodosTablas metodoTabla=new MetodosTablas();
         modelo.addColumn("Id Registro");
         modelo.addColumn("Id Pago");
         modelo.addColumn("Periodo");
@@ -126,9 +127,7 @@ public class VentanaPagos extends javax.swing.JDialog {
         jtableDetallePagos.setModel(modelo);
         
         //añadimos columna de tipo checkbox----------------------------------------
-        TableColumn seleccionar=jtableDetallePagos.getColumnModel().getColumn(5);
-        seleccionar.setCellEditor(jtableDetallePagos.getDefaultEditor(Boolean.class));
-        seleccionar.setCellRenderer(jtableDetallePagos.getDefaultRenderer(Boolean.class));
+        metodoTabla.addCheckBox(5,jtableDetallePagos);
         
   
         //SELECT id_pago,tipo_tarifa,precio_tarifa,tipo_descuento,descuento,tipo_pago,descuento_anual,total,total_pagado,deuda,periodo FROM `pagos` WHERE fk_id_cliente = 1 AND estado='en deuda'
@@ -576,7 +575,31 @@ public class VentanaPagos extends javax.swing.JDialog {
                 tipoDescuento, periodo, idPago, LEFT_ALIGNMENT, TOP_ALIGNMENT, TOP_ALIGNMENT, periodo, idPago);
             
         }*/
+        /*---------VALIDACION DE ORDEN DE CHECKBOX------------*/
+                int filas=jtableDetallePagos.getRowCount();
+        int iteradorSeleccion=0;
+        int iteradorFilas=0;
+        for (int i = 0; i <filas; i++) {
+            Object celdaSeleccion=jtableDetallePagos.getValueAt(i,5);
+            if(celdaSeleccion!=null){//por defecto la celda se iniciliza como null 
+                boolean seleccion=(boolean)celdaSeleccion;//hasta que se interactua con el checkBox la celda regresa un valor de true o false
+                if(seleccion){
+                    System.err.println("iteradorF---"+iteradorFilas+" iteradorSeleccion--"+iteradorSeleccion);
+                    if(iteradorFilas!=iteradorSeleccion){
+                        JOptionPane.showMessageDialog(rootPane,"orden incorrecto");
+                        return;
+                    } 
+                   iteradorSeleccion++;
+                }
+            }
+            iteradorFilas++;
+        }
         
+        if(iteradorSeleccion==0){
+            JOptionPane.showMessageDialog(rootPane,"no selecciono ningun registro");
+            return;
+        }
+        /*---------FIN DE VALIDACION DE CHECKBOX-----------------------------------------------*/
         SqlPagos pago = new SqlPagos();
         SqlDetallePagos detallePago=new SqlDetallePagos();
         MetodosTablas metodoTabla=new MetodosTablas();
