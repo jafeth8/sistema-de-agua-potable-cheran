@@ -15,6 +15,7 @@ import helpers.sql.clases.HistorialPagos;
 import helpers.sql.clases.InfoRecibo;
 import helpers.sql.clases.MostrarPagos;
 import helpers.sql.clases.MostrarUsuarios;
+import importacion_datos.ImportacionDatosExcel;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -125,6 +126,7 @@ public class MainJFrame extends javax.swing.JFrame {
         jLabelValueDeudaTotal = new javax.swing.JLabel();
         botonRespaldoDatos = new javax.swing.JButton();
         botonReportes = new javax.swing.JButton();
+        botonImportarDatos = new javax.swing.JButton();
         jPanelPagos = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
@@ -550,6 +552,13 @@ public class MainJFrame extends javax.swing.JFrame {
             }
         });
 
+        botonImportarDatos.setText("importar datos");
+        botonImportarDatos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonImportarDatosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelCobrosLayout = new javax.swing.GroupLayout(jPanelCobros);
         jPanelCobros.setLayout(jPanelCobrosLayout);
         jPanelCobrosLayout.setHorizontalGroup(
@@ -571,6 +580,8 @@ public class MainJFrame extends javax.swing.JFrame {
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanelCobrosLayout.createSequentialGroup()
                         .addComponent(botonFactura)
+                        .addGap(18, 18, 18)
+                        .addComponent(botonImportarDatos)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -616,7 +627,8 @@ public class MainJFrame extends javax.swing.JFrame {
                 .addGroup(jPanelCobrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanelCobrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(botonFactura)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(botonImportarDatos))
                     .addComponent(jLabelValueDeudaTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(73, Short.MAX_VALUE))
         );
@@ -1041,9 +1053,9 @@ public class MainJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         SqlRespaldo instanciaRespaldo=new SqlRespaldo();
         if(instanciaRespaldo.registro_ruta_respaldo()) {
-            RespaldoAutomatico instancia=new RespaldoAutomatico(this, rootPaneCheckingEnabled);
-            instancia.setVisible(true);
-            System.out.println("sistemacheranaguapotable.MainJFrame.formWindowClosed()");
+            //RespaldoAutomatico instancia=new RespaldoAutomatico(this, rootPaneCheckingEnabled);
+            //instancia.setVisible(true);
+            //System.out.println("sistemacheranaguapotable.MainJFrame.formWindowClosed()");
         }
        
     }//GEN-LAST:event_formWindowClosed
@@ -1059,6 +1071,14 @@ public class MainJFrame extends javax.swing.JFrame {
         VerReportes verReportes=new VerReportes();
         verReportes.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_botonReportesActionPerformed
+
+    private void botonImportarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonImportarDatosActionPerformed
+        // TODO add your handling code here:
+        //ImportacionDatosExcel importacionDatos=new ImportacionDatosExcel();
+        //importacionDatos.cargar();
+        
+        
+    }//GEN-LAST:event_botonImportarDatosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1103,6 +1123,7 @@ public class MainJFrame extends javax.swing.JFrame {
     private javax.swing.JButton botonFiltrarUsuarios;
     private javax.swing.JButton botonGestionDescuentos;
     private javax.swing.JButton botonGestionTarifas;
+    private javax.swing.JButton botonImportarDatos;
     private javax.swing.JButton botonM;
     private javax.swing.JButton botonModificarUsuario;
     private javax.swing.JButton botonPagoMinimo;

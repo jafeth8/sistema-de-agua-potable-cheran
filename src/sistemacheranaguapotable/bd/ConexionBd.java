@@ -34,7 +34,7 @@ public class ConexionBd {
             //Class.forName("com.mysql.jdbc.Driver");
             conectar=DriverManager.getConnection("jdbc:mysql://localhost/"+Ruta.database+"",""+Ruta.Usuario+"",""+Ruta.Contrasenia+"");
             
-            System.out.println("sistemacheranaguapotable.bd.ConexionBd.conexion()");
+            //System.out.println("sistemacheranaguapotable.bd.ConexionBd.conexion()");
             //conectar.setAutoCommit(false);
         } catch (Exception e) {
             System.err.print(e.getMessage());
