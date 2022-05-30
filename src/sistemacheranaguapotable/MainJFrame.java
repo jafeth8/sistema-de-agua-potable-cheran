@@ -808,8 +808,8 @@ public class MainJFrame extends javax.swing.JFrame {
             
             datosUsuario=instanciaUsuarios.obtenerDatosClientes(idCliente);
             
-            instanciaPagos.jlabelValueIdCliente.setText(idCliente);
-            instanciaPagos.jLabelvalueCliente.setText(datosUsuario.get("nombre")+" "+datosUsuario.get("apellido_paterno")
+            VentanaPagos.jlabelValueIdCliente.setText(idCliente);
+            VentanaPagos.jLabelvalueCliente.setText(datosUsuario.get("nombre")+" "+datosUsuario.get("apellido_paterno")
             +" "+datosUsuario.get("apellido_materno"));
             instanciaPagos.jlabelValueDomicilio.setText(datosUsuario.get("domicilio"));
             instanciaPagos.jlabelValueBarrio.setText(datosUsuario.get("barrio"));

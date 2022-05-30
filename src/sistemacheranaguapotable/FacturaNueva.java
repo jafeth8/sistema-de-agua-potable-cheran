@@ -214,7 +214,7 @@ public class FacturaNueva extends javax.swing.JDialog {
             pagoYdetalle.registrarPagoYdetalleTipoAnual(fkIdCliente, tipoTarifa, precioTarifa, 
                 tipoDescuento, descuentoAplicado, tipoPago, descuentoAnual, total,total, periodo,fecha);//el parametro total se repite porque inicialmente el total a pagar es la deuda
             /*----------------------------------------FIN DE REGISTRAR PAGO Y DETALLE PAGO: TIPO DE PAGO ANUAL-------------------------------------------------*/
-            //actulizamos la tabla de detalle pagos en la pestania cobros al eliminar el registro del pago
+            //actulizamos la tabla de detalle pagos en la pestania cobros 
             MostrarPagos instancia=new MostrarPagos();
             instancia.mostrarDetallePagos(campoIdCliente.getText(),periodo1,periodo2, 
                 MainJFrame.tablaDetallePagos);

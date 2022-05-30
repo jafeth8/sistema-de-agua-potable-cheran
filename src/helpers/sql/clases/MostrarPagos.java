@@ -93,7 +93,7 @@ public class MostrarPagos {
         sql="SELECT id_cliente,nombre,tipo_pago,periodo,c_estado_pagos.descripcion,deuda "
             + "FROM clientes JOIN pagos ON clientes.id_cliente=pagos.fk_id_cliente "
             + "JOIN c_estado_pagos ON pagos.fk_id_estado_pago=c_estado_pagos.id_estado_pago "
-            + "WHERE clientes.id_cliente='"+idCliente+"' AND periodo BETWEEN "+periodo1+" AND "+periodo2+"";
+            + "WHERE clientes.id_cliente='"+idCliente+"' AND periodo BETWEEN "+periodo1+" AND "+periodo2+" ORDER BY periodo DESC";
 
      
         
