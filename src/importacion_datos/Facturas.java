@@ -80,20 +80,7 @@ public class Facturas {
              }
              
              if(i<mesesPagados){
-                detallePago.cobrarImporteDetallePagos(String.valueOf(idRegistro),String.valueOf(importeMes),"0",fechaUltimoPago,1);
-                float totalTablaPagos;//esta variable representa el total a pagar de una factura, aplicado los descuentos
-                float sumatoriaImportesPagadosTablaDetallePagos;
-                float deudaRestanate;
-           
-                totalTablaPagos=pago.obtenerTotalPago(String.valueOf(idPago));
-                sumatoriaImportesPagadosTablaDetallePagos=detallePago.obtenerSumatoriaImportesPagadosTablaDetallePagos(String.valueOf(idPago));
-                deudaRestanate=totalTablaPagos-sumatoriaImportesPagadosTablaDetallePagos;
-                pago.actualizarDeudaRegistroPago(String.valueOf(idPago),sumatoriaImportesPagadosTablaDetallePagos, deuda);
-                
-                if(deudaRestanate==0){
-                    pago.actualizarEstadoRegistroPago(String.valueOf(idPago),1);
-                    System.out.println("El cliente ha completado todos los pagos");
-                }
+                detallePago.cobrarImporteDetallePagos(String.valueOf(idRegistro),String.valueOf(importeMes),"0",fechaUltimoPago,1,String.valueOf(idPago));
              }
              
              

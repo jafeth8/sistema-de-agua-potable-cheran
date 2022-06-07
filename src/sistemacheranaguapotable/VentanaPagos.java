@@ -459,7 +459,6 @@ public class VentanaPagos extends javax.swing.JDialog {
         
         int filasDetallePagos=jtableDetallePagos.getRowCount();
         if(filasDetallePagos>0){ 
-           SqlPagos pago = new SqlPagos();
            SqlDetallePagos detallePago=new SqlDetallePagos();
            String idRegistro=jtableDetallePagos.getValueAt(0,0).toString();
            String idPago=jtableDetallePagos.getValueAt(0,1).toString();
@@ -497,26 +496,11 @@ public class VentanaPagos extends javax.swing.JDialog {
            */
            importe=Float.parseFloat(cadenaImporte);
            
-
            cambio=0;
-           detallePago.cobrarImporteDetallePagos(idRegistro,String.valueOf(importe),String.valueOf(cambio), 
-                fechaPago,1);
+           if(detallePago.cobrarImporteDetallePagos(idRegistro,String.valueOf(importe),String.valueOf(cambio), 
+                fechaPago,1,idPago)!=true)return;
            
            JOptionPane.showMessageDialog(rootPane,"se ha cobrado el mes: "+mesDepago);
-           
-           float totalTablaPagos;//esta variable representa el total a pagar de una factura, aplicado los descuentos
-           float sumatoriaImportesPagadosTablaDetallePagos;
-           float deuda;
-           
-           totalTablaPagos=pago.obtenerTotalPago(idPago);
-           sumatoriaImportesPagadosTablaDetallePagos=detallePago.obtenerSumatoriaImportesPagadosTablaDetallePagos(idPago);
-           deuda=totalTablaPagos-sumatoriaImportesPagadosTablaDetallePagos;
-           pago.actualizarDeudaRegistroPago(idPago,sumatoriaImportesPagadosTablaDetallePagos, deuda);
-           
-           if(deuda==0){
-             pago.actualizarEstadoRegistroPago(idPago,1);
-             JOptionPane.showMessageDialog(null,"El cliente ha completado todos los pagos");
-           }
            
            /*
            int opcion=JOptionPane.showConfirmDialog(rootPane,"pago registrado correctamente, desea imprimir Comprobante");
@@ -527,14 +511,9 @@ public class VentanaPagos extends javax.swing.JDialog {
            imprimir.imprimirComprobante(idPago, idRegistro,nombreCompleto,domicilio,barrio,tipoPago,periodo,tipoTarifa,precioTarifaAnual, 
                tipoDescuento,precioDescuentoMensual, descuentoAnual,mesDepago, fechaPago, cadenaImporte);
            
-           
            //ya no mostramos informacion en las tablas de esta ventana porque la cerramos inmediatamente al generar el recibo
            //mostrarPagosCliente(idCliente,periodo);
            //mostrarDetallePagos(idPago);
-           
-           System.out.println("id pago-- "+idPago);
-           System.out.println(sumatoriaImportesPagadosTablaDetallePagos);
-           System.out.println(deuda);
            
            //actulizamos la tabla de detalle pagos en la pestania cobros al eliminar el registro del pago
            MostrarPagos instancia=new MostrarPagos();
@@ -613,11 +592,8 @@ public class VentanaPagos extends javax.swing.JDialog {
             return;
         }
         /*---------FIN DE VALIDACION DE CHECKBOX-----------------------------------------------*/
-        SqlPagos pago = new SqlPagos();
-        SqlDetallePagos detallePago=new SqlDetallePagos();
-        MetodosTablas metodoTabla=new MetodosTablas();
-        Imprimir imprimir=new Imprimir();
         
+        SqlDetallePagos detallePago=new SqlDetallePagos();
         
         String idPago=jtablePagos.getValueAt(0,0).toString();
         
@@ -643,51 +619,14 @@ public class VentanaPagos extends javax.swing.JDialog {
         String mesIterador="";
         float importeTotal=0;
         
+        //////////////////////////////////////////////////////////////////////////////////////////////////
+      
+        detallePago.cobrarVariosImportesDetallePagos(idPago,fechaPago,1,jtableDetallePagos,jtablePagos);
         
-        for (int i = 0; i <jtableDetallePagos.getRowCount(); i++) {
-            idRegistroIterador=jtableDetallePagos.getValueAt(i,0).toString();
-        }
+        //imprimir.imprimirComprobante(idPago,idregistroInicial+" - "+idRegistroIterador,nombreCompleto,domicilio,barrio,tipoPago,periodo,tipoTarifa,precioTarifaAnual, 
+        //tipoDescuento,precioDescuentoMensual, descuentoAnual,mesInicial+" - "+mesIterador, fechaPago,String.valueOf(importeTotal));
         
-        for (int i = 0; i <jtableDetallePagos.getRowCount(); i++) {
-            
-            if(metodoTabla.IsSelected(i, 5, jtableDetallePagos)){
-                idRegistroIterador=jtableDetallePagos.getValueAt(i,0).toString();
-                
-                String cadenaImporte=jtableDetallePagos.getValueAt(i,4).toString();
-                
-                float cambio;
-                float importe=0;
-                mesIterador=jtableDetallePagos.getValueAt(i,3).toString();
-                
-                importe=Float.parseFloat(cadenaImporte);
-                importeTotal+=importe;
-                cambio=0;
-                
-                
-                detallePago.cobrarImporteDetallePagos(idRegistroIterador,String.valueOf(importe),String.valueOf(cambio), 
-                fechaPago,1);
-                
-                float totalTablaPagos;//esta variable representa el total a pagar de una factura, aplicado los descuentos
-                float sumatoriaImportesPagadosTablaDetallePagos;
-                float deuda;
-           
-                totalTablaPagos=pago.obtenerTotalPago(idPago);
-                sumatoriaImportesPagadosTablaDetallePagos=detallePago.obtenerSumatoriaImportesPagadosTablaDetallePagos(idPago);
-                deuda=totalTablaPagos-sumatoriaImportesPagadosTablaDetallePagos;
-                pago.actualizarDeudaRegistroPago(idPago,sumatoriaImportesPagadosTablaDetallePagos, deuda);
-                
-                if(deuda==0){
-                    pago.actualizarEstadoRegistroPago(idPago,1);
-                    JOptionPane.showMessageDialog(null,"El cliente ha completado todos los pagos");
-                }
-                
-            }
-            
-        }
-        imprimir.imprimirComprobante(idPago,idregistroInicial+" - "+idRegistroIterador,nombreCompleto,domicilio,barrio,tipoPago,periodo,tipoTarifa,precioTarifaAnual, 
-        tipoDescuento,precioDescuentoMensual, descuentoAnual,mesInicial+" - "+mesIterador, fechaPago,String.valueOf(importeTotal));
-        
-        //actulizamos la tabla de detalle pagos en la pestania cobros al eliminar el registro del pago
+        //actulizamos la tabla de detalle pagos en la pestania cobros
         MostrarPagos instancia=new MostrarPagos();
         instancia.mostrarDetallePagos(jlabelValueIdCliente.getText(),periodo1,periodo2, 
         MainJFrame.tablaDetallePagos);

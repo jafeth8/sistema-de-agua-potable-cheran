@@ -486,8 +486,6 @@
                           <Component id="jPanel5" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="botonFactura" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="botonImportarDatos" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -541,7 +539,6 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="botonFactura" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel2" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
-                              <Component id="botonImportarDatos" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jLabelValueDeudaTotal" max="32767" attributes="0"/>
                       </Group>
@@ -852,14 +849,6 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonReportesActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="botonImportarDatos">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="importar datos"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonImportarDatosActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
