@@ -40,7 +40,7 @@ public class InfoRecibo {
                 datosRecibo.put("domicilio",rs.getString(6));
                 datosRecibo.put("barrio",rs.getString(7));
                 datosRecibo.put("tipoPago",rs.getString(8));
-                datosRecibo.put("periodo",rs.getString(9));
+                datosRecibo.put("periodo",""+rs.getInt(9));
                 datosRecibo.put("tipoTarifa",rs.getString(10));
                 datosRecibo.put("precioTarifa",rs.getString(11));
                 datosRecibo.put("tipoDescuento",rs.getString(12));

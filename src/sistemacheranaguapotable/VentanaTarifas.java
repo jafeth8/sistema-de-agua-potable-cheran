@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import sistemacheranaguapotable.bd.ConexionBd;
 
@@ -34,11 +35,17 @@ public class VentanaTarifas extends javax.swing.JFrame {
     
     public void mostrarTarifas(){
         
-        DefaultTableModel modelo= new DefaultTableModel();
+        DefaultTableModel modelo= new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }  
+        };
         
         modelo.addColumn("Descripcion");
         modelo.addColumn("Tarifa anual");
         tablaTarifas.setModel(modelo);
+        tablaTarifas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
         String sql="SELECT tipo_tarifa,tarifa_anual FROM tarifas where estado='activo'";
         
@@ -60,12 +67,18 @@ public class VentanaTarifas extends javax.swing.JFrame {
     
      public void mostrarTarifasEliminadas(){
         
-        DefaultTableModel modelo= new DefaultTableModel();
+        DefaultTableModel modelo= new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }  
+        };
         
         modelo.addColumn("Descripcion");
         modelo.addColumn("Tarifa anual");
         modelo.addColumn("Estado");
         tablaTarifasEliminadas.setModel(modelo);
+        tablaTarifasEliminadas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
         String sql="SELECT tipo_tarifa,tarifa_anual,estado FROM tarifas where estado='inactivo'";
         

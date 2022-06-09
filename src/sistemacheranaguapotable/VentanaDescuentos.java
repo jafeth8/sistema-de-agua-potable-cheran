@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import sistemacheranaguapotable.bd.ConexionBd;
 
@@ -35,12 +36,17 @@ public class VentanaDescuentos extends javax.swing.JFrame {
     
     public void mostrarDescuentos(){
         
-        DefaultTableModel modelo= new DefaultTableModel();
+        DefaultTableModel modelo= new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }    
+        };
         
         modelo.addColumn("Tipo Descuento");
         modelo.addColumn("Descuento");
         tablaDescuentos.setModel(modelo);
-        
+        tablaDescuentos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         String sql="SELECT tipo_descuento,descuento FROM descuentos where estado='activo'";
         
         String [] datos = new String [2];
@@ -61,12 +67,18 @@ public class VentanaDescuentos extends javax.swing.JFrame {
     
         public void mostrarDescuentosEliminados(){
         
-        DefaultTableModel modelo= new DefaultTableModel();
+        DefaultTableModel modelo= new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         
         modelo.addColumn("Tipo Descuento");
         modelo.addColumn("Descuento");
         modelo.addColumn("Estado");
         tablaDescuentosEliminados.setModel(modelo);
+        tablaDescuentosEliminados.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
         String sql="SELECT tipo_descuento,descuento, estado FROM descuentos where estado='inactivo'";
         

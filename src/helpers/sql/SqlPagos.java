@@ -103,19 +103,19 @@ public class SqlPagos {
         }
     }
     
-    public void eliminarPermanentementeRegistroPago(String idPago){
+    public boolean eliminarPermanentementeRegistroPago(String idPago){
         PreparedStatement pst=null;
-        
+        boolean success=true;
         try {
             pst=cn.prepareStatement("DELETE FROM pagos WHERE id_pago=?");
             pst.setString(1, idPago);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null,"se ha eliminado todo registro referente al pago");
+            
         } catch (SQLException e) {
+            success=false;
             JOptionPane.showMessageDialog(null,e.getMessage(),"error al eliminar todo registro del pago", JOptionPane.ERROR_MESSAGE);
         }
-        
-                
+        return success;        
     }
     
     public boolean yaExistePagoConUsuarioPeriodo(String idCliente, String periodo) {

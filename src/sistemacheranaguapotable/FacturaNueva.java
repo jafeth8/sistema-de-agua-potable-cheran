@@ -211,8 +211,9 @@ public class FacturaNueva extends javax.swing.JDialog {
 
             /*----------------------------------------REGISTRAR PAGO Y DETALLE PAGO: TIPO DE PAGO ANUAL-------------------------------------------------*/
             String fecha =LocalDate.now().toString();//registramos la fecha, para futuras busquedas por fecha al pago
-            pagoYdetalle.registrarPagoYdetalleTipoAnual(fkIdCliente, tipoTarifa, precioTarifa, 
+            boolean success=pagoYdetalle.registrarPagoYdetalleTipoAnual(fkIdCliente, tipoTarifa, precioTarifa, 
                 tipoDescuento, descuentoAplicado, tipoPago, descuentoAnual, total,total, periodo,fecha);//el parametro total se repite porque inicialmente el total a pagar es la deuda
+            if(success)JOptionPane.showMessageDialog(null, "NUEVA FACTURA GENERADA CON EXITO-- ");
             /*----------------------------------------FIN DE REGISTRAR PAGO Y DETALLE PAGO: TIPO DE PAGO ANUAL-------------------------------------------------*/
             //actulizamos la tabla de detalle pagos en la pestania cobros 
             MostrarPagos instancia=new MostrarPagos();

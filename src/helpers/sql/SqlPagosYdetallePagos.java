@@ -23,9 +23,9 @@ public class SqlPagosYdetallePagos {
     ConexionBd cc= ConexionBd.obtenerInstancia();
     Connection cn= cc.conexion();
    
-    public void registrarPagoYdetalleTipoAnual(String fkIdCliente,String tipoTarifa,String precioTarifa,
+    public boolean registrarPagoYdetalleTipoAnual(String fkIdCliente,String tipoTarifa,String precioTarifa,
         String tipoDescuento,String descuentoAplicado,String tipoPago,float descuentoAnual,float total,float deuda,String periodo,String fecha){
-        
+        boolean success=true;
         try {
             /*desactivamos el autocommit para ejecutar las instrucciones de pago y detalle en un solo bloque
             por ACID en base de datos
@@ -74,8 +74,9 @@ public class SqlPagosYdetallePagos {
 
             psDetallePagos.executeUpdate();
             cn.commit();
-            JOptionPane.showMessageDialog(null, "NUEVA FACTURA GENERADA CON EXITO-- " + idPago);
+            System.out.println("NUEVA FACTURA GENERADA CON EXITO-- " + idPago);
         } catch (SQLException e) {
+            success=false;
             try {
                 cn.rollback();
             } catch (SQLException ex) {
@@ -96,6 +97,7 @@ public class SqlPagosYdetallePagos {
                 ex.printStackTrace();
             }
         }
+        return success;
    }
    
    public void registrarPagoYdetalleTipoMensual(String fkIdCliente,String tipoTarifa,String precioTarifa,

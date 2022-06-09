@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import sistemacheranaguapotable.bd.ConexionBd;
@@ -24,7 +25,12 @@ public class MostrarUsuarios {
     
     public void mostrarUsuariosCobros(String nombre, String apellidoPaterno,String apellidoMaterno,
         String domicilio,String barrio,JTable tablaUsuarios){
-        DefaultTableModel modelo= new DefaultTableModel();
+        DefaultTableModel modelo= new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
  
         modelo.addColumn("Id");
         modelo.addColumn("No. cliente");
@@ -39,6 +45,7 @@ public class MostrarUsuarios {
         modelo.addColumn("tarifa");
         
         tablaUsuarios.setModel(modelo);
+        tablaUsuarios.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         /*---------ESTABLECIMIENTO DE TAMAÑO DE COLUMNAS-------------*/
         TableColumn columnaId=tablaUsuarios.getColumn("Id");
         columnaId.setMinWidth(0);

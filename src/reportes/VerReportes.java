@@ -37,7 +37,12 @@ public class VerReportes extends javax.swing.JFrame {
         ArrayList<String> campos=camposSql;
         //System.out.println("tamanio "+campos.size());
         campos.add(campoBase);
-        DefaultTableModel modelo=new DefaultTableModel();
+        DefaultTableModel modelo=new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         for (int i = 0; i < campos.size(); i++) {
             if(campos.get(i).equals("mes")){
                 modelo.addColumn("mes que se pago");

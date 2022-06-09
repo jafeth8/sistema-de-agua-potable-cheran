@@ -866,7 +866,9 @@ public class MainJFrame extends javax.swing.JFrame {
         jtextFieldUserNombre.setText(""); jtextFieldUserApaterno.setText("");
         jtextFieldUserAmaterno.setText(""); jtextFieldUserDomicilio.setText("");
         jtextFieldUserTelefono.setText(""); jtextFieldUserBarrio.setText("");
+        jComboBoxDescuentos.removeAllItems();
         instanciaComboBoxUsuarios.mostrarDescuentos(jComboBoxDescuentos);
+        jComboBoxTarifas.removeAllItems();
         instanciaComboBoxUsuarios.mostrarTarifas(jComboBoxTarifas);
     }//GEN-LAST:event_botonRegistrarUsuarioActionPerformed
 
@@ -931,7 +933,9 @@ public class MainJFrame extends javax.swing.JFrame {
         jtextFieldUserNombre.setText(""); jtextFieldUserApaterno.setText("");
         jtextFieldUserAmaterno.setText(""); jtextFieldUserDomicilio.setText("");
         jtextFieldUserTelefono.setText(""); jtextFieldUserBarrio.setText("");
+        jComboBoxDescuentos.removeAllItems();
         instanciaComboBoxUsuarios.mostrarDescuentos(jComboBoxDescuentos);
+        jComboBoxTarifas.removeAllItems();
         instanciaComboBoxUsuarios.mostrarTarifas(jComboBoxTarifas);
         
         botonModificarUsuario.setEnabled(false);

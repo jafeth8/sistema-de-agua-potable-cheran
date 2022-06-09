@@ -20,6 +20,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import sistemacheranaguapotable.bd.ConexionBd;
@@ -48,7 +49,12 @@ public class VentanaPagos extends javax.swing.JDialog {
     
     public void mostrarPagosCliente(String idCliente,String periodo){
         System.out.println("periodo-----"+periodo);
-        DefaultTableModel modelo= new DefaultTableModel();
+        DefaultTableModel modelo= new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
  
         modelo.addColumn("Idpago");
         modelo.addColumn("Tipo Tarifa");
@@ -64,6 +70,7 @@ public class VentanaPagos extends javax.swing.JDialog {
         String sql="";
         //table.setModel(modelo);
         jtablePagos.setModel(modelo);
+        jtablePagos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
   
         //SELECT id_pago,tipo_tarifa,precio_tarifa,tipo_descuento,descuento,tipo_pago,descuento_anual,total,total_pagado,deuda,periodo FROM `pagos` WHERE fk_id_cliente = 1 AND estado='en deuda'
         sql="SELECT id_pago,tipo_tarifa,precio_tarifa,tipo_descuento,descuento,tipo_pago,descuento_anual,"
@@ -117,7 +124,13 @@ public class VentanaPagos extends javax.swing.JDialog {
     }
     TableColumn seleccionar;// no mover de este lugar xd
     public void mostrarDetallePagos(String idPago){
-        DefaultTableModel modelo= new DefaultTableModel();
+        DefaultTableModel modelo= new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;//To change body of generated methods, choose Tools | Templates.
+            }
+            
+        };
         MetodosTablas metodoTabla=new MetodosTablas();
         modelo.addColumn("Id Registro");
         modelo.addColumn("Id Pago");
@@ -129,7 +142,7 @@ public class VentanaPagos extends javax.swing.JDialog {
         String sql="";
         //table.setModel(modelo);
         jtableDetallePagos.setModel(modelo);
-        
+        jtableDetallePagos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         //añadimos columna de tipo checkbox----------------------------------------
         metodoTabla.addCheckBox(5,jtableDetallePagos);
         
@@ -164,7 +177,12 @@ public class VentanaPagos extends javax.swing.JDialog {
     
      
     public void mostrarMesesPagados(String idPago){
-        DefaultTableModel modelo= new DefaultTableModel();
+        DefaultTableModel modelo= new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; //To change body of generated methods, choose Tools | Templates.
+            }
+        };
         modelo.addColumn("Mes pagado");
         modelo.addColumn("Fecha de pago");
         modelo.addColumn("importe");
@@ -173,7 +191,7 @@ public class VentanaPagos extends javax.swing.JDialog {
         String sql="";
         //table.setModel(modelo);
         jTableMesesPagados.setModel(modelo);
-        
+        jTableMesesPagados.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
   
         //SELECT id_pago,tipo_tarifa,precio_tarifa,tipo_descuento,descuento,tipo_pago,descuento_anual,total,total_pagado,deuda,periodo FROM `pagos` WHERE fk_id_cliente = 1 AND estado='en deuda'
@@ -232,6 +250,7 @@ public class VentanaPagos extends javax.swing.JDialog {
         jScrollPane4 = new javax.swing.JScrollPane();
         jTextAreaInfo = new javax.swing.JTextArea();
         botonCovertirApagoAnual = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setModal(true);
@@ -395,6 +414,13 @@ public class VentanaPagos extends javax.swing.JDialog {
             }
         });
 
+        jButton2.setText("Des-seleccionar todo");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -420,7 +446,9 @@ public class VentanaPagos extends javax.swing.JDialog {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton2)))
                 .addContainerGap())
             .addComponent(jScrollPane3)
         );
@@ -438,7 +466,9 @@ public class VentanaPagos extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(4, 4, 4)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -544,7 +574,8 @@ public class VentanaPagos extends javax.swing.JDialog {
                 if(frase.equals(fraseConfirmacion)){
                     SqlPagos instanciaSqlPagos= new SqlPagos();
                     String idPago= jtablePagos.getValueAt(0,0).toString();
-                    instanciaSqlPagos.eliminarPermanentementeRegistroPago(idPago);
+                    boolean success=instanciaSqlPagos.eliminarPermanentementeRegistroPago(idPago);
+                    if(success)JOptionPane.showMessageDialog(null,"se ha eliminado todo registro referente al pago");
                     
                     //actulizamos la tabla de detalle pagos en la pestania cobros al eliminar el registro del pago
                     MostrarPagos instancia=new MostrarPagos();
@@ -678,7 +709,7 @@ public class VentanaPagos extends javax.swing.JDialog {
            pagos_Y_Detalle.registrarPagoYdetalleTipoAnual(idCliente, tipoTarifa,String.valueOf(precioTarifaAnual), 
               tipoDescuento,String.valueOf(precioDescuentoMensual),"Anual",anualDescuento, total,total, periodo,fecha);//el parametro total se repite porque inicialmente el total a pagar es la deuda
             
-            mostrarPagosCliente(idCliente,periodo);
+           mostrarPagosCliente(idCliente,periodo);
         }
         
     }//GEN-LAST:event_botonCovertirApagoAnualActionPerformed
@@ -693,6 +724,13 @@ public class VentanaPagos extends javax.swing.JDialog {
         SqlUsuarios instanciaSqlUsuarios=new SqlUsuarios();
         MainJFrame.jLabelValueDeudaTotal.setText(""+instanciaSqlUsuarios.obtenerDeudaTotalCliente(idCliente, periodo1, periodo2));
     }//GEN-LAST:event_formWindowClosing
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        for (int i = 0; i <jtableDetallePagos.getRowCount(); i++) {
+            jtableDetallePagos.setValueAt(false, i, 5);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -743,6 +781,7 @@ public class VentanaPagos extends javax.swing.JDialog {
     private javax.swing.JButton botonCovertirApagoAnual;
     private javax.swing.JButton botonDestruirRegistro;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     public static javax.swing.JLabel jLabelvalueCliente;

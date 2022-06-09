@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import sistemacheranaguapotable.bd.ConexionBd;
 
@@ -77,7 +78,12 @@ public class MostrarPagos {
     }
     
     public void mostrarDetallePagos(String idCliente,int periodo1, int periodo2,JTable tablaDetallePagos){
-        DefaultTableModel modelo= new DefaultTableModel();
+        DefaultTableModel modelo= new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         
         modelo.addColumn("Id cliente");
         modelo.addColumn("Nombre");
@@ -89,6 +95,7 @@ public class MostrarPagos {
         String sql="";
         
         tablaDetallePagos.setModel(modelo);
+        tablaDetallePagos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         sql="SELECT id_cliente,nombre,tipo_pago,periodo,c_estado_pagos.descripcion,deuda "
             + "FROM clientes JOIN pagos ON clientes.id_cliente=pagos.fk_id_cliente "
