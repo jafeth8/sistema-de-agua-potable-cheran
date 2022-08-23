@@ -21,6 +21,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -1032,6 +1034,16 @@ public class MainJFrame extends javax.swing.JFrame {
         SqlRespaldo instanciaRespaldo=new SqlRespaldo();
         if(instanciaRespaldo.registro_ruta_respaldo()!=true) {
             JOptionPane.showMessageDialog(null,"No hay ninguna ruta registrada para el respaldo automatico","Advertencia",JOptionPane.WARNING_MESSAGE);
+        }
+        String fechaCaducidad= "2022-06-10";
+        String fechaActual = LocalDate.now().toString();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDateFechaCaducidad = LocalDate.parse(fechaCaducidad, formatter);
+        LocalDate localDateFechaActual = LocalDate.parse(fechaActual, formatter);
+        if(localDateFechaCaducidad.isBefore(localDateFechaActual)){
+           JOptionPane.showMessageDialog(rootPane,"El software paso la fecha limite de prueba, por favor conatacte"
+           + "al desarrollador para obtener acceso completo al software","Demo finalizado",JOptionPane.WARNING_MESSAGE);
+           System.exit(0);
         }
         
     }//GEN-LAST:event_formWindowOpened
